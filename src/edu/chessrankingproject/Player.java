@@ -26,7 +26,7 @@ public class Player {
     float lowestRating;
     int currentRank ; // what should be the default rank?
     int DatabaseRank;
-    int newvallu;
+    
 
     public Player(){
     
