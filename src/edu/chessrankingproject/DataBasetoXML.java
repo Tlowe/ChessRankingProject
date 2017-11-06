@@ -29,7 +29,7 @@ import org.w3c.dom.NodeList;
 
 
 public class DataBasetoXML {
-    private ArrayList<Player> dbPlayerList;
+    private PlayerArrayList dbPlayerList;
     DocumentBuilderFactory PlayerDocFactory;
     DocumentBuilder PlayerDocBuilder;
     Document PlayerDoc;
@@ -63,6 +63,10 @@ public class DataBasetoXML {
         lastName.appendChild(PlayerDoc.createTextNode(PlayerLast));
         player.appendChild(lastName);
         
+        Element pID = PlayerDoc.createElement("ID");
+        pID.appendChild(PlayerDoc.createTextNode("0"));
+        player.appendChild(pID);
+        
         Element gamesPlayed = PlayerDoc.createElement("gamesPlayed");
         gamesPlayed.appendChild(PlayerDoc.createTextNode("0"));
         player.appendChild(gamesPlayed);
@@ -87,9 +91,9 @@ public class DataBasetoXML {
         lowestRating.appendChild(PlayerDoc.createTextNode("0"));
         player.appendChild(lowestRating);
         
-        Element currentRank = PlayerDoc.createElement("currentRank");
-        currentRank.appendChild(PlayerDoc.createTextNode("0"));
-        player.appendChild(currentRank);
+        Element currentRating = PlayerDoc.createElement("currentRating");
+        currentRating.appendChild(PlayerDoc.createTextNode("0"));
+        player.appendChild(currentRating);
         
         Element DatabaseRank = PlayerDoc.createElement("DatabaseRank");
         DatabaseRank.appendChild(PlayerDoc.createTextNode("0"));
@@ -132,7 +136,7 @@ public class DataBasetoXML {
     
    
 
-    public ArrayList<Player> getAllPlayersSorted(ArrayList<Player> inPlayers)throws Exception {
+    public PlayerArrayList getAllPlayersSorted(PlayerArrayList inPlayers)throws Exception {
         xmlDBfile = new File("C://ChessGame//PlayerDataBase.xml");
         
         PlayerDocFactory = DocumentBuilderFactory.newInstance();
@@ -143,7 +147,7 @@ public class DataBasetoXML {
         
         
         nodeList = PlayerDoc.getElementsByTagName("Player");
-        dbPlayerList = new ArrayList<>();
+        dbPlayerList = new PlayerArrayList();
         for(int i = 0; i< nodeList.getLength();i++){
          
          Node node = nodeList.item(i);
@@ -160,17 +164,17 @@ public class DataBasetoXML {
         return dbPlayerList;
     }
 
-    void recalculatePlayers(ArrayList<Player> newPlayerList, ArrayList<Player> oldPlayerList) {
+    void recalculatePlayers(PlayerArrayList newPlayerList, ArrayList<Player> oldPlayerList) {
         
         System.err.println("need to add mee!!!!!!!!!");
         
-        // use ELO math to calculate new chess ranking.
+        
         // compare new and old lists. sort by ranking.
         // reassign players rank in database also alphabetically
         //call rewrite database with this new list
     }
     
-    private void rewriteDatabase(ArrayList<Player> DatabaseList){
+    private void rewriteDatabase(PlayerArrayList DatabaseList){
     
     
     }

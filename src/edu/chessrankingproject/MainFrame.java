@@ -22,7 +22,8 @@ import javax.swing.table.DefaultTableModel;
 public class MainFrame extends javax.swing.JFrame {
 
     DataBasetoXML DBhandle;
-    private ArrayList<Player> mainPlayerList = new ArrayList<>();
+    
+    private PlayerArrayList mPlayerArrayList = new PlayerArrayList();
     PlayerTableModel PlayerTableModel ;
     
     PlayerEventListener mainHandler = new localEventlistener();
@@ -108,7 +109,7 @@ public class MainFrame extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Name", "Games Played","Current Ranking", "Games Won", "Games Lost", "Games Drawn", "Highest Rating", "Lowest Rating","Database Ranking"
+                "Last","First","ID", "Games Played","Current Ranking", "Games Won", "Games Lost", "Games Drawn", "Highest Rating", "Lowest Rating","Database Ranking"
             }
 
         ));
@@ -200,7 +201,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void AddGameResultsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddGameResultsButtonActionPerformed
-        GameResultsFrame gFrame = new GameResultsFrame(this.getMainPlayerListCopy());
+        GameResultsFrame gFrame = new GameResultsFrame( mPlayerArrayList);
         gFrame.addListener(mainHandler);
         gFrame.setVisible(true);
     }//GEN-LAST:event_AddGameResultsButtonActionPerformed
@@ -264,9 +265,9 @@ private void initProgram(){
 
     try {
         DBhandle = new DataBasetoXML();
-        this.mainPlayerList = DBhandle.getAllPlayersSorted(getMainPlayerListCopy());
+        this.mPlayerArrayList = (PlayerArrayList) DBhandle.getAllPlayersSorted(mPlayerArrayList);
         
-        PlayerTableModel = new PlayerTableModel(getMainPlayerListCopy());
+        PlayerTableModel = new PlayerTableModel(mPlayerArrayList.getPlayerArrayListCopy());
         
         playerInfoTable.setModel(PlayerTableModel);
         PlayerTableScrollPane.setViewportView(playerInfoTable);
@@ -286,7 +287,7 @@ private void initProgram(){
         
         
     } catch (Exception e) {
-        System.out.println(e);
+        System.err.println(e);
     }
 // try to parse database
 // if no database exists, prompt user and create one.
@@ -305,7 +306,7 @@ private void sortandUpdatePlayerList(String ColumnName){
         if (f.getName().equalsIgnoreCase(compressString)|| f.getName().contains(compressString)){
         
             
-           mainPlayerList = sortListbyTypeName(currentfield, getMainPlayerList());
+           mPlayerArrayList = (PlayerArrayList) sortListbyTypeName(currentfield, getMainPlayerList());
             
             
             PlayerTableModel.updatePlayerList(getMainPlayerList());
@@ -318,7 +319,7 @@ private void sortandUpdatePlayerList(String ColumnName){
     
 }
 
-    private ArrayList<Player> sortListbyTypeName(String fieldName, ArrayList<Player> PlayerList) {
+    private PlayerArrayList sortListbyTypeName(String fieldName, PlayerArrayList PlayerList) {
         
         
         
@@ -328,6 +329,9 @@ private void sortandUpdatePlayerList(String ColumnName){
         }
         else if(fieldName.equalsIgnoreCase("lastName")){
             Collections.sort(PlayerList, Comparator.comparing(Player::getLastName));
+        }
+        else if(fieldName.equalsIgnoreCase("id")){
+            Collections.sort(PlayerList, Comparator.comparing(Player::getId));
         }
         else if(fieldName.equalsIgnoreCase("gamesPlayed")){
             Collections.sort(PlayerList, Comparator.comparing(Player::getGamesPlayed));
@@ -347,7 +351,7 @@ private void sortandUpdatePlayerList(String ColumnName){
         else if(fieldName.equalsIgnoreCase("lowestRating")){
             Collections.sort(PlayerList, Comparator.comparing(Player::getLowestRating));
         }
-        else if(fieldName.equalsIgnoreCase("currentRank")){
+        else if(fieldName.equalsIgnoreCase("currentRating")){
             Collections.sort(PlayerList, Comparator.comparing(Player::getCurrentRating));
         }
         else if(fieldName.equalsIgnoreCase("DatabaseRank")){
@@ -360,24 +364,12 @@ private void sortandUpdatePlayerList(String ColumnName){
         
     }
 
-    public ArrayList<Player> getMainPlayerList() {
-        return mainPlayerList;
+    public PlayerArrayList getMainPlayerList() {
+        return mPlayerArrayList;
     }
 
     
-    public ArrayList<Player> getMainPlayerListCopy() {
-        ArrayList<Player> copy = new ArrayList<>();
-        
-        for(Player p : mainPlayerList){
-        
-            Player c ;
-            c = p.getCopy();
-            copy.add(c);
-        
-        }
-        
-        return copy;
-    }
+   
     
 
 public class DebugOutText{
@@ -392,8 +384,8 @@ public class DebugOutText{
 public class localEventlistener implements PlayerEventListener{
 
         @Override
-        public void updateDatabase(ArrayList<Player> PlayerList) {
-            DBhandle.recalculatePlayers(PlayerList, getMainPlayerListCopy());
+        public void updateDatabase(PlayerArrayList PlayerList) {
+            DBhandle.recalculatePlayers(PlayerList, mPlayerArrayList.getPlayerArrayListCopy());
         }
 
         @Override

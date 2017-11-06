@@ -47,7 +47,7 @@ public class PlayerTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-              return 10; // each column is an attribute of the specific player
+              return 11; // each column is an attribute of the specific player
 
     }
 
@@ -59,21 +59,23 @@ public class PlayerTableModel extends AbstractTableModel {
                 return "Last Name";
             case 1 :
                 return "First Name";
-            case 2 :
-                return "Games Played";
+            case 2:
+                return "ID";
             case 3 :
+                return "Games Played";
+            case 4 :
                 return "Current Rating";
-            case 4:
+            case 5:
                 return "Games Won";
-            case 5 :
-                return "Games Lost";
             case 6 :
-                return "Games Drawn";
+                return "Games Lost";
             case 7:
+                return "Games Drawn";
+            case 8:
                 return " Highest Rating";
-            case 8 :
-                return "Lowest Rating";
             case 9 :
+                return "Lowest Rating";
+            case 10 :
                 return "Database Rank";
             default :
                 return "Unknown Column Type";
@@ -101,20 +103,22 @@ public class PlayerTableModel extends AbstractTableModel {
             case 1:
                 return PlayerList.get(row).getLastName();
             case 2:
-                return PlayerList.get(row).getGamesPlayed();
+                return PlayerList.get(row).getId();
             case 3:
-                return PlayerList.get(row).getCurrentRating();
+                return PlayerList.get(row).getGamesPlayed();
             case 4:
-                return PlayerList.get(row).getGamesWon();
+                return PlayerList.get(row).getCurrentRating();
             case 5:
-                return PlayerList.get(row).getGamesLost();
+                return PlayerList.get(row).getGamesWon();
             case 6:
-                return PlayerList.get(row).getGamesDrawn();
+                return PlayerList.get(row).getGamesLost();
             case 7:
-                return PlayerList.get(row).getHighestRating();
+                return PlayerList.get(row).getGamesDrawn();
             case 8:
-                return PlayerList.get(row).getLowestRating();
+                return PlayerList.get(row).getHighestRating();
             case 9:
+                return PlayerList.get(row).getLowestRating();
+            case 10:
                 return PlayerList.get(row).getDatabaseRank();
             default:
                 return null;

@@ -7,6 +7,7 @@ package edu.chessrankingproject;
 
 import java.awt.event.TextEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
@@ -23,8 +24,9 @@ public class GameResultsFrame extends javax.swing.JFrame {
     /**
      * Creates new form NewGameResultsFrame
      */
-    private ArrayList<Player> PlayerList = new ArrayList<>();
-    public ArrayList<Player> OpponentList = new ArrayList<>();
+    private PlayerArrayList PlayerList = new PlayerArrayList();
+    private PlayerArrayList OldPlayerList = new PlayerArrayList();
+    public PlayerArrayList  OpponentList = new PlayerArrayList();
     DefaultListModel<Player> PlayerListModel = new DefaultListModel<>();
     DefaultListModel<Player> OpponentListModel = new DefaultListModel<>();
     Player SelectedPlayer = new Player();
@@ -45,9 +47,10 @@ public class GameResultsFrame extends javax.swing.JFrame {
         initComponents();
     }
 
-    public GameResultsFrame(ArrayList<Player> plist) {
+    public GameResultsFrame(PlayerArrayList plist) {
         initComponents();
-        this.PlayerList = (ArrayList<Player>)plist.clone();
+        this.PlayerList =  plist.getPlayerArrayListCopy();
+        this.OldPlayerList =  plist.getPlayerArrayListCopy();
         
         intialSetup();
     }
@@ -425,8 +428,20 @@ public class GameResultsFrame extends javax.swing.JFrame {
         
         OpponentListModel.clear();
         SelectedPlayer = ChosenPlayerList.getSelectedValue();
-        OpponentList = (ArrayList<Player>) PlayerList.clone();
+        OpponentList =  PlayerList.getPlayerArrayListCopy();
         OpponentList.remove(SelectedPlayer);
+        
+        Iterator<Player> itP = OpponentList.listIterator();
+        
+        while(itP.hasNext()){
+        
+         if(itP.next().getId() == SelectedPlayer.getId()){
+             
+             itP.remove();
+             break;
+         }
+        
+        }
         
         for (Player p : OpponentList){
             

@@ -62,14 +62,15 @@ private int id; // this will help sort through database faster.
     Player(Node node) {
         Element pElement   = (Element) node;
         this.firstName     = pElement.getElementsByTagName("FirstName").item(0).getTextContent(); 
-        this.lastName      = pElement.getElementsByTagName("lastName").item(0).getTextContent(); 
+        this.lastName      = pElement.getElementsByTagName("lastName").item(0).getTextContent();
+        this.id            = Integer.parseInt(pElement.getElementsByTagName("ID").item(0).getTextContent());
         this.gamesPlayed   = Integer.parseInt(pElement.getElementsByTagName("gamesPlayed").item(0).getTextContent()); 
         this.gamesWon      = Integer.parseInt(pElement.getElementsByTagName("gamesWon").item(0).getTextContent()); 
         this.gamesLost     = Integer.parseInt(pElement.getElementsByTagName("gamesLost").item(0).getTextContent()); 
         this.gamesDrawn    = Integer.parseInt(pElement.getElementsByTagName("gamesLost").item(0).getTextContent()); 
         this.highestRating = Integer.parseInt(pElement.getElementsByTagName("highestRating").item(0).getTextContent()); 
         this.lowestRating  = Integer.parseInt(pElement.getElementsByTagName("lowestRating").item(0).getTextContent()); 
-        this.currentRating   = Integer.parseInt(pElement.getElementsByTagName("currentRank").item(0).getTextContent()); 
+        this.currentRating   = Integer.parseInt(pElement.getElementsByTagName("currentRating").item(0).getTextContent()); 
         this.DatabaseRank  = Integer.parseInt(pElement.getElementsByTagName("DatabaseRank").item(0).getTextContent()); 
      }
     
@@ -159,6 +160,14 @@ private int id; // this will help sort through database faster.
     
         return lastName + "." + firstName;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     
     
 
@@ -188,6 +197,7 @@ private int id; // this will help sort through database faster.
         
         p.firstName = this.firstName;
         p.lastName = this.lastName;
+        p.id = this.id;
         p.gamesPlayed = this.gamesPlayed ;
         p.gamesWon = this.gamesWon;
         p.gamesLost = this.gamesLost;

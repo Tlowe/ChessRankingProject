@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class PlayerFrame extends javax.swing.JFrame {
 
-    private ArrayList<Player> PlayerList;
+    private PlayerArrayList PlayerList;
     private ArrayList<PlayerEventListener> listenerList = new ArrayList<>();
     
     
