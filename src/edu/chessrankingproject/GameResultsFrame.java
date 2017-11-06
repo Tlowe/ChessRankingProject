@@ -387,11 +387,11 @@ public class GameResultsFrame extends javax.swing.JFrame {
             
             
             
-            javax.swing.JPanel pan = new dialogForm();
+            javax.swing.JPanel pan = new dialogForm(OldPlayerList,SelectedPlayer,SelectedOppnt);
             
             
           
-            int result = JOptionPane.showConfirmDialog(null,pan, "My text",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(null,pan, "Are You OK with these Results ??",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
             if (result == JOptionPane.YES_OPTION) {
     
             

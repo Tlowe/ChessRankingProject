@@ -164,14 +164,23 @@ public class DataBasetoXML {
         return dbPlayerList;
     }
 
-    void recalculatePlayers(PlayerArrayList newPlayerList, ArrayList<Player> oldPlayerList) {
+    void recalculateDatabaseRankings(PlayerArrayList newPlayerList, PlayerArrayList oldPlayerList) {
         
         System.err.println("need to add mee!!!!!!!!!");
         
         
-        // compare new and old lists. sort by ranking.
-        // reassign players rank in database also alphabetically
+        // sort first by rank and then by name
+        Collections.sort(newPlayerList, Comparator.comparing(Player::getCurrentRating).thenComparing(Player::getLastName));
+        // once sorted, sequentially reassign Database rank; 
+        // 
+        int i = 1;
+        for(Player p : newPlayerList){
+        p.setDatabaseRank(i++);
+            
+        }
         //call rewrite database with this new list
+        rewriteDatabase(newPlayerList);
+    
     }
     
     private void rewriteDatabase(PlayerArrayList DatabaseList){
