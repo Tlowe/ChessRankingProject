@@ -6,8 +6,13 @@
 package edu.chessrankingproject;
 
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -40,7 +45,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         AddNewPlayerButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        AddGameResultsButton = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         SearchDataBaseButton = new javax.swing.JButton();
@@ -59,7 +64,12 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Add New Game Results");
+        AddGameResultsButton.setText("Add New Game Results");
+        AddGameResultsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddGameResultsButtonActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("View Player Statistics");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -95,6 +105,7 @@ public class MainFrame extends javax.swing.JFrame {
             new String [] {
                 "Name", "Games Played","Current Ranking", "Games Won", "Games Lost", "Games Drawn", "Highest Rating", "Lowest Rating","Database Ranking"
             }
+
         ));
         PlayerTableScrollPane.setViewportView(playerInfoTable);
 
@@ -117,17 +128,17 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(PlayerTableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1336, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 990, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(AddNewPlayerButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2))
-                            .addComponent(jButton3)))
+                                .addComponent(AddGameResultsButton))
+                            .addComponent(jButton3)
+                            .addComponent(PlayerTableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1265, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(521, 521, 521)
                         .addComponent(jLabel1)))
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addGap(55, 55, 55))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,13 +149,13 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(SearchDataBaseButton)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(PlayerTableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PlayerTableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(AddNewPlayerButton)
-                    .addComponent(jButton2))
+                    .addComponent(AddGameResultsButton))
                 .addGap(14, 14, 14)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -181,6 +192,12 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void AddGameResultsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddGameResultsButtonActionPerformed
+        GameResultsFrame gFrame = new GameResultsFrame(PlayerList);
+        gFrame.addListener(mainHandler);
+        gFrame.setVisible(true);
+    }//GEN-LAST:event_AddGameResultsButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -221,11 +238,11 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddGameResultsButton;
     private javax.swing.JButton AddNewPlayerButton;
     private javax.swing.JTextArea DebugTxtArea;
     private javax.swing.JScrollPane PlayerTableScrollPane;
     private javax.swing.JButton SearchDataBaseButton;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -237,12 +254,26 @@ private void initProgram(){
 
     try {
         DBhandle = new DataBasetoXML();
-        DBhandle.getAllPlayers(PlayerList);
-        PlayerTableModel = new PlayerTableModel(DBhandle);
+        PlayerList = DBhandle.getAllPlayersSorted(PlayerList);
+        
+        PlayerTableModel = new PlayerTableModel(PlayerList);
         
         playerInfoTable.setModel(PlayerTableModel);
         PlayerTableScrollPane.setViewportView(playerInfoTable);
-        //playerInfoTable.setFillsViewportHeight(true);
+        
+        
+        playerInfoTable.getTableHeader().addMouseListener(new MouseAdapter() {
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int col = playerInfoTable.columnAtPoint(e.getPoint());
+        String ColumnName = playerInfoTable.getColumnName(col);
+        sortandUpdatePlayerList(ColumnName);
+        
+    }
+        
+        });
+        
         
     } catch (Exception e) {
         System.out.println(e);
@@ -253,6 +284,72 @@ private void initProgram(){
 // create a default table model that will list all of the players and their stats
 // display this table
 }
+
+private void sortandUpdatePlayerList(String ColumnName){
+    String compressString = ColumnName.replaceAll("\\s+","");
+    Field[] playerField = Player.class.getDeclaredFields();
+    
+    for (Field f : playerField) {
+    
+        String currentfield = f.getName();
+        if (f.getName().equalsIgnoreCase(compressString)|| f.getName().contains(compressString)){
+        
+            
+            sortListbyTypeName(currentfield, PlayerList);
+            
+            
+            PlayerTableModel.updatePlayerList(PlayerList);
+            playerInfoTable.setModel(PlayerTableModel);
+            
+            PlayerTableScrollPane.setViewportView(playerInfoTable);
+            break;
+        }
+    }
+    
+}
+
+    private void sortListbyTypeName(String fieldName, ArrayList<Player> PlayerList) {
+        
+        
+        
+        if(fieldName.equalsIgnoreCase("firstName")){
+
+            Collections.sort(PlayerList, Comparator.comparing(Player::getFirstName));
+        }
+        else if(fieldName.equalsIgnoreCase("lastName")){
+            Collections.sort(PlayerList, Comparator.comparing(Player::getLastName));
+        }
+        else if(fieldName.equalsIgnoreCase("gamesPlayed")){
+            Collections.sort(PlayerList, Comparator.comparing(Player::getGamesPlayed));
+        }
+        else if(fieldName.equalsIgnoreCase("gamesWon")){
+            Collections.sort(PlayerList, Comparator.comparing(Player::getGamesWon));
+        }
+        else if(fieldName.equalsIgnoreCase("gamesLost")){
+            Collections.sort(PlayerList, Comparator.comparing(Player::getGamesLost));
+        }
+        else if(fieldName.equalsIgnoreCase("gamesDrawn")){
+            Collections.sort(PlayerList, Comparator.comparing(Player::getGamesDrawn));
+        }
+        else if(fieldName.equalsIgnoreCase("highestRating")){
+            Collections.sort(PlayerList, Comparator.comparing(Player::getHighestRating));
+        }
+        else if(fieldName.equalsIgnoreCase("lowestRating")){
+            Collections.sort(PlayerList, Comparator.comparing(Player::getLowestRating));
+        }
+        else if(fieldName.equalsIgnoreCase("currentRank")){
+            Collections.sort(PlayerList, Comparator.comparing(Player::getCurrentRank));
+        }
+        else if(fieldName.equalsIgnoreCase("DatabaseRank")){
+            Collections.sort(PlayerList, Comparator.comparing(Player::getDatabaseRank));
+        }
+        
+        
+        
+        
+        
+    }
+
 
 public class DebugOutText{
 
@@ -277,5 +374,7 @@ public class localEventlistener implements PlayerEventListener{
 
 
 }
+
+
 
 }
