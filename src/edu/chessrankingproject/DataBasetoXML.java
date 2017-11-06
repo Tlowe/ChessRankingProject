@@ -22,6 +22,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -135,7 +137,7 @@ public class DataBasetoXML {
     
     }
 
-    void getAllPlayers(ArrayList<Player> inPlayers)throws Exception {
+    public ArrayList<Player> getAllPlayersSorted(ArrayList<Player> inPlayers)throws Exception {
         xmlDBfile = new File("C://ChessGame//PlayerDataBase.xml");
         
         PlayerDocFactory = DocumentBuilderFactory.newInstance();
@@ -158,7 +160,9 @@ public class DataBasetoXML {
             
         }
            
+        Collections.sort(PlayerList, Comparator.comparing(Player::getLastName));
         
+        return PlayerList;
     }
 }
 

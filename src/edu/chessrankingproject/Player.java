@@ -27,6 +27,8 @@ public class Player {
     int currentRank ; // what should be the default rank?
     int DatabaseRank;
     
+    Object chosenOne = new Object();
+    
 
     public Player(){
     
@@ -150,7 +152,28 @@ public class Player {
         this.DatabaseRank = DatabaseRank;
     }
     
+    public String getCombinedName(){
     
+        return lastName + "." + firstName;
+    }
+    
+    
+
+    @Override
+    public String toString() {
+        return getCombinedName();
+    }
+
+    public void setchosentype(String fieldName) {
+        
+       
+    
+    }
+    
+     public Object getChosenType(){
+        
+         return chosenOne;
+        }
     
     
 }

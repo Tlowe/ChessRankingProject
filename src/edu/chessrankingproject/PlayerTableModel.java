@@ -28,12 +28,16 @@ public class PlayerTableModel extends AbstractTableModel {
         
     }
     
-    public PlayerTableModel(DataBasetoXML db){
+    public PlayerTableModel(ArrayList plArrayList){
     
-         PlayerList = db.PlayerList;
+         PlayerList = plArrayList;
+            
          
-         
-         
+    }
+    
+    public void updatePlayerList(ArrayList plArrayList){
+    
+         PlayerList = plArrayList;
     }
 
     @Override
@@ -43,7 +47,7 @@ public class PlayerTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-              return 8; // each column is an attribute of the specific player
+              return 10; // each column is an attribute of the specific player
 
     }
 
@@ -52,23 +56,25 @@ public class PlayerTableModel extends AbstractTableModel {
         switch (column){
         
             case 0 :
-                return "Name";
+                return "Last Name";
             case 1 :
-                return "gamesPlayed";
+                return "First Name";
             case 2 :
-                return "currentRank";
+                return "Games Played";
             case 3 :
-                return "gamesWon";
-            case 4 :
-                return "gamesLost";
+                return "Current Rank";
+            case 4:
+                return "Games Won";
             case 5 :
-                return "gamesDrawn";
+                return "Games Lost";
             case 6 :
-                return "highestRating";
-            case 7 :
-                return "lowestRating";
+                return "Games Drawn";
+            case 7:
+                return " Highest Rating";
             case 8 :
-                return "DatabaseRank";
+                return "Lowest Rating";
+            case 9 :
+                return "Database Rank";
             default :
                 return "Unknown Column Type";
                         
@@ -87,25 +93,28 @@ public class PlayerTableModel extends AbstractTableModel {
         switch(column){
         
             case 0:
-                String first = PlayerList.get(row).firstName;
-                String last  = PlayerList.get(row).lastName;
-                String name = last + ", " + first;
-                return name;
+              //  String first = PlayerList.get(row).firstName;
+              //  String last  = PlayerList.get(row).lastName;
+              //  String name = last + "." + first;
+              //  return name;
+                return PlayerList.get(row).firstName;
             case 1:
-                return PlayerList.get(row).gamesPlayed;
+                return PlayerList.get(row).lastName;
             case 2:
-                return PlayerList.get(row).currentRank;
+                return PlayerList.get(row).gamesPlayed;
             case 3:
-                return PlayerList.get(row).gamesWon;
+                return PlayerList.get(row).currentRank;
             case 4:
-                return PlayerList.get(row).gamesLost;
+                return PlayerList.get(row).gamesWon;
             case 5:
-                return PlayerList.get(row).gamesDrawn;
+                return PlayerList.get(row).gamesLost;
             case 6:
-                return PlayerList.get(row).highestRating;
+                return PlayerList.get(row).gamesDrawn;
             case 7:
-                return PlayerList.get(row).lowestRating;
+                return PlayerList.get(row).highestRating;
             case 8:
+                return PlayerList.get(row).lowestRating;
+            case 9:
                 return PlayerList.get(row).DatabaseRank;
             default:
                 return null;
