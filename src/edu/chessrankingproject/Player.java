@@ -178,6 +178,7 @@ private int DatabaseRank;
         SelectedPlayer.gamesDrawn += Draws;
         SelectedPlayer.gamesPlayed += selectedPlwins + selectedPlLosses + Draws;
         
+        
         SelectedOppnt.gamesWon += selectedPlLosses;
         SelectedOppnt.gamesLost +=  selectedPlwins;
         SelectedOppnt.gamesDrawn += Draws;

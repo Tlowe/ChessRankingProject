@@ -49,7 +49,7 @@ public class MainFrame extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         SearchDataBaseButton = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        DataBaseSearchTextField = new javax.swing.JTextField();
         PlayerTableScrollPane = new javax.swing.JScrollPane();
         playerInfoTable = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -88,10 +88,15 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.setText("Player Name . . .");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        DataBaseSearchTextField.setText("Player Name . . .");
+        DataBaseSearchTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DataBaseSearchTextFieldMouseClicked(evt);
+            }
+        });
+        DataBaseSearchTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                DataBaseSearchTextFieldActionPerformed(evt);
             }
         });
 
@@ -121,33 +126,34 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(321, 321, 321)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(DataBaseSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(689, 689, 689)
                         .addComponent(SearchDataBaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 990, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(AddNewPlayerButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(AddGameResultsButton))
                             .addComponent(jButton3)
-                            .addComponent(PlayerTableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1265, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 921, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(PlayerTableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 971, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(521, 521, 521)
+                        .addGap(353, 353, 353)
                         .addComponent(jLabel1)))
-                .addGap(55, 55, 55))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(43, 43, 43)
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SearchDataBaseButton)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(DataBaseSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(PlayerTableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -164,9 +170,9 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void DataBaseSearchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DataBaseSearchTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_DataBaseSearchTextFieldActionPerformed
 
     private void AddNewPlayerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewPlayerButtonActionPerformed
 //        try {
@@ -198,6 +204,10 @@ public class MainFrame extends javax.swing.JFrame {
         gFrame.addListener(mainHandler);
         gFrame.setVisible(true);
     }//GEN-LAST:event_AddGameResultsButtonActionPerformed
+
+    private void DataBaseSearchTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DataBaseSearchTextFieldMouseClicked
+       DataBaseSearchTextField.setText("");
+    }//GEN-LAST:event_DataBaseSearchTextFieldMouseClicked
 
     /**
      * @param args the command line arguments
@@ -240,13 +250,13 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddGameResultsButton;
     private javax.swing.JButton AddNewPlayerButton;
+    private javax.swing.JTextField DataBaseSearchTextField;
     private javax.swing.JTextArea DebugTxtArea;
     private javax.swing.JScrollPane PlayerTableScrollPane;
     private javax.swing.JButton SearchDataBaseButton;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable playerInfoTable;
     // End of variables declaration//GEN-END:variables
 
