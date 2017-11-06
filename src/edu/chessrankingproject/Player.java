@@ -16,18 +16,18 @@ import org.w3c.dom.NodeList;
  */
 public class Player {
     
-    String firstName;
-    String lastName;
-    int gamesPlayed ;
-    int gamesWon ;
-    int gamesLost ;
-    int gamesDrawn ;
-    float highestRating;
-    float lowestRating;
-    int currentRank ; // what should be the default rank?
-    int DatabaseRank;
+private String firstName;
+private String lastName;
+private int gamesPlayed ;
+private int gamesWon ;
+private int gamesLost ;
+private int gamesDrawn ;
+private float highestRating;
+private float lowestRating;
+private int currentRank ; // what should be the default rank?
+private int DatabaseRank;
     
-    Object chosenOne = new Object();
+    
     
 
     public Player(){
@@ -170,10 +170,19 @@ public class Player {
     
     }
     
-     public Object getChosenType(){
+    
+
+    void updateStats(Player SelectedPlayer, Player SelectedOppnt, int selectedPlwins, int selectedPlLosses, int Draws) {
+        SelectedPlayer.gamesWon += selectedPlwins;
+        SelectedPlayer.gamesLost += selectedPlLosses;
+        SelectedPlayer.gamesDrawn += Draws;
+        SelectedPlayer.gamesPlayed += selectedPlwins + selectedPlLosses + Draws;
         
-         return chosenOne;
-        }
+        SelectedOppnt.gamesWon += selectedPlLosses;
+        SelectedOppnt.gamesLost +=  selectedPlwins;
+        SelectedOppnt.gamesDrawn += Draws;
+        SelectedOppnt.gamesPlayed += selectedPlwins + selectedPlLosses + Draws;
+    }
     
     
 }

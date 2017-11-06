@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public interface PlayerEventListener {
  
-    void updateMainPlayerList(ArrayList<Player> PlayerList);
+    void updateDatabase(ArrayList<Player> PlayerList);
     
-    void updateDatabase();
+    void updateDebugText(String newstring);
 }

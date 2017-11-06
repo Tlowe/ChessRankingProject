@@ -39,7 +39,7 @@ public class PlayerFrame extends javax.swing.JFrame {
         if( !( PlayerList == null || PlayerList.isEmpty() )  ){    
             for(PlayerEventListener eachplistener : listenerList){
 
-                eachplistener.updateMainPlayerList(PlayerList);
+                eachplistener.updateDatabase(PlayerList);
             }
         }
     }

@@ -25,7 +25,7 @@ public class MainFrame extends javax.swing.JFrame {
     ArrayList<Player> PlayerList = new ArrayList<>();
     PlayerTableModel PlayerTableModel ;
     
-    PlayerEventListener mainHandler;
+    PlayerEventListener mainHandler = new localEventlistener();
     /**
      * Creates new form MainFrame
      */
@@ -363,13 +363,13 @@ public class DebugOutText{
 public class localEventlistener implements PlayerEventListener{
 
         @Override
-        public void updateMainPlayerList(ArrayList<Player> PlayerList) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        public void updateDatabase(ArrayList<Player> PlayerList) {
+            DBhandle.recalculatePlayers(PlayerList);
         }
 
         @Override
-        public void updateDatabase() {
-            //trying to learn
+        public void updateDebugText(String newString) {
+            DebugTxtArea.setText(newString);
         }
 
 

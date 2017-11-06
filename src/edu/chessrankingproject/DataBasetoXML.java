@@ -156,13 +156,18 @@ public class DataBasetoXML {
          PlayerList.add(tempPlayer);
          inPlayers.add(tempPlayer);
         
-            System.out.println("Pulled Player " + tempPlayer.firstName + " " + tempPlayer.lastName + " from database");
+            System.out.println("Pulled Player " + tempPlayer.getFirstName() + " " + tempPlayer.getLastName() + " from database");
             
         }
            
         Collections.sort(PlayerList, Comparator.comparing(Player::getLastName));
         
         return PlayerList;
+    }
+
+    void recalculatePlayers(ArrayList<Player> PlayerList) {
+        int i = 0;
+        System.err.println("need to add mee!!!!!!!!!");
     }
 }
 

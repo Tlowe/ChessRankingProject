@@ -97,25 +97,25 @@ public class PlayerTableModel extends AbstractTableModel {
               //  String last  = PlayerList.get(row).lastName;
               //  String name = last + "." + first;
               //  return name;
-                return PlayerList.get(row).firstName;
+                return PlayerList.get(row).getFirstName();
             case 1:
-                return PlayerList.get(row).lastName;
+                return PlayerList.get(row).getLastName();
             case 2:
-                return PlayerList.get(row).gamesPlayed;
+                return PlayerList.get(row).getGamesPlayed();
             case 3:
-                return PlayerList.get(row).currentRank;
+                return PlayerList.get(row).getCurrentRank();
             case 4:
-                return PlayerList.get(row).gamesWon;
+                return PlayerList.get(row).getGamesWon();
             case 5:
-                return PlayerList.get(row).gamesLost;
+                return PlayerList.get(row).getGamesLost();
             case 6:
-                return PlayerList.get(row).gamesDrawn;
+                return PlayerList.get(row).getGamesDrawn();
             case 7:
-                return PlayerList.get(row).highestRating;
+                return PlayerList.get(row).getHighestRating();
             case 8:
-                return PlayerList.get(row).lowestRating;
+                return PlayerList.get(row).getLowestRating();
             case 9:
-                return PlayerList.get(row).DatabaseRank;
+                return PlayerList.get(row).getDatabaseRank();
             default:
                 return null;
         }
