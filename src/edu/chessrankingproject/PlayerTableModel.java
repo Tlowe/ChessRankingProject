@@ -62,7 +62,7 @@ public class PlayerTableModel extends AbstractTableModel {
             case 2 :
                 return "Games Played";
             case 3 :
-                return "Current Rank";
+                return "Current Rating";
             case 4:
                 return "Games Won";
             case 5 :
@@ -103,7 +103,7 @@ public class PlayerTableModel extends AbstractTableModel {
             case 2:
                 return PlayerList.get(row).getGamesPlayed();
             case 3:
-                return PlayerList.get(row).getCurrentRank();
+                return PlayerList.get(row).getCurrentRating();
             case 4:
                 return PlayerList.get(row).getGamesWon();
             case 5:

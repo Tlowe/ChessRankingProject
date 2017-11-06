@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class MainFrame extends javax.swing.JFrame {
 
     DataBasetoXML DBhandle;
-    ArrayList<Player> PlayerList = new ArrayList<>();
+    private ArrayList<Player> mainPlayerList = new ArrayList<>();
     PlayerTableModel PlayerTableModel ;
     
     PlayerEventListener mainHandler = new localEventlistener();
@@ -71,7 +71,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("View Player Statistics");
+        jButton3.setText("View Selected Player Statistics");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -156,9 +156,9 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(DataBaseSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(PlayerTableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(AddNewPlayerButton)
                     .addComponent(AddGameResultsButton))
@@ -200,7 +200,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void AddGameResultsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddGameResultsButtonActionPerformed
-        GameResultsFrame gFrame = new GameResultsFrame(PlayerList);
+        GameResultsFrame gFrame = new GameResultsFrame(this.getMainPlayerListCopy());
         gFrame.addListener(mainHandler);
         gFrame.setVisible(true);
     }//GEN-LAST:event_AddGameResultsButtonActionPerformed
@@ -264,9 +264,9 @@ private void initProgram(){
 
     try {
         DBhandle = new DataBasetoXML();
-        PlayerList = DBhandle.getAllPlayersSorted(PlayerList);
+        this.mainPlayerList = DBhandle.getAllPlayersSorted(getMainPlayerListCopy());
         
-        PlayerTableModel = new PlayerTableModel(PlayerList);
+        PlayerTableModel = new PlayerTableModel(getMainPlayerListCopy());
         
         playerInfoTable.setModel(PlayerTableModel);
         PlayerTableScrollPane.setViewportView(playerInfoTable);
@@ -305,10 +305,10 @@ private void sortandUpdatePlayerList(String ColumnName){
         if (f.getName().equalsIgnoreCase(compressString)|| f.getName().contains(compressString)){
         
             
-            sortListbyTypeName(currentfield, PlayerList);
+           mainPlayerList = sortListbyTypeName(currentfield, getMainPlayerList());
             
             
-            PlayerTableModel.updatePlayerList(PlayerList);
+            PlayerTableModel.updatePlayerList(getMainPlayerList());
             playerInfoTable.setModel(PlayerTableModel);
             
             PlayerTableScrollPane.setViewportView(playerInfoTable);
@@ -318,7 +318,7 @@ private void sortandUpdatePlayerList(String ColumnName){
     
 }
 
-    private void sortListbyTypeName(String fieldName, ArrayList<Player> PlayerList) {
+    private ArrayList<Player> sortListbyTypeName(String fieldName, ArrayList<Player> PlayerList) {
         
         
         
@@ -348,7 +348,7 @@ private void sortandUpdatePlayerList(String ColumnName){
             Collections.sort(PlayerList, Comparator.comparing(Player::getLowestRating));
         }
         else if(fieldName.equalsIgnoreCase("currentRank")){
-            Collections.sort(PlayerList, Comparator.comparing(Player::getCurrentRank));
+            Collections.sort(PlayerList, Comparator.comparing(Player::getCurrentRating));
         }
         else if(fieldName.equalsIgnoreCase("DatabaseRank")){
             Collections.sort(PlayerList, Comparator.comparing(Player::getDatabaseRank));
@@ -356,10 +356,29 @@ private void sortandUpdatePlayerList(String ColumnName){
         
         
         
-        
+        return PlayerList;
         
     }
 
+    public ArrayList<Player> getMainPlayerList() {
+        return mainPlayerList;
+    }
+
+    
+    public ArrayList<Player> getMainPlayerListCopy() {
+        ArrayList<Player> copy = new ArrayList<>();
+        
+        for(Player p : mainPlayerList){
+        
+            Player c ;
+            c = p.getCopy();
+            copy.add(c);
+        
+        }
+        
+        return copy;
+    }
+    
 
 public class DebugOutText{
 
@@ -374,7 +393,7 @@ public class localEventlistener implements PlayerEventListener{
 
         @Override
         public void updateDatabase(ArrayList<Player> PlayerList) {
-            DBhandle.recalculatePlayers(PlayerList);
+            DBhandle.recalculatePlayers(PlayerList, getMainPlayerListCopy());
         }
 
         @Override

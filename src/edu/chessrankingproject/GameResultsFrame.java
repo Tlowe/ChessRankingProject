@@ -47,7 +47,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
 
     public GameResultsFrame(ArrayList<Player> plist) {
         initComponents();
-        this.PlayerList = plist;
+        this.PlayerList = (ArrayList<Player>)plist.clone();
         
         intialSetup();
     }
@@ -389,7 +389,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
             
           
             int result = JOptionPane.showConfirmDialog(null,pan, "My text",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
-            if (result == JOptionPane.OK_OPTION) {
+            if (result == JOptionPane.YES_OPTION) {
     
             
                 SelectedPlayer.updateStats(SelectedPlayer,SelectedOppnt, wins, losses,draws);

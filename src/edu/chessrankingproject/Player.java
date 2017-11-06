@@ -24,9 +24,12 @@ private int gamesLost ;
 private int gamesDrawn ;
 private float highestRating;
 private float lowestRating;
-private int currentRank ; // what should be the default rank?
+private float currentRating ; // what should be the default rank?
 private int DatabaseRank;
-    
+private int id; // this will help sort through database faster.
+
+
+//create new class for player history with timestamps and all that jazz...
     
     
 
@@ -52,7 +55,7 @@ private int DatabaseRank;
         this.gamesDrawn = gamesDrawn;
         this.highestRating = highestRating;
         this.lowestRating = lowestRating;
-        this.currentRank = currentRank;
+        this.currentRating = currentRank;
         this.DatabaseRank = DatabaseRank;
     }
 
@@ -66,7 +69,7 @@ private int DatabaseRank;
         this.gamesDrawn    = Integer.parseInt(pElement.getElementsByTagName("gamesLost").item(0).getTextContent()); 
         this.highestRating = Integer.parseInt(pElement.getElementsByTagName("highestRating").item(0).getTextContent()); 
         this.lowestRating  = Integer.parseInt(pElement.getElementsByTagName("lowestRating").item(0).getTextContent()); 
-        this.currentRank   = Integer.parseInt(pElement.getElementsByTagName("currentRank").item(0).getTextContent()); 
+        this.currentRating   = Integer.parseInt(pElement.getElementsByTagName("currentRank").item(0).getTextContent()); 
         this.DatabaseRank  = Integer.parseInt(pElement.getElementsByTagName("DatabaseRank").item(0).getTextContent()); 
      }
     
@@ -136,12 +139,12 @@ private int DatabaseRank;
         this.lowestRating = lowestRating;
     }
 
-    public int getCurrentRank() {
-        return currentRank;
+    public float getCurrentRating() {
+        return currentRating;
     }
 
-    public void setCurrentRank(int currentRank) {
-        this.currentRank = currentRank;
+    public void setCurrentRating(int currentRating) {
+        this.currentRating = currentRating;
     }
 
     public int getDatabaseRank() {
@@ -164,11 +167,6 @@ private int DatabaseRank;
         return getCombinedName();
     }
 
-    public void setchosentype(String fieldName) {
-        
-       
-    
-    }
     
     
 
@@ -183,6 +181,22 @@ private int DatabaseRank;
         SelectedOppnt.gamesLost +=  selectedPlwins;
         SelectedOppnt.gamesDrawn += Draws;
         SelectedOppnt.gamesPlayed += selectedPlwins + selectedPlLosses + Draws;
+    }
+
+    Player getCopy() {
+        Player p = new Player();
+        
+        p.firstName = this.firstName;
+        p.lastName = this.lastName;
+        p.gamesPlayed = this.gamesPlayed ;
+        p.gamesWon = this.gamesWon;
+        p.gamesLost = this.gamesLost;
+        p.gamesDrawn = this.gamesDrawn;  
+        p.highestRating = this.highestRating;
+        p.lowestRating = this.lowestRating;
+        p.currentRating = this.currentRating; // what should be the default rank?
+        p.DatabaseRank = this.DatabaseRank;
+        return p;
     }
     
     

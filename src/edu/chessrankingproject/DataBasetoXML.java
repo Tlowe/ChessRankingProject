@@ -29,7 +29,7 @@ import org.w3c.dom.NodeList;
 
 
 public class DataBasetoXML {
-    ArrayList<Player> PlayerList;
+    private ArrayList<Player> dbPlayerList;
     DocumentBuilderFactory PlayerDocFactory;
     DocumentBuilder PlayerDocBuilder;
     Document PlayerDoc;
@@ -130,12 +130,7 @@ public class DataBasetoXML {
     
     
     
-    public void AddPlayertoDatabase(Player player){
-        // this function should throw an exception if no database exists
-        
-        // add xml code to search through file to check if player exists. if not update database with new player
-    
-    }
+   
 
     public ArrayList<Player> getAllPlayersSorted(ArrayList<Player> inPlayers)throws Exception {
         xmlDBfile = new File("C://ChessGame//PlayerDataBase.xml");
@@ -148,28 +143,54 @@ public class DataBasetoXML {
         
         
         nodeList = PlayerDoc.getElementsByTagName("Player");
-        PlayerList = new ArrayList<>();
+        dbPlayerList = new ArrayList<>();
         for(int i = 0; i< nodeList.getLength();i++){
          
          Node node = nodeList.item(i);
          Player tempPlayer = new Player(node) ;
-         PlayerList.add(tempPlayer);
+         dbPlayerList.add(tempPlayer);
          inPlayers.add(tempPlayer);
         
             System.out.println("Pulled Player " + tempPlayer.getFirstName() + " " + tempPlayer.getLastName() + " from database");
             
         }
            
-        Collections.sort(PlayerList, Comparator.comparing(Player::getLastName));
+        Collections.sort(dbPlayerList, Comparator.comparing(Player::getLastName));
         
-        return PlayerList;
+        return dbPlayerList;
     }
 
-    void recalculatePlayers(ArrayList<Player> PlayerList) {
-        int i = 0;
+    void recalculatePlayers(ArrayList<Player> newPlayerList, ArrayList<Player> oldPlayerList) {
+        
         System.err.println("need to add mee!!!!!!!!!");
+        
+        // use ELO math to calculate new chess ranking.
+        // compare new and old lists. sort by ranking.
+        // reassign players rank in database also alphabetically
+        //call rewrite database with this new list
+    }
+    
+    private void rewriteDatabase(ArrayList<Player> DatabaseList){
+    
+    
+    }
+    
+    
+     public void AddPlayertoDatabase(Player newPlayer){
+        // this function should throw an exception if no database exists
+        // this function should throw an exception if player already exists
+        
+        // add xml code to search through file to check if player exists. if not update database with new player
+    
+    }
+    
+    private void removePlayerFromDatabase(Player toRemovePlayer){
+    
+        // parse through database by id ??
+        
     }
 }
 
-// remove player from database
-// update individual stats about players
+
+
+     
