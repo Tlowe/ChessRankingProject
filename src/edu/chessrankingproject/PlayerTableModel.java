@@ -99,9 +99,9 @@ public class PlayerTableModel extends AbstractTableModel {
               //  String last  = PlayerList.get(row).lastName;
               //  String name = last + "." + first;
               //  return name;
-                return PlayerList.get(row).getFirstName();
-            case 1:
                 return PlayerList.get(row).getLastName();
+            case 1:
+                return PlayerList.get(row).getFirstName();
             case 2:
                 return PlayerList.get(row).getId();
             case 3:
