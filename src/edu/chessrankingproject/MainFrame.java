@@ -186,7 +186,7 @@ public class MainFrame extends javax.swing.JFrame {
 //            
 //        }
         
-        PlayerFrame pFrame = new PlayerFrame();
+        PlayerFrame pFrame = new PlayerFrame(mPlayerArrayList.getPlayerArrayListCopy());
         pFrame.addListener(mainHandler);
         pFrame.setVisible(true);
    
@@ -385,7 +385,7 @@ public class localEventlistener implements PlayerEventListener{
 
         @Override
         public void updateDatabase(PlayerArrayList PlayerList) {
-            DBhandle.recalculatePlayers(PlayerList, mPlayerArrayList.getPlayerArrayListCopy());
+            DBhandle.recalculateDatabaseRankings(PlayerList, mPlayerArrayList.getPlayerArrayListCopy());
         }
 
         @Override
