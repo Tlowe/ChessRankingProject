@@ -13,7 +13,10 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  *
@@ -385,7 +388,11 @@ public class localEventlistener implements PlayerEventListener{
 
         @Override
         public void updateDatabase(PlayerArrayList PlayerList) {
-            DBhandle.recalculateDatabaseRankings(PlayerList, mPlayerArrayList.getPlayerArrayListCopy());
+            try {
+                DBhandle.recalculateDatabaseRankings(PlayerList, mPlayerArrayList.getPlayerArrayListCopy());
+            } catch (ParserConfigurationException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         @Override
