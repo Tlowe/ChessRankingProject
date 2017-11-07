@@ -172,7 +172,7 @@ public class DataBasetoXML {
         // sort first by rank and then by name
         Collections.sort(newPlayerList, Comparator.comparing(Player::getCurrentRating).thenComparing(Player::getLastName));
         // once sorted, sequentially reassign Database rank; 
-        // 
+        // Dummy Comment
         int i = 1;
         for(Player p : newPlayerList){
         p.setDatabaseRank(i++);
