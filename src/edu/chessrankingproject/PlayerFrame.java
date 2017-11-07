@@ -72,16 +72,16 @@ public class PlayerFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         FirstNameTextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        LastNameTextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        GamesPlayedTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        GamesWonTextField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jTextField5 = new javax.swing.JTextField();
+        RemovePlayerButton = new javax.swing.JButton();
+        GamesLostTextField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -102,12 +102,22 @@ public class PlayerFrame extends javax.swing.JFrame {
 
         jLabel2.setText("Last Name");
 
-        jTextField2.setText("Enter Last Name");
+        LastNameTextField.setText("Enter Last Name");
+        LastNameTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LastNameTextFieldMouseClicked(evt);
+            }
+        });
 
         jLabel3.setText("Games Played");
 
-        jTextField3.setText("Enter Games Played");
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        GamesPlayedTextField.setText("Enter Games Played");
+        GamesPlayedTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                GamesPlayedTextFieldMouseClicked(evt);
+            }
+        });
+        GamesPlayedTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GamesPlayedTextBox(evt);
             }
@@ -115,8 +125,13 @@ public class PlayerFrame extends javax.swing.JFrame {
 
         jLabel4.setText("Games Won");
 
-        jTextField4.setText("Enter Games Won");
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        GamesWonTextField.setText("Enter Games Won");
+        GamesWonTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                GamesWonTextFieldMouseClicked(evt);
+            }
+        });
+        GamesWonTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GamesWonTextBox(evt);
             }
@@ -138,15 +153,20 @@ public class PlayerFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Update Exsisting");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        RemovePlayerButton.setText("Remove Player");
+        RemovePlayerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UpdatePlayerButton(evt);
+                RemovePlayerButtonActionPerformed(evt);
             }
         });
 
-        jTextField5.setText("Enter Games Lost");
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        GamesLostTextField.setText("Enter Games Lost");
+        GamesLostTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                GamesLostTextFieldMouseClicked(evt);
+            }
+        });
+        GamesLostTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GamesLostTextBox(evt);
             }
@@ -170,16 +190,16 @@ public class PlayerFrame extends javax.swing.JFrame {
                                     .addComponent(jLabel6))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                    .addComponent(GamesPlayedTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                                    .addComponent(GamesWonTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(GamesLostTextField, javax.swing.GroupLayout.Alignment.TRAILING)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGap(133, 133, 133)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField2)
+                                    .addComponent(LastNameTextField)
                                     .addComponent(FirstNameTextField)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,13 +207,13 @@ public class PlayerFrame extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addComponent(jLabel5))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(48, 48, 48)
+                                .addGap(54, 54, 54)
                                 .addComponent(jButton2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton3)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(RemovePlayerButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton1)))
-                        .addGap(0, 17, Short.MAX_VALUE)))
+                        .addGap(0, 39, Short.MAX_VALUE)))
                 .addGap(37, 37, 37))
         );
         layout.setVerticalGroup(
@@ -208,24 +228,24 @@ public class PlayerFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(LastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(GamesPlayedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(GamesWonTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(GamesLostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(RemovePlayerButton))
                 .addContainerGap())
         );
 
@@ -238,25 +258,37 @@ public class PlayerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_GamesLostTextBox
 
     private void CancelButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButton
-        
-        this.dispose();
-        
-         
-    }//GEN-LAST:event_CancelButton
 
-    private void UpdatePlayerButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatePlayerButton
-        
-    }//GEN-LAST:event_UpdatePlayerButton
+        this.dispose();    
+    }//GEN-LAST:event_CancelButton
 
     private void AddPlayerButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddPlayerButton
         // Create a new Player from Class "Player"
         // get data from all text fields and populate player class
         // add this new instance of player to the player list.
         // Call fireEvent(New(UpdateDatabaseEvent)
-        String x = FirstNameTextField.getText();
-        int i = Integer.parseInt(x);
+        PlayerArrayList PlayerList = new PlayerArrayList();
         
-        Integer.parseInt(FirstNameTextField.getText());
+        Player NPlayer = new Player();
+        
+        
+        String firstname = FirstNameTextField.getText();
+        String lastname = LastNameTextField.getText();
+        int gameswon = Integer.parseInt(GamesWonTextField.getText());
+        int gameslost = Integer.parseInt(GamesLostTextField.getText());
+        int gamesplayed = Integer.parseInt(GamesPlayedTextField.getText());
+        
+   
+        NPlayer.setFirstName(firstname);
+        NPlayer.setLastName(lastname);
+        NPlayer.setGamesWon(gameswon);
+        NPlayer.setGamesLost(gameslost);
+        NPlayer.setGamesPlayed(gamesplayed);
+        
+       PlayerList.add(NPlayer);
+        
+        fireEvent(new UpdateDatabaseEvent(PlayerList));
+        
     }//GEN-LAST:event_AddPlayerButton
 
     private void FirstNameTextBox(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FirstNameTextBox
@@ -274,6 +306,26 @@ public class PlayerFrame extends javax.swing.JFrame {
     private void FirstNameTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FirstNameTextFieldMouseClicked
         FirstNameTextField.setText("");
     }//GEN-LAST:event_FirstNameTextFieldMouseClicked
+
+    private void LastNameTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LastNameTextFieldMouseClicked
+        LastNameTextField.setText("");        // TODO add your handling code here:
+    }//GEN-LAST:event_LastNameTextFieldMouseClicked
+
+    private void GamesPlayedTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GamesPlayedTextFieldMouseClicked
+        GamesPlayedTextField.setText("");        // TODO add your handling code here:
+    }//GEN-LAST:event_GamesPlayedTextFieldMouseClicked
+
+    private void GamesWonTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GamesWonTextFieldMouseClicked
+        GamesWonTextField.setText("");        // TODO add your handling code here:
+    }//GEN-LAST:event_GamesWonTextFieldMouseClicked
+
+    private void GamesLostTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GamesLostTextFieldMouseClicked
+        GamesLostTextField.setText(""); // TODO add your handling code here:
+    }//GEN-LAST:event_GamesLostTextFieldMouseClicked
+
+    private void RemovePlayerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemovePlayerButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RemovePlayerButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -312,18 +364,18 @@ public class PlayerFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField FirstNameTextField;
+    private javax.swing.JTextField GamesLostTextField;
+    private javax.swing.JTextField GamesPlayedTextField;
+    private javax.swing.JTextField GamesWonTextField;
+    private javax.swing.JTextField LastNameTextField;
+    private javax.swing.JButton RemovePlayerButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 }
