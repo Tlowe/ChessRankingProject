@@ -26,6 +26,12 @@ public class PlayerFrame extends javax.swing.JFrame {
         initComponents();
     }
     
+    private static int x = 0;
+    
+    public static int buttonaction()
+    {
+            return x;
+    }
     public PlayerFrame(PlayerArrayList Plist){
     
         initComponents();
@@ -270,24 +276,26 @@ public class PlayerFrame extends javax.swing.JFrame {
        
         
         Player NPlayer = new Player();
-        
+      
+        x = 1; 
         
         String firstname = FirstNameTextField.getText();
         String lastname = LastNameTextField.getText();
-        int gameswon = Integer.parseInt(GamesWonTextField.getText());
-        int gameslost = Integer.parseInt(GamesLostTextField.getText());
-        int gamesplayed = Integer.parseInt(GamesPlayedTextField.getText());
+//        int gameswon = Integer.parseInt(GamesWonTextField.getText());
+//        int gameslost = Integer.parseInt(GamesLostTextField.getText());
+//        int gamesplayed = Integer.parseInt(GamesPlayedTextField.getText());
         
    
         NPlayer.setFirstName(firstname);
         NPlayer.setLastName(lastname);
-        NPlayer.setGamesWon(gameswon);
-        NPlayer.setGamesLost(gameslost);
-        NPlayer.setGamesPlayed(gamesplayed);
+//        NPlayer.setGamesWon(gameswon);
+//        NPlayer.setGamesLost(gameslost);
+//        NPlayer.setGamesPlayed(gamesplayed);
         
        PlayerList.add(NPlayer);
         
         fireEvent(new UpdateDatabaseEvent(PlayerList));
+        
         
     }//GEN-LAST:event_AddPlayerButton
 
