@@ -208,6 +208,10 @@ private ArrayList<PlayerHistory> gameHistory = new ArrayList<>();
         p.DatabaseRank = this.DatabaseRank;
         return p;
     }
+
+    String getCombNameFL() {
+        return firstName + " " + lastName;
+    }
     
     
 }
