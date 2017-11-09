@@ -25,6 +25,10 @@ public class GameResultsFrame extends javax.swing.JFrame {
     /**
      * Creates new form NewGameResultsFrame
      */
+    public static final int WON = 1;
+    public static final int LOSS = 2;
+    public static final int Draw = 3;
+    
     private PlayerArrayList PlayerList = new PlayerArrayList();
     private PlayerArrayList OldPlayerList = new PlayerArrayList();
     public PlayerArrayList  OpponentList = new PlayerArrayList();
@@ -395,10 +399,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
     private void UpdateResultsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateResultsButtonActionPerformed
         
         
-        
-        
-        
-        
+                
         // for each player history in list. calculate a new ELo ranking in a loop. push that old history to the player's local record(maybe last 50 games??
         
         for(int i = 0; i < gameresultsListModel.getSize(); i++){
@@ -408,9 +409,58 @@ public class GameResultsFrame extends javax.swing.JFrame {
          
          p = (PlayerHistory) gameresultsListModel.get(i);
         
-         int k = 0;
-        }
+         
+         Player playerLess, playerMore = new Player();
+         
+         
+         //find lower ranked player
+         if(p.Player.getCurrentRating() <= p.Opponent.getCurrentRating()){
+         
+         playerLess = p.Player;
+         playerMore = p.Opponent;
+         
+         }else{
+         
+         playerLess = p.Opponent;
+         playerMore = p.Player;
+                
+         }
+         
+         float Diff = playerLess.getCurrentRating() - playerMore.getCurrentRating();
+         
+         Diff = (Diff< 400 || Diff > 400)? (Diff > 400)? 400:-400     : Diff;
+         
+         float kFactor = 0;
         
+         if(Diff == 400){
+         
+             kFactor = 1;
+         }
+         else if(Diff == -400){
+             kFactor = 31;
+         }
+         else{
+            kFactor  = 15*(400-Diff)/400 +1;
+         }
+         
+            
+         switch(p.getResultCode()){
+         
+             case WON:
+                 playerLess.setCurrentRating(playerLess.getCurrentRating() + kFactor);
+                 playerMore.setCurrentRating(playerMore.getCurrentRating() - kFactor);
+                 break;
+             case LOSS:
+                 playerLess.setCurrentRating(playerLess.getCurrentRating() - ( 32 - kFactor ));
+                 playerMore.setCurrentRating(playerMore.getCurrentRating() + ( 32 - kFactor )); 
+             case Draw:
+                 float kDiv = kFactor/2;
+                 playerLess.setCurrentRating(playerLess.getCurrentRating() + kDiv);
+                 playerMore.setCurrentRating(playerMore.getCurrentRating() - kDiv); 
+         
+         }
+    }
+    
         
         
         

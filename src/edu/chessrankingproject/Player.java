@@ -144,7 +144,7 @@ private ArrayList<PlayerHistory> gameHistory = new ArrayList<>();
         return currentRating;
     }
 
-    public void setCurrentRating(int currentRating) {
+    public void setCurrentRating(float currentRating) {
         this.currentRating = currentRating;
     }
 
