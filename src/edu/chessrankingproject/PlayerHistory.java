@@ -23,9 +23,9 @@ public class PlayerHistory {
     Player Opponent;
     DateTimeFormatter formatter ;
     LocalDateTime TimeOfGame ;
-    int win = 0;
-    int loss = 0;
-    int draw = 0;
+    private int win = 0;
+    private int loss = 0;
+    private int draw = 0;
 
     public PlayerHistory() {
     }
@@ -82,5 +82,24 @@ public class PlayerHistory {
     }
     
     
+    public int getResultCode(){
+        int resultcode;
+        
+      if(win == 1){
+            resultcode = 1;
+           
+        }
+        else if(loss == 1){
+            
+            resultcode = 2;
+        }
+        else if(draw == 1){
+            resultcode = 3;
+        }else{
+           resultcode = 0;
+        }  
+      
+      return resultcode;
+    }
     
 }
