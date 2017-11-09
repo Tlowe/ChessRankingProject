@@ -9,7 +9,7 @@ package edu.chessrankingproject;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
+import java.util.*;
 /**
  *
  * @author Travis Lowe
@@ -30,7 +30,7 @@ private int id; // this will help sort through database faster.
 
 
 //create new class for player history with timestamps and all that jazz...
-    
+private ArrayList<PlayerHistory> gameHistory = new ArrayList<>();
     
 
     public Player(){
@@ -68,9 +68,9 @@ private int id; // this will help sort through database faster.
         this.gamesWon      = Integer.parseInt(pElement.getElementsByTagName("gamesWon").item(0).getTextContent()); 
         this.gamesLost     = Integer.parseInt(pElement.getElementsByTagName("gamesLost").item(0).getTextContent()); 
         this.gamesDrawn    = Integer.parseInt(pElement.getElementsByTagName("gamesLost").item(0).getTextContent()); 
-        this.highestRating = Integer.parseInt(pElement.getElementsByTagName("highestRating").item(0).getTextContent()); 
-        this.lowestRating  = Integer.parseInt(pElement.getElementsByTagName("lowestRating").item(0).getTextContent()); 
-        this.currentRating   = Integer.parseInt(pElement.getElementsByTagName("currentRating").item(0).getTextContent()); 
+        this.highestRating = Float.parseFloat(pElement.getElementsByTagName("highestRating").item(0).getTextContent()); 
+        this.lowestRating  = Float.parseFloat(pElement.getElementsByTagName("lowestRating").item(0).getTextContent()); 
+        this.currentRating = Float.parseFloat(pElement.getElementsByTagName("currentRating").item(0).getTextContent()); 
         this.DatabaseRank  = Integer.parseInt(pElement.getElementsByTagName("DatabaseRank").item(0).getTextContent()); 
      }
     
@@ -179,11 +179,11 @@ private int id; // this will help sort through database faster.
     
     
 
-    void updateStats(Player SelectedPlayer, Player SelectedOppnt, int selectedPlwins, int selectedPlLosses, int Draws) {
-        SelectedPlayer.gamesWon += selectedPlwins;
-        SelectedPlayer.gamesLost += selectedPlLosses;
-        SelectedPlayer.gamesDrawn += Draws;
-        SelectedPlayer.gamesPlayed += selectedPlwins + selectedPlLosses + Draws;
+    void updateStats( Player SelectedOppnt, int selectedPlwins, int selectedPlLosses, int Draws) {
+        this.gamesWon += selectedPlwins;
+        this.gamesLost += selectedPlLosses;
+        this.gamesDrawn += Draws;
+        this.gamesPlayed += selectedPlwins + selectedPlLosses + Draws;
         
         
         SelectedOppnt.gamesWon += selectedPlLosses;

@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class PlayerFrame extends javax.swing.JFrame {
 
-    private PlayerArrayList PlayerList;
+    private PlayerArrayList PlayerList = new PlayerArrayList();
     private ArrayList<PlayerEventListener> listenerList = new ArrayList<>();
     
     
@@ -267,7 +267,7 @@ public class PlayerFrame extends javax.swing.JFrame {
         // get data from all text fields and populate player class
         // add this new instance of player to the player list.
         // Call fireEvent(New(UpdateDatabaseEvent)
-        PlayerArrayList PlayerList = new PlayerArrayList();
+       
         
         Player NPlayer = new Player();
         

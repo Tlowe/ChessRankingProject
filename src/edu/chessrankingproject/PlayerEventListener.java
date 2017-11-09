@@ -16,4 +16,6 @@ public interface PlayerEventListener {
     void updateDatabase(PlayerArrayList PlayerList);
     
     void updateDebugText(String newstring);
+    
+    void windowClosing();
 }

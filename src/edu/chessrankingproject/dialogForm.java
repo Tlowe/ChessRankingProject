@@ -5,6 +5,8 @@
  */
 package edu.chessrankingproject;
 
+import java.awt.Color;
+
 /**
  *
  * @author Travis Lowe
@@ -15,8 +17,11 @@ public class dialogForm extends javax.swing.JPanel {
      * Creates new form dialogForm
      */
     
-    private Player p1 = new Player();
-    private Player p2 = new Player();
+    private Player newP1 = new Player();
+    private Player newP2 = new Player();
+    
+    private Player Oldp1 = new Player();
+    private Player Oldp2 = new Player();
     
     public dialogForm() {
         initComponents();
@@ -25,19 +30,39 @@ public class dialogForm extends javax.swing.JPanel {
     public dialogForm(Player p1, Player p2) {
         initComponents();
         
-        this.p1 = p1;
-        this.p2 = p2;
+        this.newP1 = p1;
+        this.newP2 = p2;
         
         
     }
 
-    dialogForm(PlayerArrayList OldPlayerList, Player SelectedPlayer, Player SelectedOppnt) {
+    dialogForm(PlayerArrayList OldPlayerList, Player SelectedPlayer, Player SelectedOppnt, int wins, int losses, int draws) {
         initComponents();
-        this.p1 = SelectedPlayer;
-        this.p2 = SelectedOppnt;
+        this.newP1 = SelectedPlayer;
+        this.newP2 = SelectedOppnt;
+        
+        for(Player p: OldPlayerList){
+        
+            if(p.getId() == newP1.getId()){ // if id of modified player is found in the list. . .
+            
+              this.Oldp1 = p.getCopy();
+              
+            };
+            
+            if(p.getId() == newP2.getId()){
+            
+                this.Oldp2 = p.getCopy();
+            }
+        
+        }
+        
+        calcAndDisplayPlayerInfo(wins,losses,draws);
         
         
     }
+
+    
+       
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,37 +74,47 @@ public class dialogForm extends javax.swing.JPanel {
     private void initComponents() {
 
         jSeparator4 = new javax.swing.JSeparator();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        Player1NameTextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        idOldvalue = new javax.swing.JLabel();
-        deltaIDvalue = new javax.swing.JLabel();
+        p1OldwinsTextfield = new javax.swing.JTextField();
+        p1IdTextfield = new javax.swing.JTextField();
+        p1OldlossesTextField = new javax.swing.JTextField();
+        p1OldDrawsTextField = new javax.swing.JTextField();
+        p1OldGamesPlayedTextField = new javax.swing.JTextField();
+        p1DeltaWinsTextField = new javax.swing.JTextField();
+        p1deltalossTextField = new javax.swing.JTextField();
+        p1DeltaDrawsTextField = new javax.swing.JTextField();
+        p1deltaGamesPlayedTextfield = new javax.swing.JTextField();
+        p1OldRatingTextBox = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        p1deltaRatingTextfield1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        p2DeltaRatingTextfield = new javax.swing.JTextField();
+        p2DeltaWinsTextField = new javax.swing.JTextField();
+        Player2NameTextField = new javax.swing.JTextField();
+        p2deltalossTextField = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        p2DeltaDrawsTextField = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        p2deltaGamesPlayedTextfield = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        p2OldwinsTextfield = new javax.swing.JTextField();
+        p2IdTextfield = new javax.swing.JTextField();
+        p2OldlossesTextField = new javax.swing.JTextField();
+        p2OldRatingTextBox = new javax.swing.JTextField();
+        p2OldDrawsTextField = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
-        jLabel26 = new javax.swing.JLabel();
+        p2OldGamesPlayedTextField = new javax.swing.JTextField();
 
-        jTextField1.setText("Player 2");
-
-        jTextField2.setText("Player 1");
+        Player1NameTextField.setBackground(new java.awt.Color(240, 240, 240));
+        Player1NameTextField.setText("Player 1");
+        Player1NameTextField.setBorder(null);
 
         jLabel2.setText("ID:");
 
@@ -87,213 +122,397 @@ public class dialogForm extends javax.swing.JPanel {
 
         jLabel4.setText("Losses:");
 
-        jLabel5.setText("Games Played:");
+        jLabel5.setText("Draws:");
 
-        jLabel6.setText("Rating:");
+        jLabel6.setText("Games Played:");
 
-        idOldvalue.setText("jLabel7");
+        p1OldwinsTextfield.setBackground(new java.awt.Color(228, 225, 225));
+        p1OldwinsTextfield.setText("       ");
 
-        deltaIDvalue.setText("jLabel7");
+        p1IdTextfield.setBackground(new java.awt.Color(228, 225, 225));
+        p1IdTextfield.setText("       ");
 
-        jLabel9.setText("jLabel7");
+        p1OldlossesTextField.setBackground(new java.awt.Color(228, 225, 225));
+        p1OldlossesTextField.setText("       ");
 
-        jLabel10.setText("jLabel7");
+        p1OldDrawsTextField.setBackground(new java.awt.Color(228, 225, 225));
+        p1OldDrawsTextField.setText("       ");
 
-        jLabel11.setText("jLabel7");
+        p1OldGamesPlayedTextField.setBackground(new java.awt.Color(228, 225, 225));
+        p1OldGamesPlayedTextField.setText("        ");
 
-        jLabel12.setText("jLabel7");
+        p1DeltaWinsTextField.setBackground(new java.awt.Color(240, 240, 240));
+        p1DeltaWinsTextField.setText("    ");
+        p1DeltaWinsTextField.setBorder(null);
+        p1DeltaWinsTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                p1DeltaWinsTextFieldActionPerformed(evt);
+            }
+        });
 
-        jLabel13.setText("jLabel7");
+        p1deltalossTextField.setBackground(new java.awt.Color(240, 240, 240));
+        p1deltalossTextField.setBorder(null);
 
-        jLabel14.setText("jLabel7");
+        p1DeltaDrawsTextField.setBackground(new java.awt.Color(240, 240, 240));
+        p1DeltaDrawsTextField.setBorder(null);
 
-        jLabel15.setText("jLabel7");
+        p1deltaGamesPlayedTextfield.setBackground(new java.awt.Color(240, 240, 240));
+        p1deltaGamesPlayedTextfield.setBorder(null);
 
-        jLabel16.setText("jLabel7");
+        p1OldRatingTextBox.setBackground(new java.awt.Color(228, 225, 225));
+        p1OldRatingTextBox.setText("        ");
 
-        jLabel17.setText("jLabel7");
+        jLabel9.setText("Rating:");
 
-        jLabel18.setText("jLabel7");
+        p1deltaRatingTextfield1.setBackground(new java.awt.Color(240, 240, 240));
+        p1deltaRatingTextfield1.setBorder(null);
 
-        jLabel19.setText("jLabel7");
+        jLabel1.setText("Are These Results Acceptable??");
 
-        jLabel20.setText("jLabel7");
+        p2DeltaRatingTextfield.setBackground(new java.awt.Color(240, 240, 240));
+        p2DeltaRatingTextfield.setBorder(null);
 
-        jLabel21.setText("jLabel7");
+        p2DeltaWinsTextField.setBackground(new java.awt.Color(240, 240, 240));
+        p2DeltaWinsTextField.setText("    ");
+        p2DeltaWinsTextField.setBorder(null);
+        p2DeltaWinsTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                p2DeltaWinsTextFieldActionPerformed(evt);
+            }
+        });
 
-        jLabel22.setText("jLabel7");
+        Player2NameTextField.setBackground(new java.awt.Color(240, 240, 240));
+        Player2NameTextField.setText("Player 2");
+        Player2NameTextField.setBorder(null);
 
-        jLabel23.setText("jLabel7");
+        p2deltalossTextField.setBackground(new java.awt.Color(240, 240, 240));
+        p2deltalossTextField.setBorder(null);
 
-        jLabel24.setText("jLabel7");
+        jLabel7.setText("ID:");
 
-        jLabel25.setText("jLabel7");
+        p2DeltaDrawsTextField.setBackground(new java.awt.Color(240, 240, 240));
+        p2DeltaDrawsTextField.setBorder(null);
 
-        jLabel26.setText("jLabel7");
+        jLabel8.setText("Wins:");
+
+        p2deltaGamesPlayedTextfield.setBackground(new java.awt.Color(240, 240, 240));
+        p2deltaGamesPlayedTextfield.setBorder(null);
+
+        jLabel10.setText("Losses:");
+
+        jLabel11.setText("Draws:");
+
+        jLabel12.setText("Games Played:");
+
+        p2OldwinsTextfield.setBackground(new java.awt.Color(228, 225, 225));
+        p2OldwinsTextfield.setText("       ");
+
+        p2IdTextfield.setBackground(new java.awt.Color(228, 225, 225));
+        p2IdTextfield.setText("       ");
+
+        p2OldlossesTextField.setBackground(new java.awt.Color(228, 225, 225));
+        p2OldlossesTextField.setText("       ");
+
+        p2OldRatingTextBox.setBackground(new java.awt.Color(228, 225, 225));
+        p2OldRatingTextBox.setText("        ");
+
+        p2OldDrawsTextField.setBackground(new java.awt.Color(228, 225, 225));
+        p2OldDrawsTextField.setText("       ");
+
+        jLabel13.setText("Rating:");
+
+        p2OldGamesPlayedTextField.setBackground(new java.awt.Color(228, 225, 225));
+        p2OldGamesPlayedTextField.setText("        ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(141, 141, 141)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel20)
-                            .addComponent(jLabel24))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(p1OldRatingTextBox)
+                            .addComponent(p1IdTextfield)
+                            .addComponent(p1OldwinsTextfield)
+                            .addComponent(p1OldlossesTextField)
+                            .addComponent(p1OldDrawsTextField)
+                            .addComponent(p1OldGamesPlayedTextField))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel19)
-                                .addComponent(jLabel23))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(deltaIDvalue)
-                                .addComponent(jLabel11)
-                                .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING)))
-                        .addGap(83, 83, 83)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel21)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel22))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel25)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel26))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(p1deltalossTextField)
+                                .addComponent(p1DeltaDrawsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                                .addComponent(p1deltaGamesPlayedTextfield, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                                .addComponent(p1DeltaWinsTextField))
+                            .addComponent(p1deltaRatingTextfield1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 37, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                        .addGap(88, 88, 88)
+                        .addComponent(Player1NameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(43, 43, 43)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(34, 34, 34)
-                                        .addComponent(idOldvalue)))
-                                .addGap(33, 33, 33)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(101, 101, 101)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(78, 78, 78)
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel10))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(34, 34, 34)
-                                .addComponent(jLabel12)
-                                .addGap(131, 131, 131)
-                                .addComponent(jLabel13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel14))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel16)
-                                .addGap(131, 131, 131)
-                                .addComponent(jLabel17)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel18)))))
-                .addGap(66, 66, 66))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(p2IdTextfield)
+                            .addComponent(p2OldwinsTextfield)
+                            .addComponent(p2OldlossesTextField)
+                            .addComponent(p2OldDrawsTextField)
+                            .addComponent(p2OldGamesPlayedTextField)
+                            .addComponent(p2OldRatingTextBox))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(p2deltalossTextField)
+                                .addComponent(p2DeltaDrawsTextField)
+                                .addComponent(p2deltaGamesPlayedTextfield)
+                                .addComponent(p2DeltaWinsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(p2DeltaRatingTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addComponent(Player2NameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(Player1NameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(idOldvalue)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel12))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel18))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel20)
-                            .addComponent(jLabel21)
-                            .addComponent(jLabel22))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel24)
-                            .addComponent(jLabel25)
-                            .addComponent(jLabel26)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(p1IdTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(60, 60, 60)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel13)
-                                    .addComponent(jLabel14)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(p1DeltaWinsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addComponent(deltaIDvalue)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(7, 7, 7)
+                                .addComponent(p1OldwinsTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(p1OldlossesTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(p1deltalossTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5)
+                                .addGap(6, 6, 6))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(p1OldDrawsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(p1DeltaDrawsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(8, 8, 8)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(p1deltaGamesPlayedTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(p1OldGamesPlayedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(p1OldRatingTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel9)
+                                    .addComponent(p1deltaRatingTextfield1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Player2NameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(p2IdTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(p2DeltaWinsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addComponent(p2OldwinsTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel10)
+                                    .addComponent(p2OldlossesTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(p2deltalossTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel15)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel19)
-                                .addGap(12, 12, 12)
-                                .addComponent(jLabel23)))))
-                .addContainerGap(37, Short.MAX_VALUE))
+                                .addGap(6, 6, 6))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(p2OldDrawsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(p2DeltaDrawsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(8, 8, 8)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(p2deltaGamesPlayedTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(p2OldGamesPlayedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel12))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(p2OldRatingTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel13)
+                                    .addComponent(p2DeltaRatingTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void p1DeltaWinsTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p1DeltaWinsTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_p1DeltaWinsTextFieldActionPerformed
+
+    private void p2DeltaWinsTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p2DeltaWinsTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_p2DeltaWinsTextFieldActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel deltaIDvalue;
-    private javax.swing.JLabel idOldvalue;
+    private javax.swing.JTextField Player1NameTextField;
+    private javax.swing.JTextField Player2NameTextField;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField p1DeltaDrawsTextField;
+    private javax.swing.JTextField p1DeltaWinsTextField;
+    private javax.swing.JTextField p1IdTextfield;
+    private javax.swing.JTextField p1OldDrawsTextField;
+    private javax.swing.JTextField p1OldGamesPlayedTextField;
+    private javax.swing.JTextField p1OldRatingTextBox;
+    private javax.swing.JTextField p1OldlossesTextField;
+    private javax.swing.JTextField p1OldwinsTextfield;
+    private javax.swing.JTextField p1deltaGamesPlayedTextfield;
+    private javax.swing.JTextField p1deltaRatingTextfield1;
+    private javax.swing.JTextField p1deltalossTextField;
+    private javax.swing.JTextField p2DeltaDrawsTextField;
+    private javax.swing.JTextField p2DeltaRatingTextfield;
+    private javax.swing.JTextField p2DeltaWinsTextField;
+    private javax.swing.JTextField p2IdTextfield;
+    private javax.swing.JTextField p2OldDrawsTextField;
+    private javax.swing.JTextField p2OldGamesPlayedTextField;
+    private javax.swing.JTextField p2OldRatingTextBox;
+    private javax.swing.JTextField p2OldlossesTextField;
+    private javax.swing.JTextField p2OldwinsTextfield;
+    private javax.swing.JTextField p2deltaGamesPlayedTextfield;
+    private javax.swing.JTextField p2deltalossTextField;
     // End of variables declaration//GEN-END:variables
+
+    private void calcAndDisplayPlayerInfo(int wins, int losses, int draws) {
+        
+        // Set names
+        Player1NameTextField.setEditable(false);
+        Player2NameTextField.setEditable(false);
+        Player1NameTextField.setText( newP1.getFirstName()+ " " + newP1.getLastName() + ":");
+        Player2NameTextField.setText( newP2.getFirstName()+ " " + newP2.getLastName() + ":");
+        
+        // Set IDs
+        p1IdTextfield.setEditable(false);
+        p2IdTextfield.setEditable(false);
+        p1IdTextfield.setText(Integer.toString(newP1.getId()));
+        p2IdTextfield.setText(Integer.toString(newP2.getId()));
+        
+        // Set wins
+        p1OldwinsTextfield.setEditable(false);
+        p1DeltaWinsTextField.setEditable(false);
+        p2OldwinsTextfield.setEditable(false);
+        p2DeltaWinsTextField.setEditable(false);
+        p2deltalossTextField.setEditable(false);
+        
+        p1OldwinsTextfield.setText(Integer.toString(Oldp1.getGamesWon()));
+        p2OldwinsTextfield.setText(Integer.toString(Oldp2.getGamesWon()));
+        p1DeltaWinsTextField.setForeground(Color.GREEN);
+        p2DeltaWinsTextField.setForeground(Color.GREEN);
+        p2deltalossTextField.setForeground(Color.red);
+        if(wins > 0){
+            
+            p1DeltaWinsTextField.setText("+ " + Integer.toString(wins ) );
+            p2deltalossTextField.setText("+ " + Integer.toString(wins));
+        }
+        
+        // set losses
+        p1OldlossesTextField.setEditable(false);
+        p2OldlossesTextField.setEditable(false);
+        p1deltalossTextField.setEditable(false);
+        
+        p1OldlossesTextField.setText(Integer.toString(Oldp1.getGamesLost()));
+        p2OldlossesTextField.setText(Integer.toString(Oldp2.getGamesLost()));
+        p1deltalossTextField.setForeground(Color.red);
+        if(losses > 0){
+        
+            p1deltalossTextField.setText("+ " + Integer.toString(losses ) );
+            p2DeltaWinsTextField.setText("+ " + Integer.toString(losses ) );
+        }
+        
+        
+        // set draws
+        p1OldDrawsTextField.setEditable(false);
+        p1DeltaDrawsTextField.setEditable(false);
+        p2OldDrawsTextField.setEditable(false);
+        p2DeltaDrawsTextField.setEditable(false);
+        
+        p1OldDrawsTextField.setText(Integer.toString(Oldp1.getGamesDrawn()));
+        p2OldDrawsTextField.setText(Integer.toString(Oldp2.getGamesDrawn()));
+        if(draws > 0 ){
+        
+            p1DeltaDrawsTextField.setText("+ " + Integer.toString(draws));
+            p2DeltaDrawsTextField.setText("+ " + Integer.toString(draws));
+        }
+        
+        // Set Games Played
+        p1OldGamesPlayedTextField.setEditable(false);
+        p1deltaGamesPlayedTextfield.setEditable(false);
+        p2OldGamesPlayedTextField.setEditable(false);
+        p2deltaGamesPlayedTextfield.setEditable(false);
+        
+        p1OldGamesPlayedTextField.setText(Integer.toString(Oldp1.getGamesPlayed()));
+        p2OldGamesPlayedTextField.setText(Integer.toString(Oldp2.getGamesPlayed()));
+        
+        p1deltaGamesPlayedTextfield.setText("+ " + Integer.toString(wins + losses + draws));
+        p2deltaGamesPlayedTextfield.setText("+ " + Integer.toString(wins + losses + draws));
+        
+        
+        //Set Scores
+        p1OldRatingTextBox.setEditable(false);
+        p2OldRatingTextBox.setEditable(false);
+        p1OldRatingTextBox.setText(Float.toString(Oldp1.getCurrentRating()));
+        p2OldRatingTextBox.setText(Float.toString(Oldp2.getCurrentRating()));
+    }
 }

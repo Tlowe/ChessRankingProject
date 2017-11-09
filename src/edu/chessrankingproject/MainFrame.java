@@ -58,6 +58,8 @@ public class MainFrame extends javax.swing.JFrame {
         playerInfoTable = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         DebugTxtArea = new javax.swing.JTextArea();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,18 +124,16 @@ public class MainFrame extends javax.swing.JFrame {
         DebugTxtArea.setRows(5);
         jScrollPane2.setViewportView(DebugTxtArea);
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel2.setText("Search By:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(321, 321, 321)
-                        .addComponent(DataBaseSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(689, 689, 689)
-                        .addComponent(SearchDataBaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,7 +146,18 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(PlayerTableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 971, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(353, 353, 353)
-                        .addComponent(jLabel1)))
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(167, 167, 167)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(DataBaseSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(386, 386, 386)
+                                .addComponent(SearchDataBaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(59, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -157,7 +168,9 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SearchDataBaseButton)
-                    .addComponent(DataBaseSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(DataBaseSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(PlayerTableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -207,6 +220,7 @@ public class MainFrame extends javax.swing.JFrame {
         GameResultsFrame gFrame = new GameResultsFrame( mPlayerArrayList);
         gFrame.addListener(mainHandler);
         gFrame.setVisible(true);
+        this.setEnabled(false);
     }//GEN-LAST:event_AddGameResultsButtonActionPerformed
 
     private void DataBaseSearchTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DataBaseSearchTextFieldMouseClicked
@@ -259,7 +273,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane PlayerTableScrollPane;
     private javax.swing.JButton SearchDataBaseButton;
     private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable playerInfoTable;
     // End of variables declaration//GEN-END:variables
@@ -390,14 +406,26 @@ public class localEventlistener implements PlayerEventListener{
         public void updateDatabase(PlayerArrayList PlayerList) {
             try {
                 DBhandle.recalculateDatabaseRankings(PlayerList, mPlayerArrayList.getPlayerArrayListCopy());
+            
+                PlayerTableModel = new PlayerTableModel(PlayerList);
+        
+                playerInfoTable.setModel(PlayerTableModel);
+                PlayerTableScrollPane.setViewportView(playerInfoTable);
+            
+            
             } catch (ParserConfigurationException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex);
             }
         }
 
         @Override
         public void updateDebugText(String newString) {
             DebugTxtArea.setText(newString);
+        }
+
+        @Override
+        public void windowClosing() {
+          MainFrame.super.setEnabled(true);
         }
 
 

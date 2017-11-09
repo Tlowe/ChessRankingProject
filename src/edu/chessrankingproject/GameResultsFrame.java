@@ -6,6 +6,7 @@
 package edu.chessrankingproject;
 
 import java.awt.event.TextEvent;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -67,7 +68,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        CancelButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         winsTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -91,6 +92,11 @@ public class GameResultsFrame extends javax.swing.JFrame {
         DebugResultsTextArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel2.setText("1. Choose Player :");
 
@@ -100,7 +106,12 @@ public class GameResultsFrame extends javax.swing.JFrame {
 
         jButton2.setText("OK");
 
-        jButton3.setText("Cancel");
+        CancelButton.setText("Cancel");
+        CancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelButtonActionPerformed(evt);
+            }
+        });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel3.setPreferredSize(new java.awt.Dimension(280, 300));
@@ -295,7 +306,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(CancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -333,7 +344,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CancelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -387,22 +398,22 @@ public class GameResultsFrame extends javax.swing.JFrame {
             
             
             
-            javax.swing.JPanel pan = new dialogForm(OldPlayerList,SelectedPlayer,SelectedOppnt);
+            javax.swing.JPanel pan = new dialogForm(OldPlayerList,SelectedPlayer,SelectedOppnt, wins,losses,draws);
             
             
           
-            int result = JOptionPane.showConfirmDialog(null,pan, "Are You OK with these Results ??",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(null,pan, "Confirmation Window",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE);
             if (result == JOptionPane.YES_OPTION) {
     
             
-                SelectedPlayer.updateStats(SelectedPlayer,SelectedOppnt, wins, losses,draws);
+                SelectedPlayer.updateStats(SelectedOppnt, wins, losses,draws);
         
                 fireEvent(new UpdateDatabaseEvent(PlayerList));
-                fireEvent(new edu.chessrankingproject.PlayerTextEvent(" Player " + SelectedPlayer.getCombinedName() + " and Player " + SelectedOppnt.getCombinedName()+ " have updated stats"));
+                fireEvent(new PlayerTextEvent(" Player " + SelectedPlayer.getCombinedName() + " and Player " + SelectedOppnt.getCombinedName()+ " have updated stats"));
                 
             
             } else {
-                DebugResultsTextArea.append("User canceled / closed the dialog, result = " + result + "\n\n");
+                DebugResultsTextArea.append("User canceled. No player stats were updated.\n\n");
             }
               
               
@@ -457,6 +468,15 @@ public class GameResultsFrame extends javax.swing.JFrame {
         UpdateResultsButton.setEnabled(true);
     }//GEN-LAST:event_ChosenOpponentListValueChanged
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        fireEvent( new WindowClosingEvent(evt));
+    }//GEN-LAST:event_formWindowClosing
+
+    private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
+       fireEvent( new WindowClosingEvent(evt));
+        this.dispose();
+    }//GEN-LAST:event_CancelButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -494,6 +514,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CancelButton;
     private javax.swing.JTextField ChooseOpponentLastTextField;
     private javax.swing.JTextField ChoosePlayerLastTextField;
     private javax.swing.JList<Player> ChosenOpponentList;
@@ -505,7 +526,6 @@ public class GameResultsFrame extends javax.swing.JFrame {
     private javax.swing.JButton PlayerSearchButton;
     private javax.swing.JButton UpdateResultsButton;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -554,6 +574,15 @@ public class GameResultsFrame extends javax.swing.JFrame {
                     eachplistener.updateDebugText(((PlayerTextEvent) evt).getText());
                     }
         
+        
+        }
+        
+        else if(evt instanceof WindowClosingEvent){
+        
+            for(PlayerEventListener eachplistener : listenerList){
+
+                    eachplistener.windowClosing();
+                    }
         
         }
     }

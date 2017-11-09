@@ -24,6 +24,9 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -164,28 +167,126 @@ public class DataBasetoXML {
         return dbPlayerList;
     }
 
-    void recalculateDatabaseRankings(PlayerArrayList newPlayerList, PlayerArrayList oldPlayerList) {
+    void recalculateDatabaseRankings(PlayerArrayList newPlayerList, PlayerArrayList oldPlayerList) throws ParserConfigurationException {
         
-        System.err.println("need to add mee!!!!!!!!!");
-        
-        
-        // sort first by rank and then by name
-        Collections.sort(newPlayerList, Comparator.comparing(Player::getCurrentRating).thenComparing(Player::getLastName));
-        // once sorted, sequentially reassign Database rank; 
-        // Dummy Comment
-        int i = 1;
-        for(Player p : newPlayerList){
-        p.setDatabaseRank(i++);
+        try {
+            System.err.println("need to add mee!!!!!!!!!");
             
+            
+            // sort first by rank and then by name
+            Collections.sort(newPlayerList, Collections.reverseOrder(Comparator.comparing(Player::getCurrentRating).thenComparing(Player::getLastName)));
+            // once sorted, sequentially reassign Database rank;
+            // Dummy Comment
+            int i = 1;
+            for(Player p : newPlayerList){
+                p.setDatabaseRank(i++);
+                
+            }
+            //call rewrite database with this new list
+            rewriteDatabase(newPlayerList);
+        } catch (TransformerException ex) {
+            Logger.getLogger(DataBasetoXML.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //call rewrite database with this new list
-        rewriteDatabase(newPlayerList);
     
     }
     
-    private void rewriteDatabase(PlayerArrayList DatabaseList){
-    
-    
+    private void rewriteDatabase(PlayerArrayList DatabaseList) throws ParserConfigurationException, TransformerConfigurationException, TransformerException{
+        
+        PlayerDocFactory = DocumentBuilderFactory.newInstance();
+        PlayerDocBuilder = PlayerDocFactory.newDocumentBuilder();
+        
+        PlayerDoc = PlayerDocBuilder.newDocument();
+        
+        Element PlayerDatabase = PlayerDoc.createElement("PlayerDatabase");
+        PlayerDoc.appendChild(PlayerDatabase);
+        
+        
+        for(Player p : DatabaseList){
+        
+        Element player = PlayerDoc.createElement("Player");
+        PlayerDatabase.appendChild(player);
+        
+        Element firstName = PlayerDoc.createElement("FirstName");
+        firstName.appendChild(PlayerDoc.createTextNode(p.getFirstName()));
+        player.appendChild(firstName);
+        
+        Element lastName = PlayerDoc.createElement("lastName");
+        lastName.appendChild(PlayerDoc.createTextNode(p.getLastName()));
+        player.appendChild(lastName);
+        
+        Element pID = PlayerDoc.createElement("ID");
+        pID.appendChild(PlayerDoc.createTextNode(Integer.toString(p.getId())));
+        player.appendChild(pID);
+        
+        Element gamesPlayed = PlayerDoc.createElement("gamesPlayed");
+        gamesPlayed.appendChild(PlayerDoc.createTextNode(Integer.toString(p.getGamesPlayed())));
+        player.appendChild(gamesPlayed);
+        
+        Element gamesWon = PlayerDoc.createElement("gamesWon");
+        gamesWon.appendChild(PlayerDoc.createTextNode(Integer.toString(p.getGamesWon())));
+        player.appendChild(gamesWon);
+        
+        Element gamesLost = PlayerDoc.createElement("gamesLost");
+        gamesLost.appendChild(PlayerDoc.createTextNode(Integer.toString(p.getGamesLost())));
+        player.appendChild(gamesLost);
+        
+        Element gamesDrawn = PlayerDoc.createElement("gamesDrawn");
+        gamesDrawn.appendChild(PlayerDoc.createTextNode(Integer.toString(p.getGamesDrawn())));
+        player.appendChild(gamesDrawn);
+        
+        Element highestRating = PlayerDoc.createElement("highestRating");
+        highestRating.appendChild(PlayerDoc.createTextNode(Float.toString(p.getHighestRating())));
+        player.appendChild(highestRating);
+        
+        Element lowestRating = PlayerDoc.createElement("lowestRating");
+        lowestRating.appendChild(PlayerDoc.createTextNode(Float.toString(p.getLowestRating())));
+        player.appendChild(lowestRating);
+        
+        Element currentRating = PlayerDoc.createElement("currentRating");
+        currentRating.appendChild(PlayerDoc.createTextNode(Float.toString(p.getCurrentRating())));
+        player.appendChild(currentRating);
+        
+        Element DatabaseRank = PlayerDoc.createElement("DatabaseRank");
+        DatabaseRank.appendChild(PlayerDoc.createTextNode(Integer.toString(p.getDatabaseRank())));
+        player.appendChild(DatabaseRank);
+        
+        
+        }
+        
+        TransformerFactory TrannyFactory  = TransformerFactory.newInstance();
+        Transformer tranny = TrannyFactory.newTransformer();
+        tranny.setOutputProperty(OutputKeys.INDENT, "yes");
+        tranny.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+        DOMSource source  = new DOMSource(PlayerDoc);
+        
+        
+        
+        Path root = Paths.get("C://ChessGame");
+        //Path root = Paths.get(System.getProperty("user.home"), "ChessGame");
+        
+        try {
+            Files.createDirectory(root);// create chessGame directory in windows or linux (maybe mac??)
+        }
+        catch(FileAlreadyExistsException e){
+            System.out.println("Its ok. The Chess Game File directory already exists. Carry on");
+        }
+        catch (Exception e) {
+            System.out.println("Failed because" + e);
+        }
+ 
+        
+        
+        
+        
+        StreamResult streamResult = new StreamResult(new File("C://ChessGame//PlayerDataBase.xml"));
+        
+        tranny.transform(source, streamResult);
+        
+        
+        
+        
+        
+        
     }
     
     
