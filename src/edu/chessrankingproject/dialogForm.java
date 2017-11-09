@@ -27,12 +27,13 @@ public class dialogForm extends javax.swing.JPanel {
         initComponents();
     }
     
-    public dialogForm(Player p1, Player p2) {
+    public dialogForm(Player p1, PlayerHistory pHist) {
         initComponents();
         
         this.newP1 = p1;
-        this.newP2 = p2;
+        this.newP2 = pHist.Opponent;
         
+         calcAndDisplayPlayerInfo(pHist.Player.getGamesWon(),pHist.Player.getGamesLost(),pHist.Player.getGamesDrawn());
         
     }
 

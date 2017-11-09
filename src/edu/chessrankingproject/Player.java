@@ -179,17 +179,17 @@ private ArrayList<PlayerHistory> gameHistory = new ArrayList<>();
     
     
 
-    void updateStats( Player SelectedOppnt, int selectedPlwins, int selectedPlLosses, int Draws) {
-        this.gamesWon += selectedPlwins;
-        this.gamesLost += selectedPlLosses;
-        this.gamesDrawn += Draws;
-        this.gamesPlayed += selectedPlwins + selectedPlLosses + Draws;
+    void updateStats( PlayerHistory phist, Player Opponent) {
+        this.gamesWon += phist.Player.getGamesWon();
+        this.gamesLost += phist.Player.getGamesLost();
+        this.gamesDrawn += phist.Player.getGamesDrawn();
+        this.gamesPlayed += phist.Player.getGamesDrawn() + phist.Player.getGamesLost() + phist.Player.getGamesWon();;
         
         
-        SelectedOppnt.gamesWon += selectedPlLosses;
-        SelectedOppnt.gamesLost +=  selectedPlwins;
-        SelectedOppnt.gamesDrawn += Draws;
-        SelectedOppnt.gamesPlayed += selectedPlwins + selectedPlLosses + Draws;
+        Opponent.gamesWon += phist.Player.getGamesLost();
+        Opponent.gamesLost +=  phist.Player.getGamesWon();
+        Opponent.gamesDrawn += phist.Player.getGamesDrawn();
+        Opponent.gamesPlayed += phist.Player.getGamesDrawn() + phist.Player.getGamesLost() + phist.Player.getGamesWon();
     }
 
     Player getCopy() {
