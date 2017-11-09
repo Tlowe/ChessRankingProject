@@ -32,9 +32,11 @@ public class GameResultsFrame extends javax.swing.JFrame {
     DefaultListModel<Player> OpponentListModel = new DefaultListModel<>();
     Player SelectedPlayer = new Player();
     Player SelectedOppnt = new Player();
+    int Kvalue = 0;
     
     private ArrayList<PlayerEventListener> listenerList = new ArrayList<>();
-    private boolean GoodResults;
+    //private ArrayList<PlayerHistory> gameResultList = new ArrayList<>();
+    private DefaultListModel gameresultsListModel = new DefaultListModel();
     
     
     public synchronized void addListener (PlayerEventListener listener){ // add functions that will listen for the changes on this frame
@@ -47,6 +49,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
     public GameResultsFrame() {
         initComponents();
     }
+   
 
     public GameResultsFrame(PlayerArrayList plist) {
         initComponents();
@@ -64,19 +67,21 @@ public class GameResultsFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        GameResultButtonGroup = new javax.swing.ButtonGroup();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         CancelButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        winsTextField = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        LossTextField = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        DrawsTextField = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
         UpdateResultsButton = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        gameResultsList = new javax.swing.JList<PlayerHistory>();
+        jButton1 = new javax.swing.JButton();
+        WinRadioButton = new javax.swing.JRadioButton();
+        LossRadioButton = new javax.swing.JRadioButton();
+        DrawRadioButton = new javax.swing.JRadioButton();
+        jButton3 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         ChooseOpponentLastTextField = new javax.swing.JTextField();
         OpponentSearchButton = new javax.swing.JButton();
@@ -116,20 +121,6 @@ public class GameResultsFrame extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel3.setPreferredSize(new java.awt.Dimension(280, 300));
 
-        winsTextField.setText(" ");
-        winsTextField.setPreferredSize(new java.awt.Dimension(10, 20));
-
-        jLabel1.setText("Win(s)");
-
-        LossTextField.setText(" ");
-        LossTextField.setPreferredSize(new java.awt.Dimension(10, 20));
-
-        jLabel5.setText("Loss(es)");
-
-        DrawsTextField.setText(" ");
-
-        jLabel6.setText("Draw(s)");
-
         UpdateResultsButton.setText("Update");
         UpdateResultsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,45 +128,78 @@ public class GameResultsFrame extends javax.swing.JFrame {
             }
         });
 
+        gameResultsList.setModel(gameresultsListModel
+        );
+        jScrollPane3.setViewportView(gameResultsList);
+
+        jButton1.setText("add ->");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        GameResultButtonGroup.add(WinRadioButton);
+        WinRadioButton.setText("Win");
+        WinRadioButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                WinRadioButtonMouseClicked(evt);
+            }
+        });
+
+        GameResultButtonGroup.add(LossRadioButton);
+        LossRadioButton.setText("Loss");
+
+        GameResultButtonGroup.add(DrawRadioButton);
+        DrawRadioButton.setText("Draw");
+
+        jButton3.setText("remove");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(winsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(LossTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(34, 34, 34)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(DrawsTextField))
-                .addContainerGap(28, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(UpdateResultsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(80, 80, 80))
+                    .addComponent(WinRadioButton)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LossRadioButton)
+                            .addComponent(DrawRadioButton))
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(UpdateResultsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+                        .addGap(22, 22, 22))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(winsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LossTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(DrawsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(WinRadioButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(LossRadioButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(DrawRadioButton)
+                            .addComponent(jButton3))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3))
+                .addGap(52, 52, 52)
                 .addComponent(UpdateResultsButton)
-                .addContainerGap(185, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -295,11 +319,11 @@ public class GameResultsFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(127, 127, 127)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(275, 275, 275)
                 .addComponent(jLabel3)
-                .addGap(205, 205, 205)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
-                .addGap(127, 127, 127))
+                .addGap(251, 251, 251))
             .addGroup(layout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,37 +335,36 @@ public class GameResultsFrame extends javax.swing.JFrame {
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(56, 56, 56)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(35, 35, 35)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(40, 40, 40)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 7, Short.MAX_VALUE)))
+                        .addGap(35, 35, 35)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 611, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(578, 578, 578))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(11, 11, 11)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(CancelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -371,65 +394,42 @@ public class GameResultsFrame extends javax.swing.JFrame {
 
     private void UpdateResultsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateResultsButtonActionPerformed
         
-        int wins = 0;
-        int losses = 0;
-        int draws = 0;
-        try {
-            try {
-                 wins = Integer.parseInt(winsTextField.getText().trim());
-            } catch (Exception e) {
-                DebugResultsTextArea.append("invalid entry changing wins to 0\n\n");
-                wins = 0;
-            }
-            
-            try {
-                 losses = Integer.parseInt(LossTextField.getText().trim());
-            } catch (Exception e) {
-                DebugResultsTextArea.append("invalid entry changing losses to 0\n\n");
-                losses = 0;
-            }
-            
-            try {
-                 draws = Integer.parseInt(DrawsTextField.getText().trim());
-            } catch (Exception e) {
-                DebugResultsTextArea.append("invalid entry changing losses to 0\n\n");
-                draws = 0;
-            }
-            
-            
-            
-            javax.swing.JPanel pan = new dialogForm(OldPlayerList,SelectedPlayer,SelectedOppnt, wins,losses,draws);
-            
-            
-          
-            int result = JOptionPane.showConfirmDialog(null,pan, "Confirmation Window",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE);
-            if (result == JOptionPane.YES_OPTION) {
-    
-            
-                SelectedPlayer.updateStats(SelectedOppnt, wins, losses,draws);
         
-                fireEvent(new UpdateDatabaseEvent(PlayerList));
-                fireEvent(new PlayerTextEvent(" Player " + SelectedPlayer.getCombinedName() + " and Player " + SelectedOppnt.getCombinedName()+ " have updated stats"));
-                
-            
-            } else {
-                DebugResultsTextArea.append("User canceled. No player stats were updated.\n\n");
-            }
-              
-              
-            
-             
-             
-        } catch (NullPointerException e) {
+        
+        
+        
+        
+        // for each player history in list. calculate a new ELo ranking in a loop. push that old history to the player's local record(maybe last 50 games??
+        
+        for(int i = 0; i < gameresultsListModel.getSize(); i++){
+        
+        
+         PlayerHistory p = new PlayerHistory();
          
-        }catch(NumberFormatException e){
+         p = (PlayerHistory) gameresultsListModel.get(i);
         
-        DebugResultsTextArea.setText("Invalid entry :\n\n only Integers are allowed for Win/Lose/Draw entries");
-        }catch(Exception e){
-        
-            DebugResultsTextArea.setText("Something Bad Happened. Try Again");
+         int k = 0;
         }
         
+        
+        
+        
+        
+
+              
+            
+             
+//             
+//        } catch (NullPointerException e) {
+//         
+//        }catch(NumberFormatException e){
+//        
+//        DebugResultsTextArea.setText("Invalid entry :\n\n only Integers are allowed for Win/Lose/Draw entries");
+//        }catch(Exception e){
+//        
+//            DebugResultsTextArea.setText("Something Bad Happened. Try Again");
+//        }
+//        
         
         
        
@@ -477,6 +477,16 @@ public class GameResultsFrame extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_CancelButtonActionPerformed
 
+    private void WinRadioButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_WinRadioButtonMouseClicked
+        
+    }//GEN-LAST:event_WinRadioButtonMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       PlayerHistory plHist = new PlayerHistory(GameResultButtonGroup.getSelection().getActionCommand(),SelectedPlayer,SelectedOppnt);
+        gameresultsListModel.addElement(plHist);
+        gameResultsList.setModel(gameresultsListModel);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -520,26 +530,28 @@ public class GameResultsFrame extends javax.swing.JFrame {
     private javax.swing.JList<Player> ChosenOpponentList;
     private javax.swing.JList<Player> ChosenPlayerList;
     private javax.swing.JTextArea DebugResultsTextArea;
-    private javax.swing.JTextField DrawsTextField;
-    private javax.swing.JTextField LossTextField;
+    private javax.swing.JRadioButton DrawRadioButton;
+    private javax.swing.ButtonGroup GameResultButtonGroup;
+    private javax.swing.JRadioButton LossRadioButton;
     private javax.swing.JButton OpponentSearchButton;
     private javax.swing.JButton PlayerSearchButton;
     private javax.swing.JButton UpdateResultsButton;
+    private javax.swing.JRadioButton WinRadioButton;
+    private javax.swing.JList<PlayerHistory> gameResultsList;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextField winsTextField;
     // End of variables declaration//GEN-END:variables
 
     private void intialSetup() {
@@ -551,6 +563,15 @@ public class GameResultsFrame extends javax.swing.JFrame {
         }
         ChosenPlayerList.setModel(PlayerListModel);
         UpdateResultsButton.setEnabled(false);
+        
+        gameResultsList.setModel(new DefaultListModel());
+        
+        WinRadioButton.setActionCommand("1");
+        LossRadioButton.setActionCommand("2");
+        DrawRadioButton.setActionCommand("3");
+        
+        
+        
     }
     
     
