@@ -459,6 +459,25 @@ public class GameResultsFrame extends javax.swing.JFrame {
                  playerMore.setCurrentRating(playerMore.getCurrentRating() - kDiv); 
          
          }
+         
+         
+          javax.swing.JPanel pan = new dialogForm(PlayerList,playerLess,playerMore, p.Player.getGamesWon(), p.Player.getGamesLost(), p.Player.getGamesDrawn());
+            
+            
+          
+            int result = JOptionPane.showConfirmDialog(null,pan, "Are You OK with these Results ??",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
+            if (result == JOptionPane.YES_OPTION) {
+    
+            
+             //   SelectedPlayer.updateStats(SelectedPlayer,SelectedOppnt, wins, losses,draws);
+        
+                fireEvent(new UpdateDatabaseEvent(PlayerList));
+                fireEvent(new edu.chessrankingproject.PlayerTextEvent(" Player " + SelectedPlayer.getCombinedName() + " and Player " + SelectedOppnt.getCombinedName()+ " have updated stats"));
+                
+            
+            } else {
+                DebugResultsTextArea.append("User canceled / closed the dialog, result = " + result + "\n\n");
+            }
     }
     
         
