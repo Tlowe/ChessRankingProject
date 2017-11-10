@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.List;
 import java.io.File;
 import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,7 +19,8 @@ public class PlayerFrame extends javax.swing.JFrame {
 
     private PlayerArrayList PlayerList = new PlayerArrayList();
     private ArrayList<PlayerEventListener> listenerList = new ArrayList<>();
-    
+    DefaultListModel<Player> PlayerListModel = new DefaultListModel<>();
+    Player selectedRemovePlayer;
     
     /**
      * Creates new form PlayerFrame
@@ -36,6 +39,20 @@ public class PlayerFrame extends javax.swing.JFrame {
     
         initComponents();
         PlayerList = Plist;
+        
+          for (Player p : PlayerList){
+            
+            PlayerListModel.addElement(p);
+        }
+        RemovePlayerList.setModel(PlayerListModel);
+        
+        RemovePlayerButton.setEnabled(false);
+        
+        
+        
+        
+        
+        
     }
     
     public synchronized void addListener (PlayerEventListener listener){ // add functions that will listen for the changes on this frame
@@ -75,24 +92,71 @@ public class PlayerFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel5 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        RemovePlayerButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        RemovePlayerList = new javax.swing.JList<>();
+        RemoveListLabel = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        RatingTextField = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        IDTextField = new javax.swing.JTextField();
         FirstNameTextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         LastNameTextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        GamesPlayedTextField = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        GamesWonTextField = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        RemovePlayerButton = new javax.swing.JButton();
-        GamesLostTextField = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
+        AddPlayerButton = new javax.swing.JButton();
+        okButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabel5.setText("Player Frame");
+
+        jButton1.setText("Cancel");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelButton(evt);
+            }
+        });
+
+        RemovePlayerButton.setText("Remove Player");
+        RemovePlayerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemovePlayerButtonActionPerformed(evt);
+            }
+        });
+
+        RemovePlayerList.setModel(PlayerListModel);
+        RemovePlayerList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                RemovePlayerListValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(RemovePlayerList);
+
+        RemoveListLabel.setText("Players in DataBase");
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        RatingTextField.setText("Enter Elo Rating");
+        RatingTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                RatingTextFieldMouseClicked(evt);
+            }
+        });
+
+        jLabel4.setText("I.D.");
+
         jLabel1.setText("First Name");
+
+        IDTextField.setText("Enter Player I.D.");
+        IDTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                IDTextFieldMouseClicked(evt);
+            }
+        });
 
         FirstNameTextField.setText("Enter First Name");
         FirstNameTextField.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -115,189 +179,141 @@ public class PlayerFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Games Played");
+        jLabel3.setText("ELO Rating");
 
-        GamesPlayedTextField.setText("Enter Games Played");
-        GamesPlayedTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+        AddPlayerButton.setText("Add Player");
+        AddPlayerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddPlayerButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(191, Short.MAX_VALUE)
+                .addComponent(AddPlayerButton)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(FirstNameTextField)
+                                .addComponent(LastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(9, 9, 9)
+                            .addComponent(IDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(RatingTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addContainerGap(43, Short.MAX_VALUE)))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(209, Short.MAX_VALUE)
+                .addComponent(AddPlayerButton)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(40, 40, 40)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(FirstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(LastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(IDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel3)
+                        .addComponent(RatingTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(98, Short.MAX_VALUE)))
+        );
+
+        okButton.setText("OK");
+        okButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                GamesPlayedTextFieldMouseClicked(evt);
+                okButtonMouseClicked(evt);
             }
         });
-        GamesPlayedTextField.addActionListener(new java.awt.event.ActionListener() {
+        okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GamesPlayedTextBox(evt);
+                okButtonActionPerformed(evt);
             }
         });
-
-        jLabel4.setText("Games Won");
-
-        GamesWonTextField.setText("Enter Games Won");
-        GamesWonTextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                GamesWonTextFieldMouseClicked(evt);
-            }
-        });
-        GamesWonTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GamesWonTextBox(evt);
-            }
-        });
-
-        jLabel5.setText("Player Frame");
-
-        jButton1.setText("Cancel");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CancelButton(evt);
-            }
-        });
-
-        jButton2.setText("Add Player");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddPlayerButton(evt);
-            }
-        });
-
-        RemovePlayerButton.setText("Remove Player");
-        RemovePlayerButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RemovePlayerButtonActionPerformed(evt);
-            }
-        });
-
-        GamesLostTextField.setText("Enter Games Lost");
-        GamesLostTextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                GamesLostTextFieldMouseClicked(evt);
-            }
-        });
-        GamesLostTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GamesLostTextBox(evt);
-            }
-        });
-
-        jLabel6.setText("Games Lost");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(okButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(23, 23, 23))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(GamesPlayedTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                                    .addComponent(GamesWonTextField, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(GamesLostTextField, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(133, 133, 133)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(LastNameTextField)
-                                    .addComponent(FirstNameTextField)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel5))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(54, 54, 54)
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(RemovePlayerButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1)))
-                        .addGap(0, 39, Short.MAX_VALUE)))
-                .addGap(37, 37, 37))
+                        .addGap(10, 10, 10)
+                        .addComponent(RemovePlayerButton))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(41, 41, 41))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(RemoveListLabel)
+                            .addGap(61, 61, 61)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(FirstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(LastNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(GamesPlayedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(GamesWonTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(RemoveListLabel, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(GamesLostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(RemovePlayerButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(RemovePlayerButton))
+                    .addComponent(okButton))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void GamesLostTextBox(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GamesLostTextBox
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_GamesLostTextBox
+   
 
     private void CancelButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButton
 
         this.dispose();    
     }//GEN-LAST:event_CancelButton
-
-    private void AddPlayerButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddPlayerButton
-        // Create a new Player from Class "Player"
-        // get data from all text fields and populate player class
-        // add this new instance of player to the player list.
-        // Call fireEvent(New(UpdateDatabaseEvent)
-       
-        
-        Player NPlayer = new Player();
-      
-        x = 1; 
-        
-        String firstname = FirstNameTextField.getText();
-        String lastname = LastNameTextField.getText();
-//        int gameswon = Integer.parseInt(GamesWonTextField.getText());
-//        int gameslost = Integer.parseInt(GamesLostTextField.getText());
-//        int gamesplayed = Integer.parseInt(GamesPlayedTextField.getText());
-        
-   
-        NPlayer.setFirstName(firstname);
-        NPlayer.setLastName(lastname);
-//        NPlayer.setGamesWon(gameswon);
-//        NPlayer.setGamesLost(gameslost);
-//        NPlayer.setGamesPlayed(gamesplayed);
-        
-       PlayerList.add(NPlayer);
-        
-        fireEvent(new UpdateDatabaseEvent(PlayerList));
-        
-        
-    }//GEN-LAST:event_AddPlayerButton
 
     private void FirstNameTextBox(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FirstNameTextBox
         // TODO add your handling code here:
@@ -319,21 +335,66 @@ public class PlayerFrame extends javax.swing.JFrame {
         LastNameTextField.setText("");        // TODO add your handling code here:
     }//GEN-LAST:event_LastNameTextFieldMouseClicked
 
-    private void GamesPlayedTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GamesPlayedTextFieldMouseClicked
-        GamesPlayedTextField.setText("");        // TODO add your handling code here:
-    }//GEN-LAST:event_GamesPlayedTextFieldMouseClicked
-
-    private void GamesWonTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GamesWonTextFieldMouseClicked
-        GamesWonTextField.setText("");        // TODO add your handling code here:
-    }//GEN-LAST:event_GamesWonTextFieldMouseClicked
-
-    private void GamesLostTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GamesLostTextFieldMouseClicked
-        GamesLostTextField.setText(""); // TODO add your handling code here:
-    }//GEN-LAST:event_GamesLostTextFieldMouseClicked
-
+    
     private void RemovePlayerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemovePlayerButtonActionPerformed
-        // TODO add your handling code here:
+        PlayerList.remove(selectedRemovePlayer);
     }//GEN-LAST:event_RemovePlayerButtonActionPerformed
+
+    private void RatingTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RatingTextFieldMouseClicked
+        RatingTextField.setText("");
+    }//GEN-LAST:event_RatingTextFieldMouseClicked
+
+    private void AddPlayerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddPlayerButtonActionPerformed
+        Player NPlayer = new Player();
+      
+        x = 1; 
+        
+        String firstname = FirstNameTextField.getText();
+        String lastname = LastNameTextField.getText();
+        int id = Integer.parseInt(IDTextField.getText());
+        float rating = Float.parseFloat(RatingTextField.getText());
+        
+//      int gameswon = Integer.parseInt(GamesWonTextField.getText());
+//        int gameslost = Integer.parseInt(GamesLostTextField.getText());
+//        int gamesplayed = Integer.parseInt(GamesPlayedTextField.getText());
+        
+   
+        NPlayer.setFirstName(firstname);
+        NPlayer.setLastName(lastname);
+        NPlayer.setId(id);
+        NPlayer.setCurrentRating(rating);
+//        NPlayer.setGamesWon(gameswon);
+//        NPlayer.setGamesLost(gameslost);
+//        NPlayer.setGamesPlayed(gamesplayed);
+        
+       PlayerList.add(NPlayer);
+        
+       PlayerListModel.addElement(NPlayer);
+       
+        
+    }//GEN-LAST:event_AddPlayerButtonActionPerformed
+
+    private void IDTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IDTextFieldMouseClicked
+        IDTextField.setText("");
+    }//GEN-LAST:event_IDTextFieldMouseClicked
+
+    private void okButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_okButtonMouseClicked
+        int result = JOptionPane.showConfirmDialog(rootPane, "Are You sure about your options ??");
+        if (result == JOptionPane.YES_OPTION){
+        
+            fireEvent(new UpdateDatabaseEvent(PlayerList));
+            this.dispose();
+        }
+    }//GEN-LAST:event_okButtonMouseClicked
+
+    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_okButtonActionPerformed
+
+    private void RemovePlayerListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_RemovePlayerListValueChanged
+       RemovePlayerButton.setEnabled(true);
+        selectedRemovePlayer = RemovePlayerList.getSelectedValue();
+    }//GEN-LAST:event_RemovePlayerListValueChanged
 
     /**
      * @param args the command line arguments
@@ -371,19 +432,22 @@ public class PlayerFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddPlayerButton;
     private javax.swing.JTextField FirstNameTextField;
-    private javax.swing.JTextField GamesLostTextField;
-    private javax.swing.JTextField GamesPlayedTextField;
-    private javax.swing.JTextField GamesWonTextField;
+    private javax.swing.JTextField IDTextField;
     private javax.swing.JTextField LastNameTextField;
+    private javax.swing.JTextField RatingTextField;
+    private javax.swing.JLabel RemoveListLabel;
     private javax.swing.JButton RemovePlayerButton;
+    private javax.swing.JList<Player> RemovePlayerList;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -675,7 +675,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
         ChosenPlayerList.setModel(PlayerListModel);
         UpdateResultsButton.setEnabled(false);
         
-        gameResultsList.setModel(new DefaultListModel());
+      //  gameResultsList.setModel(new DefaultListModel());
         
         WinRadioButton.setActionCommand("1");
         LossRadioButton.setActionCommand("2");

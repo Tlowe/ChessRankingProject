@@ -58,12 +58,11 @@ public class MainFrame extends javax.swing.JFrame {
         playerInfoTable = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         DebugTxtArea = new javax.swing.JTextArea();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        AddNewPlayerButton.setText("Add Player");
+        AddNewPlayerButton.setText("Add / Remove Player");
         AddNewPlayerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddNewPlayerButtonActionPerformed(evt);
@@ -94,7 +93,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        DataBaseSearchTextField.setText("Player Name . . .");
+        DataBaseSearchTextField.setText(". . .");
         DataBaseSearchTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 DataBaseSearchTextFieldMouseClicked(evt);
@@ -124,14 +123,16 @@ public class MainFrame extends javax.swing.JFrame {
         DebugTxtArea.setRows(5);
         jScrollPane2.setViewportView(DebugTxtArea);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel2.setText("Search By:");
+        jLabel2.setText("Search by Player Last Name:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 26, Short.MAX_VALUE)
+                .addComponent(PlayerTableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1073, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -147,21 +148,15 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(353, 353, 353)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(167, 167, 167)
+                        .addGap(268, 268, 268)
                         .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(DataBaseSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(386, 386, 386)
                                 .addComponent(SearchDataBaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(153, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(PlayerTableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1073, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,7 +167,6 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SearchDataBaseButton)
                     .addComponent(DataBaseSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(PlayerTableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -212,7 +206,30 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_AddNewPlayerButtonActionPerformed
 
     private void SearchDataBaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchDataBaseButtonActionPerformed
-        // TODO add your handling code here:
+       
+        
+        String LastName = "";
+        try {
+             
+             LastName = DataBaseSearchTextField.getText().trim();
+             
+        } catch (Exception e) {
+            DebugTxtArea.setText("Invalid Database Search Enter. Input a single text string.");
+        }
+        
+        for(int j = 0; j < PlayerTableModel.getRowCount(); j++){//For each column in that row
+            String nameOnTable = (String)PlayerTableModel.getValueAt(j, 0);
+            if(nameOnTable.equalsIgnoreCase(LastName)){//Search the model
+                System.out.println(PlayerTableModel.getValueAt(j, 0));
+                playerInfoTable.clearSelection();
+                playerInfoTable.setRowSelectionInterval(j, j);
+                break;
+            }
+            else{
+            
+            DebugTxtArea.setText("Unable to Find any Players with the last name " + LastName + ".");
+            }
+        }
     }//GEN-LAST:event_SearchDataBaseButtonActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -276,7 +293,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane PlayerTableScrollPane;
     private javax.swing.JButton SearchDataBaseButton;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
