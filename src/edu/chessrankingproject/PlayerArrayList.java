@@ -6,6 +6,7 @@
 package edu.chessrankingproject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -26,5 +27,21 @@ public class PlayerArrayList extends ArrayList<Player>{
         
         return copy;
     }
+    
+    public Player getPlayerByID(int id){
+    
+        for(Player p : this){
+        
+            if ( p.getId() == id)
+                
+                return p;
+        
+        }
+        
+            return null;
+               
+                
+    }
+    
     
 }

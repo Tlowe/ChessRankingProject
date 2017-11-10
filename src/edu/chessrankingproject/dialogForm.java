@@ -33,16 +33,16 @@ public class dialogForm extends javax.swing.JPanel {
         this.newP1 = p1;
         this.newP2 = pHist.Opponent;
         
-         calcAndDisplayPlayerInfo(pHist.Player.getGamesWon(),pHist.Player.getGamesLost(),pHist.Player.getGamesDrawn());
+        // calcAndDisplayPlayerInfo(pHist.Player.getGamesWon(),pHist.Player.getGamesLost(),pHist.Player.getGamesDrawn(), newP2);
         
     }
 
-    dialogForm(PlayerArrayList OldPlayerList, Player SelectedPlayer, Player SelectedOppnt, int wins, int losses, int draws) {
+    dialogForm(PlayerArrayList PlayerList, PlayerArrayList InterimPlayerList, Player SelectedPlayer, Player SelectedOppnt) {
         initComponents();
-        this.newP1 = SelectedPlayer;
-        this.newP2 = SelectedOppnt;
+        this.newP1 = InterimPlayerList.getPlayerByID(SelectedPlayer.getId()).getCopy();
+        this.newP2 = InterimPlayerList.getPlayerByID(SelectedOppnt.getId()).getCopy();
         
-        for(Player p: OldPlayerList){
+        for(Player p: PlayerList){
         
             if(p.getId() == newP1.getId()){ // if id of modified player is found in the list. . .
             
@@ -57,11 +57,13 @@ public class dialogForm extends javax.swing.JPanel {
         
         }
         
-        calcAndDisplayPlayerInfo(wins,losses,draws);
+        calcAndDisplayPlayerInfo(Oldp1,newP1,Oldp2,newP2);
         
         
     }
 
+    
+      
     
        
 
@@ -436,7 +438,7 @@ public class dialogForm extends javax.swing.JPanel {
     private javax.swing.JTextField p2deltalossTextField;
     // End of variables declaration//GEN-END:variables
 
-    private void calcAndDisplayPlayerInfo(int wins, int losses, int draws) {
+    private void calcAndDisplayPlayerInfo(Player oldp1, Player newp1, Player oldp2, Player newp2) {
         
         // Set names
         Player1NameTextField.setEditable(false);
@@ -462,10 +464,10 @@ public class dialogForm extends javax.swing.JPanel {
         p1DeltaWinsTextField.setForeground(Color.GREEN);
         p2DeltaWinsTextField.setForeground(Color.GREEN);
         p2deltalossTextField.setForeground(Color.red);
-        if(wins > 0){
+        if(newp1.getGamesWon() > oldp1.getGamesWon() ){
             
-            p1DeltaWinsTextField.setText("+ " + Integer.toString(wins ) );
-            p2deltalossTextField.setText("+ " + Integer.toString(wins));
+            p1DeltaWinsTextField.setText("+ " + Integer.toString(Math.abs(newp1.getGamesWon() - oldp1.getGamesWon()) ) );
+            p2deltalossTextField.setText("+ " + Integer.toString(Math.abs(newp2.getGamesLost()- oldp2.getGamesLost()) ) );
         }
         
         // set losses
@@ -476,10 +478,10 @@ public class dialogForm extends javax.swing.JPanel {
         p1OldlossesTextField.setText(Integer.toString(Oldp1.getGamesLost()));
         p2OldlossesTextField.setText(Integer.toString(Oldp2.getGamesLost()));
         p1deltalossTextField.setForeground(Color.red);
-        if(losses > 0){
+        if(newp1.getGamesLost() > oldp1.getGamesLost()){
         
-            p1deltalossTextField.setText("+ " + Integer.toString(losses ) );
-            p2DeltaWinsTextField.setText("+ " + Integer.toString(losses ) );
+            p1deltalossTextField.setText("+ " + Integer.toString(Math.abs(newp1.getGamesLost()- oldp1.getGamesLost())  ) );
+            p2DeltaWinsTextField.setText("+ " + Integer.toString(Math.abs(newp2.getGamesWon()- oldp2.getGamesWon())  ) );
         }
         
         
@@ -489,12 +491,12 @@ public class dialogForm extends javax.swing.JPanel {
         p2OldDrawsTextField.setEditable(false);
         p2DeltaDrawsTextField.setEditable(false);
         
-        p1OldDrawsTextField.setText(Integer.toString(Oldp1.getGamesDrawn()));
-        p2OldDrawsTextField.setText(Integer.toString(Oldp2.getGamesDrawn()));
-        if(draws > 0 ){
+        p1OldDrawsTextField.setText(Integer.toString(oldp1.getGamesDrawn()  ));
+        p2OldDrawsTextField.setText(Integer.toString(oldp2.getGamesDrawn()   ));
+        if(newp1.getGamesDrawn() > oldp1.getGamesDrawn()){
         
-            p1DeltaDrawsTextField.setText("+ " + Integer.toString(draws));
-            p2DeltaDrawsTextField.setText("+ " + Integer.toString(draws));
+            p1DeltaDrawsTextField.setText("+ " + Integer.toString(Math.abs(newp1.getGamesDrawn()- oldp1.getGamesDrawn())  ));
+            p2DeltaDrawsTextField.setText("+ " + Integer.toString(Math.abs(newp2.getGamesDrawn()- oldp2.getGamesDrawn())  ));
         }
         
         // Set Games Played
@@ -506,14 +508,42 @@ public class dialogForm extends javax.swing.JPanel {
         p1OldGamesPlayedTextField.setText(Integer.toString(Oldp1.getGamesPlayed()));
         p2OldGamesPlayedTextField.setText(Integer.toString(Oldp2.getGamesPlayed()));
         
-        p1deltaGamesPlayedTextfield.setText("+ " + Integer.toString(wins + losses + draws));
-        p2deltaGamesPlayedTextfield.setText("+ " + Integer.toString(wins + losses + draws));
+        p1deltaGamesPlayedTextfield.setText("+ " + Integer.toString(Math.abs(newp1.getGamesPlayed()- oldp1.getGamesPlayed())));
+        p2deltaGamesPlayedTextfield.setText("+ " + Integer.toString(Math.abs(newp1.getGamesPlayed()- oldp1.getGamesPlayed())));
         
         
         //Set Scores
         p1OldRatingTextBox.setEditable(false);
+        p1deltaRatingTextfield1.setEditable(false);
         p2OldRatingTextBox.setEditable(false);
+        p2DeltaRatingTextfield.setEditable(false);
+        
+        
+        
         p1OldRatingTextBox.setText(Float.toString(Oldp1.getCurrentRating()));
         p2OldRatingTextBox.setText(Float.toString(Oldp2.getCurrentRating()));
+        
+        
+        float p1deltaRating = Math.abs(newP1.getCurrentRating() - oldp1.getCurrentRating());
+        
+        if(newP1.getCurrentRating() > oldp1.getCurrentRating()){
+        
+            p1deltaRatingTextfield1.setForeground(Color.green);
+            p1deltaRatingTextfield1.setText("+ " + p1deltaRating);
+        }else{
+            p1deltaRatingTextfield1.setForeground(Color.red);
+            p1deltaRatingTextfield1.setText("- " + p1deltaRating);
+        }
+        
+        float p2deltaRating = Math.abs(newP2.getCurrentRating() - oldp2.getCurrentRating());
+        
+        if(newP2.getCurrentRating() > oldp2.getCurrentRating()){
+        
+            p2DeltaRatingTextfield.setForeground(Color.green);
+            p2DeltaRatingTextfield.setText("+ " + p1deltaRating);
+        }else{
+            p2DeltaRatingTextfield.setForeground(Color.red);
+            p2DeltaRatingTextfield.setText("- " + p2deltaRating);
+        }
     }
 }

@@ -107,7 +107,11 @@ private ArrayList<PlayerHistory> gameHistory = new ArrayList<>();
     public void setGamesWon(int gamesWon) {
         this.gamesWon = gamesWon;
     }
-
+    
+    public void addGamesWon(int numAddWins) {
+        this.gamesWon += numAddWins;
+    }
+    
     public int getGamesLost() {
         return gamesLost;
     }
@@ -212,6 +216,32 @@ private ArrayList<PlayerHistory> gameHistory = new ArrayList<>();
     String getCombNameFL() {
         return firstName + " " + lastName;
     }
+
+    void addGamesLost(int i) {
+        this.gamesLost += i;
+    }
+
+    void addGamesDrawn(int i) {
+        this.gamesDrawn += i;
+    }
+
+    void copyAndTransormTO(Player newPlayer) {
+        
+                
+      this.firstName      = newPlayer.firstName  ;
+       this.lastName      = newPlayer.lastName  ;
+       this.id            = newPlayer.id ;
+       this.gamesPlayed   = newPlayer.gamesPlayed  ;
+       this.gamesWon      = newPlayer.gamesWon ;
+       this.gamesLost     = newPlayer.gamesLost;
+       this.gamesDrawn    = newPlayer.gamesDrawn ;  
+       this.highestRating = newPlayer.highestRating;
+       this.lowestRating  = newPlayer.lowestRating ;
+       this.currentRating = newPlayer.currentRating; 
+       this.DatabaseRank = newPlayer.DatabaseRank;
+        
+    }
+    
     
     
 }

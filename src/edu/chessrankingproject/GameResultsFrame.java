@@ -30,7 +30,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
     public static final int Draw = 3;
     
     private PlayerArrayList PlayerList = new PlayerArrayList();
-    private PlayerArrayList OldPlayerList = new PlayerArrayList();
+    private PlayerArrayList InterimPlayerList = new PlayerArrayList();
     public PlayerArrayList  OpponentList = new PlayerArrayList();
     DefaultListModel<Player> PlayerListModel = new DefaultListModel<>();
     DefaultListModel<Player> OpponentListModel = new DefaultListModel<>();
@@ -58,7 +58,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
     public GameResultsFrame(PlayerArrayList plist) {
         initComponents();
         this.PlayerList =  plist.getPlayerArrayListCopy();
-        this.OldPlayerList =  plist.getPlayerArrayListCopy();
+        this.InterimPlayerList =  plist.getPlayerArrayListCopy(); // interim player list will hold the changed values from the player history objects
         
         intialSetup();
     }
@@ -81,11 +81,11 @@ public class GameResultsFrame extends javax.swing.JFrame {
         UpdateResultsButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         gameResultsList = new javax.swing.JList<PlayerHistory>();
-        jButton1 = new javax.swing.JButton();
+        addResultButton = new javax.swing.JButton();
         WinRadioButton = new javax.swing.JRadioButton();
         LossRadioButton = new javax.swing.JRadioButton();
         DrawRadioButton = new javax.swing.JRadioButton();
-        jButton3 = new javax.swing.JButton();
+        removeResutButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         ChooseOpponentLastTextField = new javax.swing.JTextField();
         OpponentSearchButton = new javax.swing.JButton();
@@ -136,10 +136,10 @@ public class GameResultsFrame extends javax.swing.JFrame {
         );
         jScrollPane3.setViewportView(gameResultsList);
 
-        jButton1.setText("add ->");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        addResultButton.setText("add ->");
+        addResultButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addResultButtonActionPerformed(evt);
             }
         });
 
@@ -157,7 +157,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
         GameResultButtonGroup.add(DrawRadioButton);
         DrawRadioButton.setText("Draw");
 
-        jButton3.setText("remove");
+        removeResutButton.setText("remove");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -173,8 +173,8 @@ public class GameResultsFrame extends javax.swing.JFrame {
                             .addComponent(DrawRadioButton))
                         .addGap(25, 25, 25)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(removeResutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addResultButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -193,12 +193,12 @@ public class GameResultsFrame extends javax.swing.JFrame {
                         .addComponent(WinRadioButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
+                            .addComponent(addResultButton)
                             .addComponent(LossRadioButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(DrawRadioButton)
-                            .addComponent(jButton3))
+                            .addComponent(removeResutButton))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane3))
                 .addGap(52, 52, 52)
@@ -410,19 +410,29 @@ public class GameResultsFrame extends javax.swing.JFrame {
          p = (PlayerHistory) gameresultsListModel.get(i);
         
          
-         Player playerLess, playerMore = new Player();
+         Player player,opponent;
+         
+         player = InterimPlayerList.getPlayerByID(p.Player.getId());
+         opponent = InterimPlayerList.getPlayerByID(p.Opponent.getId());
+         
+         
+         Player playerLess ; 
+         Player playerMore ;
          
          
          //find lower ranked player
          if(p.Player.getCurrentRating() <= p.Opponent.getCurrentRating()){
          
-         playerLess = p.Player;
-         playerMore = p.Opponent;
+           
+             
+             
+         playerLess = player;
+         playerMore = opponent;
          
          }else{
          
-         playerLess = p.Opponent;
-         playerMore = p.Player;
+         playerLess = opponent;
+         playerMore = player;
                 
          }
          
@@ -447,60 +457,67 @@ public class GameResultsFrame extends javax.swing.JFrame {
          switch(p.getResultCode()){
          
              case WON:
+                 playerLess.addGamesWon(1);
                  playerLess.setCurrentRating(playerLess.getCurrentRating() + kFactor);
+                 
+                 
+                 playerMore.addGamesLost(1);
                  playerMore.setCurrentRating(playerMore.getCurrentRating() - kFactor);
                  break;
              case LOSS:
+                 playerLess.addGamesLost(1);
                  playerLess.setCurrentRating(playerLess.getCurrentRating() - ( 32 - kFactor ));
+                 
+                 playerMore.addGamesWon(1);
                  playerMore.setCurrentRating(playerMore.getCurrentRating() + ( 32 - kFactor )); 
+                 break;
              case Draw:
+                 playerLess.addGamesDrawn(1);
+                 playerMore.addGamesDrawn(1);
+                 
                  float kDiv = kFactor/2;
                  playerLess.setCurrentRating(playerLess.getCurrentRating() + kDiv);
                  playerMore.setCurrentRating(playerMore.getCurrentRating() - kDiv); 
-         
+                 break;
          }
          
+            
+            playerLess.setGamesPlayed(playerLess.getGamesPlayed() + 1);
+            playerMore.setGamesPlayed(playerMore.getGamesPlayed() + 1); 
          
-          javax.swing.JPanel pan = new dialogForm(PlayerList,playerLess,playerMore, p.Player.getGamesWon(), p.Player.getGamesLost(), p.Player.getGamesDrawn());
-            
-            
+            float pL_highestRating = ( playerLess.getCurrentRating() < playerLess.getHighestRating())? playerLess.getHighestRating() : playerLess.getCurrentRating();
+            playerLess.setHighestRating(pL_highestRating);
+                 
+            float pL_lowestRating = ( playerLess.getCurrentRating() > playerLess.getLowestRating())? playerLess.getLowestRating(): playerLess.getCurrentRating();
+            playerLess.setLowestRating(pL_lowestRating);
+         
+            updatePlayerStats(InterimPlayerList.getPlayerByID(playerLess.getId()),playerLess, InterimPlayerList.getPlayerByID(playerMore.getId()),playerMore);
+        }
+         
           
-            int result = JOptionPane.showConfirmDialog(null,pan, "Are You OK with these Results ??",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
+            
+            
+            javax.swing.JPanel pan = new dialogForm(PlayerList, InterimPlayerList,SelectedPlayer,SelectedOppnt);
+            int result = JOptionPane.showConfirmDialog(null,pan, "Results",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE);
             if (result == JOptionPane.YES_OPTION) {
     
             
-             //   SelectedPlayer.updateStats(SelectedPlayer,SelectedOppnt, wins, losses,draws);
+            
         
-                fireEvent(new UpdateDatabaseEvent(PlayerList));
+                fireEvent(new UpdateDatabaseEvent(InterimPlayerList));
                 fireEvent(new edu.chessrankingproject.PlayerTextEvent(" Player " + SelectedPlayer.getCombinedName() + " and Player " + SelectedOppnt.getCombinedName()+ " have updated stats"));
                 
+                gameresultsListModel.clear();
+                
+                DebugResultsTextArea.setText("Players " + SelectedPlayer.getCombNameFL() + " and " + SelectedOppnt.getCombNameFL() + " have updated stats!!");
             
             } else {
-                DebugResultsTextArea.append("User canceled / closed the dialog, result = " + result + "\n\n");
+                DebugResultsTextArea.append("User canceled. NO player stats were updated.\n\n");
+                InterimPlayerList = PlayerList.getPlayerArrayListCopy();
             }
-    }
-    
-        
-        
-        
-        
-
-              
             
-             
-//             
-//        } catch (NullPointerException e) {
-//         
-//        }catch(NumberFormatException e){
-//        
-//        DebugResultsTextArea.setText("Invalid entry :\n\n only Integers are allowed for Win/Lose/Draw entries");
-//        }catch(Exception e){
-//        
-//            DebugResultsTextArea.setText("Something Bad Happened. Try Again");
-//        }
-//        
-        
-        
+            
+      
        
     }//GEN-LAST:event_UpdateResultsButtonActionPerformed
 
@@ -529,12 +546,14 @@ public class GameResultsFrame extends javax.swing.JFrame {
         }
         ChosenOpponentList.setModel(OpponentListModel);
         
+        gameresultsListModel.clear();
         
     }//GEN-LAST:event_ChosenPlayerListValueChanged
 
     private void ChosenOpponentListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ChosenOpponentListValueChanged
         SelectedOppnt = ChosenOpponentList.getSelectedValue();
         UpdateResultsButton.setEnabled(true);
+        gameresultsListModel.clear();
     }//GEN-LAST:event_ChosenOpponentListValueChanged
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -550,11 +569,30 @@ public class GameResultsFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_WinRadioButtonMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       PlayerHistory plHist = new PlayerHistory(GameResultButtonGroup.getSelection().getActionCommand(),SelectedPlayer,SelectedOppnt);
-        gameresultsListModel.addElement(plHist);
-        gameResultsList.setModel(gameresultsListModel);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void addResultButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addResultButtonActionPerformed
+       
+        if(ChosenPlayerList.isSelectionEmpty()  ){
+        
+            DebugResultsTextArea.append("Please select a Player from the Player list\n\n");
+        }
+        if(ChosenOpponentList.isSelectionEmpty()){
+        
+             DebugResultsTextArea.append("Please select a Player from the Opponent list\n\n");
+        }
+        
+        boolean radioButtonSelected = (WinRadioButton.isSelected() || LossRadioButton.isSelected() || DrawRadioButton.isSelected());
+        if(  radioButtonSelected == false){
+        
+            DebugResultsTextArea.append("Please select a game result\n\n");
+            
+        }
+        
+        if(!(ChosenPlayerList.isSelectionEmpty() || ChosenOpponentList.isSelectionEmpty()) && radioButtonSelected == true){
+            PlayerHistory plHist = new PlayerHistory(GameResultButtonGroup.getSelection().getActionCommand(),SelectedPlayer,SelectedOppnt);
+            gameresultsListModel.addElement(plHist);
+            gameResultsList.setModel(gameresultsListModel);
+        }
+    }//GEN-LAST:event_addResultButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -606,10 +644,9 @@ public class GameResultsFrame extends javax.swing.JFrame {
     private javax.swing.JButton PlayerSearchButton;
     private javax.swing.JButton UpdateResultsButton;
     private javax.swing.JRadioButton WinRadioButton;
+    private javax.swing.JButton addResultButton;
     private javax.swing.JList<PlayerHistory> gameResultsList;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -621,6 +658,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JButton removeResutButton;
     // End of variables declaration//GEN-END:variables
 
     private void intialSetup() {
@@ -650,10 +688,10 @@ public class GameResultsFrame extends javax.swing.JFrame {
         
         if (evt instanceof UpdateDatabaseEvent){ 
     
-                if( !( PlayerList == null || PlayerList.isEmpty() )  ){    
+                if( !( InterimPlayerList == null || InterimPlayerList.isEmpty() )  ){    
                     for(PlayerEventListener eachplistener : listenerList){
 
-                    eachplistener.updateDatabase(PlayerList);
+                    eachplistener.updateDatabase(InterimPlayerList);
                     }
                 }
         }
@@ -675,6 +713,11 @@ public class GameResultsFrame extends javax.swing.JFrame {
                     }
         
         }
+    }
+
+    private void updatePlayerStats(Player ArrayplayerLess, Player playerLess, Player ArrayplayerMore, Player playerMore) {
+        ArrayplayerLess.copyAndTransormTO(playerLess);
+        ArrayplayerMore.copyAndTransormTO(playerMore);
     }
     
     
