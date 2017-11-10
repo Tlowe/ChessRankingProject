@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import static jdk.nashorn.internal.objects.NativeMath.round;
 
 /**
  *
@@ -393,7 +394,8 @@ public class GameResultsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ChooseOpponentLastTextFieldMouseClicked
 
     private void PlayerSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayerSearchButtonActionPerformed
-        // TODO add your handling code here:
+       
+        
     }//GEN-LAST:event_PlayerSearchButtonActionPerformed
 
     private void UpdateResultsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateResultsButtonActionPerformed
@@ -421,7 +423,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
          
          
          //find lower ranked player
-         if(p.Player.getCurrentRating() <= p.Opponent.getCurrentRating()){
+         if(player.getCurrentRating() <= opponent.getCurrentRating()){
          
            
              
@@ -438,60 +440,62 @@ public class GameResultsFrame extends javax.swing.JFrame {
          
          float Diff = playerLess.getCurrentRating() - playerMore.getCurrentRating();
          
-         Diff = (Diff< 400 || Diff > 400)? (Diff > 400)? 400:-400     : Diff;
+         Diff = (Diff< -400 || Diff > 400)? (Diff > 400)? 400:-400     : Diff;
          
-         float kFactor = 0;
+         float xFactor = 0;
         
          if(Diff == 400){
          
-             kFactor = 1;
+             xFactor = 1;
          }
          else if(Diff == -400){
-             kFactor = 31;
+             xFactor = 31;
          }
          else{
-            kFactor  = 15*(400-Diff)/400 +1;
+             float temp = 15*(400-Diff)/400 +1;
+            xFactor  = Math.round(temp*100.0)/100;
          }
          
+       //  float Eless = (float)(1/(1+ Math.pow(10, playerMore.getCurrentRating()-playerLess.getCurrentRating()/400)));
             
          switch(p.getResultCode()){
          
              case WON:
-                 playerLess.addGamesWon(1);
-                 playerLess.setCurrentRating(playerLess.getCurrentRating() + kFactor);
+                 player.addGamesWon(1);
+                 player.setCurrentRating(player.getCurrentRating() + xFactor);
                  
                  
-                 playerMore.addGamesLost(1);
-                 playerMore.setCurrentRating(playerMore.getCurrentRating() - kFactor);
+                 opponent.addGamesLost(1);
+                 opponent.setCurrentRating(opponent.getCurrentRating() - xFactor);
                  break;
              case LOSS:
-                 playerLess.addGamesLost(1);
-                 playerLess.setCurrentRating(playerLess.getCurrentRating() - ( 32 - kFactor ));
+                 player.addGamesLost(1);
+                 player.setCurrentRating(player.getCurrentRating() - ( 32 - xFactor ));
                  
-                 playerMore.addGamesWon(1);
-                 playerMore.setCurrentRating(playerMore.getCurrentRating() + ( 32 - kFactor )); 
+                 opponent.addGamesWon(1);
+                 opponent.setCurrentRating(opponent.getCurrentRating() + ( 32 - xFactor )); 
                  break;
              case Draw:
-                 playerLess.addGamesDrawn(1);
-                 playerMore.addGamesDrawn(1);
+                 player.addGamesDrawn(1);
+                 opponent.addGamesDrawn(1);
                  
-                 float kDiv = kFactor/2;
-                 playerLess.setCurrentRating(playerLess.getCurrentRating() + kDiv);
-                 playerMore.setCurrentRating(playerMore.getCurrentRating() - kDiv); 
+                 float xDiv = xFactor/2;
+                 player.setCurrentRating(player.getCurrentRating() + xDiv);
+                 opponent.setCurrentRating(opponent.getCurrentRating() - xDiv); 
                  break;
          }
          
             
-            playerLess.setGamesPlayed(playerLess.getGamesPlayed() + 1);
-            playerMore.setGamesPlayed(playerMore.getGamesPlayed() + 1); 
+            player.setGamesPlayed(player.getGamesPlayed() + 1);
+            opponent.setGamesPlayed(opponent.getGamesPlayed() + 1); 
          
-            float pL_highestRating = ( playerLess.getCurrentRating() < playerLess.getHighestRating())? playerLess.getHighestRating() : playerLess.getCurrentRating();
-            playerLess.setHighestRating(pL_highestRating);
+            float pL_highestRating = ( player.getCurrentRating() < player.getHighestRating())? player.getHighestRating() : player.getCurrentRating();
+            player.setHighestRating(pL_highestRating);
                  
-            float pL_lowestRating = ( playerLess.getCurrentRating() > playerLess.getLowestRating())? playerLess.getLowestRating(): playerLess.getCurrentRating();
-            playerLess.setLowestRating(pL_lowestRating);
+            float pL_lowestRating = ( player.getCurrentRating() > player.getLowestRating())? player.getLowestRating(): player.getCurrentRating();
+            player.setLowestRating(pL_lowestRating);
          
-            updatePlayerStats(InterimPlayerList.getPlayerByID(playerLess.getId()),playerLess, InterimPlayerList.getPlayerByID(playerMore.getId()),playerMore);
+            updatePlayerStats(InterimPlayerList.getPlayerByID(player.getId()),player, InterimPlayerList.getPlayerByID(opponent.getId()),opponent);
         }
          
           
@@ -715,9 +719,9 @@ public class GameResultsFrame extends javax.swing.JFrame {
         }
     }
 
-    private void updatePlayerStats(Player ArrayplayerLess, Player playerLess, Player ArrayplayerMore, Player playerMore) {
-        ArrayplayerLess.copyAndTransormTO(playerLess);
-        ArrayplayerMore.copyAndTransormTO(playerMore);
+    private void updatePlayerStats(Player Arrayplayer, Player player, Player ArrayOppont, Player opponent) {
+        Arrayplayer.copyAndTransormTO(player);
+        ArrayOppont.copyAndTransormTO(opponent);
     }
     
     
