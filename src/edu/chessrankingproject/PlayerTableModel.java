@@ -126,5 +126,11 @@ public class PlayerTableModel extends AbstractTableModel {
         
     }
     
+    public Player getplayerAtRow(int row){
+    
+    return PlayerList.get(row);
+    
+    }
+    
     
 }

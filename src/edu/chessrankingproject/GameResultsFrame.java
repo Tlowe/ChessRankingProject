@@ -217,6 +217,11 @@ public class GameResultsFrame extends javax.swing.JFrame {
         });
 
         OpponentSearchButton.setText("Search");
+        OpponentSearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OpponentSearchButtonActionPerformed(evt);
+            }
+        });
 
         ChosenOpponentList.setModel(OpponentListModel);
         ChosenOpponentList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -394,7 +399,27 @@ public class GameResultsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ChooseOpponentLastTextFieldMouseClicked
 
     private void PlayerSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayerSearchButtonActionPerformed
-       
+        
+        String selLastName = ChoosePlayerLastTextField.getText().trim();
+        boolean hasMatch = false;
+        
+        for(int j = 0; j < ChosenPlayerList.getModel().getSize(); j++){
+            Player p = ChosenPlayerList.getModel().getElementAt(j);
+            
+           if( p.getLastName().equalsIgnoreCase(selLastName)){
+             hasMatch = true;
+             ChosenPlayerList.setSelectedIndex(j);
+            
+           }
+        }
+        
+        if(hasMatch == false){
+        
+        
+        DebugResultsTextArea.setText("unable to find a Player with that Last name " + selLastName+ ".");
+        }
+           
+        
         
     }//GEN-LAST:event_PlayerSearchButtonActionPerformed
 
@@ -597,6 +622,27 @@ public class GameResultsFrame extends javax.swing.JFrame {
             gameResultsList.setModel(gameresultsListModel);
         }
     }//GEN-LAST:event_addResultButtonActionPerformed
+
+    private void OpponentSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpponentSearchButtonActionPerformed
+        String selLastName = ChooseOpponentLastTextField.getText().trim();
+        boolean hasMatch = false;
+        
+        for(int j = 0; j < ChosenOpponentList.getModel().getSize(); j++){
+            Player p = ChosenOpponentList.getModel().getElementAt(j);
+            
+           if( p.getLastName().equalsIgnoreCase(selLastName)){
+             hasMatch = true;
+             ChosenOpponentList.setSelectedIndex(j);
+            
+           }
+        }
+        
+        if(hasMatch == false){
+        
+        
+        DebugResultsTextArea.setText("unable to find a Player with that Last name " + selLastName+ ".");
+        }
+    }//GEN-LAST:event_OpponentSearchButtonActionPerformed
 
     /**
      * @param args the command line arguments

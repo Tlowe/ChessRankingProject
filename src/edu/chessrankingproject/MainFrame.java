@@ -15,6 +15,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -50,7 +54,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         AddNewPlayerButton = new javax.swing.JButton();
         AddGameResultsButton = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        ViewPlayerStatsButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         SearchDataBaseButton = new javax.swing.JButton();
         DataBaseSearchTextField = new javax.swing.JTextField();
@@ -76,10 +80,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("View Selected Player Statistics");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        ViewPlayerStatsButton.setText("View Selected Player Statistics");
+        ViewPlayerStatsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                ViewPlayerStatsButtonActionPerformed(evt);
             }
         });
 
@@ -142,7 +146,7 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addComponent(AddNewPlayerButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(AddGameResultsButton))
-                            .addComponent(jButton3)
+                            .addComponent(ViewPlayerStatsButton)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 921, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(353, 353, 353)
@@ -171,7 +175,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(PlayerTableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(ViewPlayerStatsButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(AddNewPlayerButton)
@@ -217,24 +221,32 @@ public class MainFrame extends javax.swing.JFrame {
             DebugTxtArea.setText("Invalid Database Search Enter. Input a single text string.");
         }
         
+        boolean hasfound = false;
+        
         for(int j = 0; j < PlayerTableModel.getRowCount(); j++){//For each column in that row
             String nameOnTable = (String)PlayerTableModel.getValueAt(j, 0);
             if(nameOnTable.equalsIgnoreCase(LastName)){//Search the model
                 System.out.println(PlayerTableModel.getValueAt(j, 0));
                 playerInfoTable.clearSelection();
                 playerInfoTable.setRowSelectionInterval(j, j);
+                hasfound = true;
                 break;
             }
-            else{
             
-            DebugTxtArea.setText("Unable to Find any Players with the last name " + LastName + ".");
-            }
         }
+        
+        if(hasfound == false){
+                   
+            DebugTxtArea.setText("Unable to Find any Players with the last name " + LastName + ".");
+            
+        }
+        
     }//GEN-LAST:event_SearchDataBaseButtonActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void ViewPlayerStatsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewPlayerStatsButtonActionPerformed
+        PlayerStats pstatframe = new PlayerStats(PlayerTableModel.getplayerAtRow(playerInfoTable.getSelectedRow()));
+        pstatframe.setVisible(true);
+    }//GEN-LAST:event_ViewPlayerStatsButtonActionPerformed
 
     private void AddGameResultsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddGameResultsButtonActionPerformed
         GameResultsFrame gFrame = new GameResultsFrame( mPlayerArrayList);
@@ -292,7 +304,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea DebugTxtArea;
     private javax.swing.JScrollPane PlayerTableScrollPane;
     private javax.swing.JButton SearchDataBaseButton;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton ViewPlayerStatsButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
@@ -309,6 +321,8 @@ private void initProgram(){
         
         playerInfoTable.setModel(PlayerTableModel);
         PlayerTableScrollPane.setViewportView(playerInfoTable);
+        
+        ViewPlayerStatsButton.setEnabled(false);
         
         
         playerInfoTable.getTableHeader().addMouseListener(new MouseAdapter() {
@@ -327,11 +341,17 @@ private void initProgram(){
     } catch (Exception e) {
         System.err.println(e);
     }
-// try to parse database
-// if no database exists, prompt user and create one.
-// if database exists create an arraylist full of all players
-// create a default table model that will list all of the players and their stats
-// display this table
+
+    playerInfoTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            ViewPlayerStatsButton.setEnabled(true);
+        }
+    });
+    
+    
 }
 
 private void sortandUpdatePlayerList(String ColumnName){
@@ -424,8 +444,8 @@ public class localEventlistener implements PlayerEventListener{
         @Override
         public void updateDatabase(PlayerArrayList PlayerList) {
             try {
-                DBhandle.recalculateDatabaseRankings(PlayerList, mPlayerArrayList.getPlayerArrayListCopy());
-            
+                DBhandle.recalculateDatabaseRankings(PlayerList);
+                mPlayerArrayList = PlayerList.getPlayerArrayListCopy();
                 PlayerTableModel = new PlayerTableModel(PlayerList);
         
                 playerInfoTable.setModel(PlayerTableModel);

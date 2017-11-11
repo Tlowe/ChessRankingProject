@@ -102,6 +102,44 @@ public class DataBasetoXML {
         DatabaseRank.appendChild(PlayerDoc.createTextNode("0"));
         player.appendChild(DatabaseRank);
         
+        Element playerHistory = PlayerDoc.createElement("PlayerHistory");
+        player.appendChild(playerHistory);
+        
+        Element result = PlayerDoc.createElement("gameResult");
+        result.appendChild(PlayerDoc.createTextNode("1")); // 1 is for win
+        playerHistory.appendChild(result);
+        
+        Element Opponent = PlayerDoc.createElement("Opponent");
+        playerHistory.appendChild(Opponent);
+        
+        Element oppFirstName = PlayerDoc.createElement("oppFirstName");
+        oppFirstName.appendChild(PlayerDoc.createTextNode("Neegan"));
+        Opponent.appendChild(oppFirstName);
+        
+        Element oppLastName = PlayerDoc.createElement("oppLastName");
+        oppLastName.appendChild(PlayerDoc.createTextNode("Opps"));
+        Opponent.appendChild(oppLastName);
+        
+        Element opponentID = PlayerDoc.createElement("oppID");
+        opponentID.appendChild(PlayerDoc.createTextNode("245"));
+        Opponent.appendChild(opponentID);
+        
+        Element opponentRating = PlayerDoc.createElement("oppRating");
+        opponentRating.appendChild(PlayerDoc.createTextNode("1500"));
+        Opponent.appendChild(opponentRating);
+        
+        Element date = PlayerDoc.createElement("date");
+        date.appendChild(PlayerDoc.createTextNode("12-11-17"));
+        playerHistory.appendChild(date);
+        
+        Element time = PlayerDoc.createElement("time");
+        time.appendChild(PlayerDoc.createTextNode("12:37:52"));
+        playerHistory.appendChild(time);
+        
+       
+        
+       
+        
         TransformerFactory TrannyFactory  = TransformerFactory.newInstance();
         Transformer tranny = TrannyFactory.newTransformer();
         tranny.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -167,10 +205,10 @@ public class DataBasetoXML {
         return dbPlayerList;
     }
 
-    void recalculateDatabaseRankings(PlayerArrayList newPlayerList, PlayerArrayList oldPlayerList) throws ParserConfigurationException {
+    void recalculateDatabaseRankings(PlayerArrayList newPlayerList) throws ParserConfigurationException {
         
         try {
-            System.err.println("need to add mee!!!!!!!!!");
+           
             
             
             // sort first by rank and then by name
