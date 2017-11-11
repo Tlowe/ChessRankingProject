@@ -109,6 +109,10 @@ public class DataBasetoXML {
         result.appendChild(PlayerDoc.createTextNode("1")); // 1 is for win
         playerHistory.appendChild(result);
         
+        Element plRating = PlayerDoc.createElement("playerRating");
+        plRating.appendChild(PlayerDoc.createTextNode("1300")); // 1 is for win
+        playerHistory.appendChild(plRating);
+        
         Element Opponent = PlayerDoc.createElement("Opponent");
         playerHistory.appendChild(Opponent);
         
@@ -179,7 +183,8 @@ public class DataBasetoXML {
 
     public PlayerArrayList getAllPlayersSorted(PlayerArrayList inPlayers)throws Exception {
         xmlDBfile = new File("C://ChessGame//PlayerDataBase.xml");
-        
+        NodeList playerNodeList;
+        NodeList historyNodeList;
         PlayerDocFactory = DocumentBuilderFactory.newInstance();
         PlayerDocBuilder = PlayerDocFactory.newDocumentBuilder();
         
@@ -187,13 +192,30 @@ public class DataBasetoXML {
         PlayerDoc.getDocumentElement().normalize();
         
         
-        nodeList = PlayerDoc.getElementsByTagName("Player");
+        playerNodeList = PlayerDoc.getElementsByTagName("Player");
         dbPlayerList = new PlayerArrayList();
-        for(int i = 0; i< nodeList.getLength();i++){
+        for(int i = 0; i< playerNodeList.getLength();i++){
          
-         Node node = nodeList.item(i);
-         Player tempPlayer = new Player(node) ;
-         dbPlayerList.add(tempPlayer);
+         Element playerElement = (Element)playerNodeList.item(i);
+         Player tempPlayer = new Player(playerElement) ;
+         
+         historyNodeList = playerElement.getElementsByTagName("PlayerHistory");
+         for(int j = 0; j< historyNodeList.getLength();j++){
+         
+         Element histElement = (Element)historyNodeList.item(j);
+         
+         PlayerHistory tempPlayerHist = new PlayerHistory(histElement);
+         
+         
+         
+         
+         tempPlayer.addToGameHistory(tempPlayerHist);
+         
+         
+         }
+         
+         
+        dbPlayerList.add(tempPlayer);
          inPlayers.add(tempPlayer);
         
             System.out.println("Pulled Player " + tempPlayer.getFirstName() + " " + tempPlayer.getLastName() + " from database");
@@ -202,14 +224,13 @@ public class DataBasetoXML {
            
         Collections.sort(dbPlayerList, Comparator.comparing(Player::getLastName));
         
-        return dbPlayerList;
+        return dbPlayerList.getPlayerArrayListCopy();
     }
 
     void recalculateDatabaseRankings(PlayerArrayList newPlayerList) throws ParserConfigurationException {
         
         try {
            
-            
             
             // sort first by rank and then by name
             Collections.sort(newPlayerList, Collections.reverseOrder(Comparator.comparing(Player::getCurrentRating).thenComparing(Player::getLastName)));
@@ -289,6 +310,46 @@ public class DataBasetoXML {
         player.appendChild(DatabaseRank);
         
         
+        for(PlayerHistory pH : p.getGameHistory()){
+        
+            Element playerHistory = PlayerDoc.createElement("PlayerHistory");
+            player.appendChild(playerHistory);
+
+            Element result = PlayerDoc.createElement("gameResult");
+            result.appendChild(PlayerDoc.createTextNode(Integer.toString(pH.getResultCode()))); // 1 is for win
+            playerHistory.appendChild(result);
+            
+            Element plRating = PlayerDoc.createElement("playerRating");
+            plRating.appendChild(PlayerDoc.createTextNode(Float.toString(pH.Player.getCurrentRating()))); // 1 is for win
+            playerHistory.appendChild(plRating);
+
+            Element Opponent = PlayerDoc.createElement("Opponent");
+            playerHistory.appendChild(Opponent);
+
+            Element oppFirstName = PlayerDoc.createElement("oppFirstName");
+            oppFirstName.appendChild(PlayerDoc.createTextNode(pH.Opponent.getFirstName()));
+            Opponent.appendChild(oppFirstName);
+
+            Element oppLastName = PlayerDoc.createElement("oppLastName");
+            oppLastName.appendChild(PlayerDoc.createTextNode(pH.Opponent.getLastName()));
+            Opponent.appendChild(oppLastName);
+
+            Element opponentID = PlayerDoc.createElement("oppID");
+            opponentID.appendChild(PlayerDoc.createTextNode(Integer.toString(pH.Opponent.getId())));
+            Opponent.appendChild(opponentID);
+
+            Element opponentRating = PlayerDoc.createElement("oppRating");
+            opponentRating.appendChild(PlayerDoc.createTextNode(Float.toString(pH.Opponent.getCurrentRating())));
+            Opponent.appendChild(opponentRating);
+
+            Element date = PlayerDoc.createElement("date");
+            date.appendChild(PlayerDoc.createTextNode(pH.getDate()));
+            playerHistory.appendChild(date);
+
+            Element time = PlayerDoc.createElement("time");
+            time.appendChild(PlayerDoc.createTextNode(pH.getTime()));
+            playerHistory.appendChild(time);
+        }
         }
         
         TransformerFactory TrannyFactory  = TransformerFactory.newInstance();

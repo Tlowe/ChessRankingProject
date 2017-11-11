@@ -30,11 +30,11 @@ private int id; // this will help sort through database faster.
 
 
 //create new class for player history with timestamps and all that jazz...
-private ArrayList<PlayerHistory> gameHistory = new ArrayList<>();
+private ArrayList<PlayerHistory> gameHistory; 
     
 
     public Player(){
-    
+    this.gameHistory = new ArrayList<>();
     
     }
     
@@ -43,6 +43,8 @@ private ArrayList<PlayerHistory> gameHistory = new ArrayList<>();
        
     this.firstName = nameFirst;
     this.lastName = nameLast;
+    
+    this.gameHistory = new ArrayList<>();
     
     }
 
@@ -57,6 +59,8 @@ private ArrayList<PlayerHistory> gameHistory = new ArrayList<>();
         this.lowestRating = lowestRating;
         this.currentRating = currentRank;
         this.DatabaseRank = DatabaseRank;
+        
+        this.gameHistory = new ArrayList<>();
     }
 
     Player(Node node) {
@@ -72,6 +76,8 @@ private ArrayList<PlayerHistory> gameHistory = new ArrayList<>();
         this.lowestRating  = Float.parseFloat(pElement.getElementsByTagName("lowestRating").item(0).getTextContent()); 
         this.currentRating = Float.parseFloat(pElement.getElementsByTagName("currentRating").item(0).getTextContent()); 
         this.DatabaseRank  = Integer.parseInt(pElement.getElementsByTagName("DatabaseRank").item(0).getTextContent()); 
+        
+        this.gameHistory = new ArrayList<>();
      }
     
     
@@ -173,6 +179,39 @@ private ArrayList<PlayerHistory> gameHistory = new ArrayList<>();
         this.id = id;
     }
     
+    public ArrayList<PlayerHistory> getGameHistory() {
+        return  this.gameHistory;
+    }
+    
+    public void setGameHistory(ArrayList<PlayerHistory> gameHistory) {
+        this.gameHistory = gameHistory;
+    }
+
+    public void addToGameHistory(PlayerHistory phist){
+    
+        this.gameHistory.add(phist);
+    }
+    
+    void InvertThenAddtoGameHistory(PlayerHistory p) {
+       int wins = p.getLoss();
+       int loss = p.getDraw();
+       int draws = p.getDraw();
+       Player player = p.Opponent.getCopy();
+       Player Oppont = p.Player.getCopy();
+       
+       PlayerHistory tempHist = new PlayerHistory();
+       
+              
+       tempHist.setWin(wins);
+       tempHist.setLoss(loss);
+       tempHist.Player = player;
+       tempHist.Opponent = Oppont;
+       tempHist.Date = p.getDate();
+       tempHist.Time = p.getTime();
+       tempHist.setDraw(draws);
+       
+       gameHistory.add(tempHist);
+    }
     
 
     @Override
@@ -210,6 +249,7 @@ private ArrayList<PlayerHistory> gameHistory = new ArrayList<>();
         p.lowestRating = this.lowestRating;
         p.currentRating = this.currentRating; // what should be the default rank?
         p.DatabaseRank = this.DatabaseRank;
+        p.gameHistory = this.gameHistory;
         return p;
     }
 
@@ -239,8 +279,13 @@ private ArrayList<PlayerHistory> gameHistory = new ArrayList<>();
        this.lowestRating  = newPlayer.lowestRating ;
        this.currentRating = newPlayer.currentRating; 
        this.DatabaseRank = newPlayer.DatabaseRank;
-        
+       this.gameHistory = newPlayer.gameHistory;
     }
+    
+    void addToGameHistory(Node histNode) {
+    
+    }
+
     
     
     

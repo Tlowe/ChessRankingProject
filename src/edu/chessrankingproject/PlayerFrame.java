@@ -108,7 +108,7 @@ public class PlayerFrame extends javax.swing.JFrame {
         LastNameTextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         AddPlayerButton = new javax.swing.JButton();
-        okButton = new javax.swing.JButton();
+        AcceptButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -245,15 +245,15 @@ public class PlayerFrame extends javax.swing.JFrame {
                     .addContainerGap(98, Short.MAX_VALUE)))
         );
 
-        okButton.setText("OK");
-        okButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        AcceptButton.setText("Accept and Close");
+        AcceptButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                okButtonMouseClicked(evt);
+                AcceptButtonMouseClicked(evt);
             }
         });
-        okButton.addActionListener(new java.awt.event.ActionListener() {
+        AcceptButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                okButtonActionPerformed(evt);
+                AcceptButtonActionPerformed(evt);
             }
         });
 
@@ -263,9 +263,9 @@ public class PlayerFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(okButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(AcceptButton)
                 .addGap(23, 23, 23))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(32, 32, 32)
@@ -301,7 +301,7 @@ public class PlayerFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(okButton))
+                    .addComponent(AcceptButton))
                 .addContainerGap())
         );
 
@@ -338,6 +338,7 @@ public class PlayerFrame extends javax.swing.JFrame {
     
     private void RemovePlayerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemovePlayerButtonActionPerformed
         PlayerList.remove(selectedRemovePlayer);
+        PlayerListModel.remove(WIDTH);
     }//GEN-LAST:event_RemovePlayerButtonActionPerformed
 
     private void RatingTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RatingTextFieldMouseClicked
@@ -347,7 +348,7 @@ public class PlayerFrame extends javax.swing.JFrame {
     private void AddPlayerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddPlayerButtonActionPerformed
         Player NPlayer = new Player();
       
-        x = 1; 
+        
         
         String firstname = FirstNameTextField.getText();
         String lastname = LastNameTextField.getText();
@@ -363,6 +364,8 @@ public class PlayerFrame extends javax.swing.JFrame {
         NPlayer.setLastName(lastname);
         NPlayer.setId(id);
         NPlayer.setCurrentRating(rating);
+        NPlayer.setLowestRating(rating);
+        NPlayer.setHighestRating(rating);
 //        NPlayer.setGamesWon(gameswon);
 //        NPlayer.setGamesLost(gameslost);
 //        NPlayer.setGamesPlayed(gamesplayed);
@@ -378,18 +381,20 @@ public class PlayerFrame extends javax.swing.JFrame {
         IDTextField.setText("");
     }//GEN-LAST:event_IDTextFieldMouseClicked
 
-    private void okButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_okButtonMouseClicked
+    private void AcceptButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AcceptButtonMouseClicked
+        
+        
         int result = JOptionPane.showConfirmDialog(rootPane, "Are You sure about your options ??");
         if (result == JOptionPane.YES_OPTION){
         
             fireEvent(new UpdateDatabaseEvent(PlayerList));
             this.dispose();
         }
-    }//GEN-LAST:event_okButtonMouseClicked
+    }//GEN-LAST:event_AcceptButtonMouseClicked
 
-    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+    private void AcceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcceptButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_okButtonActionPerformed
+    }//GEN-LAST:event_AcceptButtonActionPerformed
 
     private void RemovePlayerListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_RemovePlayerListValueChanged
        RemovePlayerButton.setEnabled(true);
@@ -432,6 +437,7 @@ public class PlayerFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AcceptButton;
     private javax.swing.JButton AddPlayerButton;
     private javax.swing.JTextField FirstNameTextField;
     private javax.swing.JTextField IDTextField;
@@ -448,6 +454,5 @@ public class PlayerFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
 }

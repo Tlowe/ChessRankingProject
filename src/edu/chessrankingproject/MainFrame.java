@@ -315,6 +315,7 @@ private void initProgram(){
 
     try {
         DBhandle = new DataBasetoXML();
+        //DBhandle = new DataBasetoXML("Jerry", "west"); // when you need to build a test file
         this.mPlayerArrayList = (PlayerArrayList) DBhandle.getAllPlayersSorted(mPlayerArrayList);
         
         PlayerTableModel = new PlayerTableModel(mPlayerArrayList.getPlayerArrayListCopy());

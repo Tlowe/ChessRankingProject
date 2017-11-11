@@ -5,6 +5,9 @@
  */
 package edu.chessrankingproject;
 
+import javax.swing.DefaultListModel;
+import javax.swing.table.AbstractTableModel;
+
 /**
  *
  * @author Travis Lowe
@@ -17,13 +20,32 @@ public class PlayerStats extends javax.swing.JFrame {
      */
     
     Player HistoricPlayer;
+    PlayerStatsTableModel playerStatsTableModel;
     public PlayerStats() {
         initComponents();
     }
 
-    PlayerStats(Player playerAtRow) {
+    PlayerStats(Player inPlayer) {
         initComponents();
-        HistoricPlayer = playerAtRow;
+        HistoricPlayer = inPlayer;
+        
+        PlayerLabel.setText(inPlayer.getCombNameFL());
+        IDTextField.setText(Integer.toString(inPlayer.getId()));
+        WinsTextField.setText(Integer.toString(inPlayer.getGamesWon()));
+        LossesTextField.setText(Integer.toString(inPlayer.getGamesLost()));
+        DrawsTextField.setText(Integer.toString(inPlayer.getGamesDrawn()));
+        GamesPlayedTextField.setText(Integer.toString(inPlayer.getGamesPlayed()));
+        CurrentRatingTextBox1.setText(Float.toString(inPlayer.getCurrentRating()));
+        HighestRatingTextField.setText(Float.toString(inPlayer.getHighestRating()));
+        LowestRatingTextField.setText(Float.toString(inPlayer.getLowestRating()));
+        
+        playerStatsTableModel = new PlayerStatsTableModel(inPlayer);
+        
+        
+        
+        
+        PlayerHistoryTable.setModel(playerStatsTableModel);
+        jScrollPane1.setViewportView(PlayerHistoryTable);
     }
 
     /**
@@ -35,27 +57,45 @@ public class PlayerStats extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        PlayerNameTextField = new javax.swing.JTextField();
+        jInternalFrame1 = new javax.swing.JInternalFrame();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        PlayerHistoryTable = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        p1OldwinsTextfield = new javax.swing.JTextField();
-        p1IdTextfield = new javax.swing.JTextField();
-        p1OldlossesTextField = new javax.swing.JTextField();
-        p1OldDrawsTextField = new javax.swing.JTextField();
-        p1OldGamesPlayedTextField = new javax.swing.JTextField();
-        p1OldRatingTextBox = new javax.swing.JTextField();
+        WinsTextField = new javax.swing.JTextField();
+        IDTextField = new javax.swing.JTextField();
+        LossesTextField = new javax.swing.JTextField();
+        DrawsTextField = new javax.swing.JTextField();
+        HighestRatingTextField = new javax.swing.JTextField();
+        LowestRatingTextField = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        GamesPlayedTextField = new javax.swing.JTextField();
+        CurrentRatingTextBox1 = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        PlayerLabel = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jInternalFrame1.setVisible(true);
 
-        PlayerNameTextField.setText("Player Name");
+        javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
+        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
+        jInternalFrame1Layout.setHorizontalGroup(
+            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jInternalFrame1Layout.setVerticalGroup(
+            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        PlayerHistoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -63,32 +103,38 @@ public class PlayerStats extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Date","Time","Result", "Player Score", "Opponent", "Opponent Score"
+                "Last","First","ID", "Games Played","Current Ranking"
             }
+
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(PlayerHistoryTable);
 
         jLabel5.setText("Draws:");
 
         jLabel6.setText("Games Played:");
 
-        p1OldwinsTextfield.setBackground(new java.awt.Color(228, 225, 225));
-        p1OldwinsTextfield.setText("       ");
+        WinsTextField.setBackground(new java.awt.Color(228, 225, 225));
+        WinsTextField.setText("       ");
 
-        p1IdTextfield.setBackground(new java.awt.Color(228, 225, 225));
-        p1IdTextfield.setText("       ");
+        IDTextField.setBackground(new java.awt.Color(228, 225, 225));
+        IDTextField.setText("       ");
 
-        p1OldlossesTextField.setBackground(new java.awt.Color(228, 225, 225));
-        p1OldlossesTextField.setText("       ");
+        LossesTextField.setBackground(new java.awt.Color(228, 225, 225));
+        LossesTextField.setText("       ");
 
-        p1OldDrawsTextField.setBackground(new java.awt.Color(228, 225, 225));
-        p1OldDrawsTextField.setText("       ");
+        DrawsTextField.setBackground(new java.awt.Color(228, 225, 225));
+        DrawsTextField.setText("       ");
 
-        p1OldGamesPlayedTextField.setBackground(new java.awt.Color(228, 225, 225));
-        p1OldGamesPlayedTextField.setText("        ");
+        HighestRatingTextField.setBackground(new java.awt.Color(228, 225, 225));
+        HighestRatingTextField.setText("        ");
 
-        p1OldRatingTextBox.setBackground(new java.awt.Color(228, 225, 225));
-        p1OldRatingTextBox.setText("        ");
+        LowestRatingTextField.setBackground(new java.awt.Color(228, 225, 225));
+        LowestRatingTextField.setText("        ");
+        LowestRatingTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LowestRatingTextFieldActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Rating:");
 
@@ -98,77 +144,128 @@ public class PlayerStats extends javax.swing.JFrame {
 
         jLabel4.setText("Losses:");
 
+        jLabel1.setText("Game History :");
+
+        GamesPlayedTextField.setBackground(new java.awt.Color(228, 225, 225));
+        GamesPlayedTextField.setText("        ");
+
+        CurrentRatingTextBox1.setBackground(new java.awt.Color(228, 225, 225));
+        CurrentRatingTextBox1.setText("        ");
+
+        jLabel10.setText("Lowest Rating:");
+
+        jLabel7.setText("Highest Rating:");
+
+        PlayerLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        PlayerLabel.setText("Player");
+
+        jButton1.setText("OK");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap(44, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(p1OldRatingTextBox)
-                            .addComponent(p1IdTextfield)
-                            .addComponent(p1OldwinsTextfield)
-                            .addComponent(p1OldlossesTextField)
-                            .addComponent(p1OldDrawsTextField)
-                            .addComponent(p1OldGamesPlayedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(PlayerNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(87, 87, 87)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                            .addComponent(GamesPlayedTextField)
+                            .addComponent(IDTextField)
+                            .addComponent(WinsTextField)
+                            .addComponent(LossesTextField)
+                            .addComponent(DrawsTextField)
+                            .addComponent(HighestRatingTextField)
+                            .addComponent(CurrentRatingTextBox1)
+                            .addComponent(LowestRatingTextField))
+                        .addGap(72, 72, 72)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(22, 22, 22))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(PlayerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(PlayerNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addContainerGap()
+                .addComponent(PlayerLabel)
+                .addGap(6, 6, 6)
+                .addComponent(jLabel1)
+                .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(p1IdTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(IDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addComponent(WinsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(p1OldwinsTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(LossesTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5)
+                                .addGap(6, 6, 6))
+                            .addComponent(DrawsTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(p1OldlossesTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(GamesPlayedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(CurrentRatingTextBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(HighestRatingTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5)
-                        .addGap(6, 6, 6))
-                    .addComponent(p1OldDrawsTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(p1OldGamesPlayedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(p1OldRatingTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(39, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(120, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(LowestRatingTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void LowestRatingTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LowestRatingTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LowestRatingTextFieldActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -206,20 +303,27 @@ public class PlayerStats extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField PlayerNameTextField;
+    private javax.swing.JTextField CurrentRatingTextBox1;
+    private javax.swing.JTextField DrawsTextField;
+    private javax.swing.JTextField GamesPlayedTextField;
+    private javax.swing.JTextField HighestRatingTextField;
+    private javax.swing.JTextField IDTextField;
+    private javax.swing.JTextField LossesTextField;
+    private javax.swing.JTextField LowestRatingTextField;
+    private javax.swing.JTable PlayerHistoryTable;
+    private javax.swing.JLabel PlayerLabel;
+    private javax.swing.JTextField WinsTextField;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JInternalFrame jInternalFrame1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField p1IdTextfield;
-    private javax.swing.JTextField p1OldDrawsTextField;
-    private javax.swing.JTextField p1OldGamesPlayedTextField;
-    private javax.swing.JTextField p1OldRatingTextBox;
-    private javax.swing.JTextField p1OldlossesTextField;
-    private javax.swing.JTextField p1OldwinsTextfield;
     // End of variables declaration//GEN-END:variables
 }
