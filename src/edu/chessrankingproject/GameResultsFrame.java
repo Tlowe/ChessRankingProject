@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import static jdk.nashorn.internal.objects.NativeMath.round;
 
 /**
  *
@@ -30,7 +31,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
     public static final int Draw = 3;
     
     private PlayerArrayList PlayerList = new PlayerArrayList();
-    private PlayerArrayList OldPlayerList = new PlayerArrayList();
+    private PlayerArrayList InterimPlayerList = new PlayerArrayList();
     public PlayerArrayList  OpponentList = new PlayerArrayList();
     DefaultListModel<Player> PlayerListModel = new DefaultListModel<>();
     DefaultListModel<Player> OpponentListModel = new DefaultListModel<>();
@@ -58,7 +59,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
     public GameResultsFrame(PlayerArrayList plist) {
         initComponents();
         this.PlayerList =  plist.getPlayerArrayListCopy();
-        this.OldPlayerList =  plist.getPlayerArrayListCopy();
+        this.InterimPlayerList =  plist.getPlayerArrayListCopy(); // interim player list will hold the changed values from the player history objects
         
         intialSetup();
     }
@@ -75,17 +76,17 @@ public class GameResultsFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        AcceptButton = new javax.swing.JButton();
         CancelButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         UpdateResultsButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         gameResultsList = new javax.swing.JList<PlayerHistory>();
-        jButton1 = new javax.swing.JButton();
+        addResultButton = new javax.swing.JButton();
         WinRadioButton = new javax.swing.JRadioButton();
         LossRadioButton = new javax.swing.JRadioButton();
         DrawRadioButton = new javax.swing.JRadioButton();
-        jButton3 = new javax.swing.JButton();
+        removeResutButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         ChooseOpponentLastTextField = new javax.swing.JTextField();
         OpponentSearchButton = new javax.swing.JButton();
@@ -113,7 +114,12 @@ public class GameResultsFrame extends javax.swing.JFrame {
 
         jLabel4.setText("3. Enter Game Results :");
 
-        jButton2.setText("OK");
+        AcceptButton.setText("Accept and Close");
+        AcceptButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AcceptButtonActionPerformed(evt);
+            }
+        });
 
         CancelButton.setText("Cancel");
         CancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -136,10 +142,10 @@ public class GameResultsFrame extends javax.swing.JFrame {
         );
         jScrollPane3.setViewportView(gameResultsList);
 
-        jButton1.setText("add ->");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        addResultButton.setText("add ->");
+        addResultButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addResultButtonActionPerformed(evt);
             }
         });
 
@@ -157,7 +163,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
         GameResultButtonGroup.add(DrawRadioButton);
         DrawRadioButton.setText("Draw");
 
-        jButton3.setText("remove");
+        removeResutButton.setText("remove");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -173,16 +179,15 @@ public class GameResultsFrame extends javax.swing.JFrame {
                             .addComponent(DrawRadioButton))
                         .addGap(25, 25, 25)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(removeResutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addResultButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(UpdateResultsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
-                        .addGap(22, 22, 22))))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+                .addGap(22, 22, 22))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(UpdateResultsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(145, 145, 145))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,17 +198,17 @@ public class GameResultsFrame extends javax.swing.JFrame {
                         .addComponent(WinRadioButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
+                            .addComponent(addResultButton)
                             .addComponent(LossRadioButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(DrawRadioButton)
-                            .addComponent(jButton3))
+                            .addComponent(removeResutButton))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane3))
-                .addGap(52, 52, 52)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
                 .addComponent(UpdateResultsButton)
-                .addGap(22, 22, 22))
+                .addGap(46, 46, 46))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -216,6 +221,11 @@ public class GameResultsFrame extends javax.swing.JFrame {
         });
 
         OpponentSearchButton.setText("Search");
+        OpponentSearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OpponentSearchButtonActionPerformed(evt);
+            }
+        });
 
         ChosenOpponentList.setModel(OpponentListModel);
         ChosenOpponentList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -335,8 +345,9 @@ public class GameResultsFrame extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(CancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(AcceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(35, 35, 35)
@@ -368,12 +379,15 @@ public class GameResultsFrame extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(CancelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(CancelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(AcceptButton)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -393,7 +407,28 @@ public class GameResultsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ChooseOpponentLastTextFieldMouseClicked
 
     private void PlayerSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayerSearchButtonActionPerformed
-        // TODO add your handling code here:
+        
+        String selLastName = ChoosePlayerLastTextField.getText().trim();
+        boolean hasMatch = false;
+        
+        for(int j = 0; j < ChosenPlayerList.getModel().getSize(); j++){
+            Player p = ChosenPlayerList.getModel().getElementAt(j);
+            
+           if( p.getLastName().equalsIgnoreCase(selLastName)){
+             hasMatch = true;
+             ChosenPlayerList.setSelectedIndex(j);
+            
+           }
+        }
+        
+        if(hasMatch == false){
+        
+        
+        DebugResultsTextArea.setText("unable to find a Player with that Last name " + selLastName+ ".");
+        }
+           
+        
+        
     }//GEN-LAST:event_PlayerSearchButtonActionPerformed
 
     private void UpdateResultsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateResultsButtonActionPerformed
@@ -410,97 +445,119 @@ public class GameResultsFrame extends javax.swing.JFrame {
          p = (PlayerHistory) gameresultsListModel.get(i);
         
          
-         Player playerLess, playerMore = new Player();
+         Player player,opponent;
+         
+         player = InterimPlayerList.getPlayerByID(p.Player.getId());
+         opponent = InterimPlayerList.getPlayerByID(p.Opponent.getId());
+         
+         
+         Player playerLess ; 
+         Player playerMore ;
          
          
          //find lower ranked player
-         if(p.Player.getCurrentRating() <= p.Opponent.getCurrentRating()){
+         if(player.getCurrentRating() <= opponent.getCurrentRating()){
          
-         playerLess = p.Player;
-         playerMore = p.Opponent;
+           
+             
+             
+         playerLess = player;
+         playerMore = opponent;
          
          }else{
          
-         playerLess = p.Opponent;
-         playerMore = p.Player;
+         playerLess = opponent;
+         playerMore = player;
                 
          }
          
          float Diff = playerLess.getCurrentRating() - playerMore.getCurrentRating();
          
-         Diff = (Diff< 400 || Diff > 400)? (Diff > 400)? 400:-400     : Diff;
+         Diff = (Diff< -400 || Diff > 400)? (Diff > 400)? 400:-400     : Diff;
          
-         float kFactor = 0;
+         float xFactor = 0;
         
          if(Diff == 400){
          
-             kFactor = 1;
+             xFactor = 1;
          }
          else if(Diff == -400){
-             kFactor = 31;
+             xFactor = 31;
          }
          else{
-            kFactor  = 15*(400-Diff)/400 +1;
+             float temp = 15*(400-Diff)/400 +1;
+            xFactor  = Math.round(temp*100.0)/100;
          }
          
+       //  float Eless = (float)(1/(1+ Math.pow(10, playerMore.getCurrentRating()-playerLess.getCurrentRating()/400)));
             
          switch(p.getResultCode()){
          
              case WON:
-                 playerLess.setCurrentRating(playerLess.getCurrentRating() + kFactor);
-                 playerMore.setCurrentRating(playerMore.getCurrentRating() - kFactor);
+                 player.addGamesWon(1);
+                 player.setCurrentRating(player.getCurrentRating() + xFactor);
+                 
+                 
+                 opponent.addGamesLost(1);
+                 opponent.setCurrentRating(opponent.getCurrentRating() - xFactor);
                  break;
              case LOSS:
-                 playerLess.setCurrentRating(playerLess.getCurrentRating() - ( 32 - kFactor ));
-                 playerMore.setCurrentRating(playerMore.getCurrentRating() + ( 32 - kFactor )); 
+                 player.addGamesLost(1);
+                 player.setCurrentRating(player.getCurrentRating() - ( 32 - xFactor ));
+                 
+                 opponent.addGamesWon(1);
+                 opponent.setCurrentRating(opponent.getCurrentRating() + ( 32 - xFactor )); 
+                 break;
              case Draw:
-                 float kDiv = kFactor/2;
-                 playerLess.setCurrentRating(playerLess.getCurrentRating() + kDiv);
-                 playerMore.setCurrentRating(playerMore.getCurrentRating() - kDiv); 
-         
+                 player.addGamesDrawn(1);
+                 opponent.addGamesDrawn(1);
+                 
+                 float xDiv = xFactor/2;
+                 player.setCurrentRating(player.getCurrentRating() + xDiv);
+                 opponent.setCurrentRating(opponent.getCurrentRating() - xDiv); 
+                 break;
          }
          
+            
+            player.setGamesPlayed(player.getGamesPlayed() + 1);
+            opponent.setGamesPlayed(opponent.getGamesPlayed() + 1); 
          
-          javax.swing.JPanel pan = new dialogForm(PlayerList,playerLess,playerMore, p.Player.getGamesWon(), p.Player.getGamesLost(), p.Player.getGamesDrawn());
+            float pL_highestRating = ( player.getCurrentRating() < player.getHighestRating())? player.getHighestRating() : player.getCurrentRating();
+            player.setHighestRating(pL_highestRating);
+                 
+            float pL_lowestRating = ( player.getCurrentRating() > player.getLowestRating())? player.getLowestRating(): player.getCurrentRating();
+            player.setLowestRating(pL_lowestRating);
+         
+            player.addToGameHistory(new PlayerHistory(player,opponent, p.Date,p.Time,p.getResultCode()));
+            opponent.addToGameHistory(new PlayerHistory(opponent,player,p.Date,p.Time,p.getAntiResultCode()));
             
-            
+            updatePlayerStats(InterimPlayerList.getPlayerByID(player.getId()),player, InterimPlayerList.getPlayerByID(opponent.getId()),opponent);
+        }
+         
           
-            int result = JOptionPane.showConfirmDialog(null,pan, "Are You OK with these Results ??",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
+            
+            
+            javax.swing.JPanel pan = new dialogForm(PlayerList, InterimPlayerList,SelectedPlayer,SelectedOppnt);
+            int result = JOptionPane.showConfirmDialog(null,pan, "Results",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE);
             if (result == JOptionPane.YES_OPTION) {
     
             
-             //   SelectedPlayer.updateStats(SelectedPlayer,SelectedOppnt, wins, losses,draws);
+            
         
-                fireEvent(new UpdateDatabaseEvent(PlayerList));
+                fireEvent(new UpdateDatabaseEvent(InterimPlayerList));
                 fireEvent(new edu.chessrankingproject.PlayerTextEvent(" Player " + SelectedPlayer.getCombinedName() + " and Player " + SelectedOppnt.getCombinedName()+ " have updated stats"));
                 
+                gameresultsListModel.clear();
+                
+                DebugResultsTextArea.setText("Players " + SelectedPlayer.getCombNameFL() + " and " + SelectedOppnt.getCombNameFL() + " have updated stats!!");
             
             } else {
-                DebugResultsTextArea.append("User canceled / closed the dialog, result = " + result + "\n\n");
+                DebugResultsTextArea.append("User canceled. NO player stats were updated.\n\n");
+                InterimPlayerList = PlayerList.getPlayerArrayListCopy();
             }
-    }
-    
-        
-        
-        
-        
-
-              
             
-             
-//             
-//        } catch (NullPointerException e) {
-//         
-//        }catch(NumberFormatException e){
-//        
-//        DebugResultsTextArea.setText("Invalid entry :\n\n only Integers are allowed for Win/Lose/Draw entries");
-//        }catch(Exception e){
-//        
-//            DebugResultsTextArea.setText("Something Bad Happened. Try Again");
-//        }
-//        
-        
-        
+            
+      
        
     }//GEN-LAST:event_UpdateResultsButtonActionPerformed
 
@@ -529,12 +586,14 @@ public class GameResultsFrame extends javax.swing.JFrame {
         }
         ChosenOpponentList.setModel(OpponentListModel);
         
+        gameresultsListModel.clear();
         
     }//GEN-LAST:event_ChosenPlayerListValueChanged
 
     private void ChosenOpponentListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ChosenOpponentListValueChanged
         SelectedOppnt = ChosenOpponentList.getSelectedValue();
         UpdateResultsButton.setEnabled(true);
+        gameresultsListModel.clear();
     }//GEN-LAST:event_ChosenOpponentListValueChanged
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -550,11 +609,62 @@ public class GameResultsFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_WinRadioButtonMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       PlayerHistory plHist = new PlayerHistory(GameResultButtonGroup.getSelection().getActionCommand(),SelectedPlayer,SelectedOppnt);
-        gameresultsListModel.addElement(plHist);
-        gameResultsList.setModel(gameresultsListModel);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void addResultButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addResultButtonActionPerformed
+       
+        if(ChosenPlayerList.isSelectionEmpty()  ){
+        
+            DebugResultsTextArea.append("Please select a Player from the Player list\n\n");
+        }
+        if(ChosenOpponentList.isSelectionEmpty()){
+        
+             DebugResultsTextArea.append("Please select a Player from the Opponent list\n\n");
+        }
+        
+        boolean radioButtonSelected = (WinRadioButton.isSelected() || LossRadioButton.isSelected() || DrawRadioButton.isSelected());
+        if(  radioButtonSelected == false){
+        
+            DebugResultsTextArea.append("Please select a game result\n\n");
+            
+        }
+        
+        if(!(ChosenPlayerList.isSelectionEmpty() || ChosenOpponentList.isSelectionEmpty()) && radioButtonSelected == true){
+            PlayerHistory plHist = new PlayerHistory(GameResultButtonGroup.getSelection().getActionCommand(),SelectedPlayer,SelectedOppnt);
+            gameresultsListModel.addElement(plHist);
+            gameResultsList.setModel(gameresultsListModel);
+        }
+    }//GEN-LAST:event_addResultButtonActionPerformed
+
+    private void OpponentSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpponentSearchButtonActionPerformed
+        String selLastName = ChooseOpponentLastTextField.getText().trim();
+        boolean hasMatch = false;
+        
+        for(int j = 0; j < ChosenOpponentList.getModel().getSize(); j++){
+            Player p = ChosenOpponentList.getModel().getElementAt(j);
+            
+           if( p.getLastName().equalsIgnoreCase(selLastName)){
+             hasMatch = true;
+             ChosenOpponentList.setSelectedIndex(j);
+            
+           }
+        }
+        
+        if(hasMatch == false){
+        
+        
+        DebugResultsTextArea.setText("unable to find a Player with that Last name " + selLastName+ ".");
+        }
+    }//GEN-LAST:event_OpponentSearchButtonActionPerformed
+
+    private void AcceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcceptButtonActionPerformed
+        
+        int result = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to exit ??");
+        if (result == JOptionPane.YES_OPTION){
+        
+            fireEvent(new UpdateDatabaseEvent(InterimPlayerList));
+            fireEvent( new WindowClosingEvent(evt));
+            this.dispose();
+        }
+    }//GEN-LAST:event_AcceptButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -593,6 +703,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AcceptButton;
     private javax.swing.JButton CancelButton;
     private javax.swing.JTextField ChooseOpponentLastTextField;
     private javax.swing.JTextField ChoosePlayerLastTextField;
@@ -606,10 +717,8 @@ public class GameResultsFrame extends javax.swing.JFrame {
     private javax.swing.JButton PlayerSearchButton;
     private javax.swing.JButton UpdateResultsButton;
     private javax.swing.JRadioButton WinRadioButton;
+    private javax.swing.JButton addResultButton;
     private javax.swing.JList<PlayerHistory> gameResultsList;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -621,6 +730,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JButton removeResutButton;
     // End of variables declaration//GEN-END:variables
 
     private void intialSetup() {
@@ -633,7 +743,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
         ChosenPlayerList.setModel(PlayerListModel);
         UpdateResultsButton.setEnabled(false);
         
-        gameResultsList.setModel(new DefaultListModel());
+      //  gameResultsList.setModel(new DefaultListModel());
         
         WinRadioButton.setActionCommand("1");
         LossRadioButton.setActionCommand("2");
@@ -650,10 +760,10 @@ public class GameResultsFrame extends javax.swing.JFrame {
         
         if (evt instanceof UpdateDatabaseEvent){ 
     
-                if( !( PlayerList == null || PlayerList.isEmpty() )  ){    
+                if( !( InterimPlayerList == null || InterimPlayerList.isEmpty() )  ){    
                     for(PlayerEventListener eachplistener : listenerList){
 
-                    eachplistener.updateDatabase(PlayerList);
+                    eachplistener.updateDatabase(InterimPlayerList);
                     }
                 }
         }
@@ -675,6 +785,11 @@ public class GameResultsFrame extends javax.swing.JFrame {
                     }
         
         }
+    }
+
+    private void updatePlayerStats(Player Arrayplayer, Player player, Player ArrayOppont, Player opponent) {
+        Arrayplayer.copyAndTransormTO(player);
+        ArrayOppont.copyAndTransormTO(opponent);
     }
     
     
