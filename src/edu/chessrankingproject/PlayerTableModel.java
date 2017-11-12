@@ -40,7 +40,7 @@ public class PlayerTableModel extends AbstractTableModel {
          PlayerList = plArrayList;
     }
 
-    @Override
+    @Override 
     public int getRowCount() {
             return PlayerList.size(); 
     }
