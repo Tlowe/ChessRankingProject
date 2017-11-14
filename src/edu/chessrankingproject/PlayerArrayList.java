@@ -14,6 +14,9 @@ import java.util.Iterator;
  */
 public class PlayerArrayList extends ArrayList<Player>{
     
+    public int emptyStatus = 0;
+    
+    
     public PlayerArrayList getPlayerArrayListCopy() {
         PlayerArrayList copy = new PlayerArrayList();
         

@@ -338,7 +338,11 @@ public class PlayerFrame extends javax.swing.JFrame {
     
     private void RemovePlayerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemovePlayerButtonActionPerformed
         PlayerList.remove(selectedRemovePlayer);
-        PlayerListModel.remove(WIDTH);
+        for(int i = 0; i< PlayerListModel.getSize(); i++){
+        
+         if (PlayerListModel.get(i).getId() == selectedRemovePlayer.getId())
+             PlayerListModel.remove(i);
+        }
     }//GEN-LAST:event_RemovePlayerButtonActionPerformed
 
     private void RatingTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RatingTextFieldMouseClicked
@@ -386,6 +390,10 @@ public class PlayerFrame extends javax.swing.JFrame {
         
         int result = JOptionPane.showConfirmDialog(rootPane, "Are You sure about your options ??");
         if (result == JOptionPane.YES_OPTION){
+            if(PlayerList.isEmpty()){
+            PlayerList.emptyStatus =  1;
+            
+            }
         
             fireEvent(new UpdateDatabaseEvent(PlayerList));
             this.dispose();

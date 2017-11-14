@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<PlayerDatabase>
+  <Player>
+    <FirstName>John</FirstName>
+    <lastName>Baptiste</lastName>
+    <ID>1</ID>
+    <gamesPlayed>0</gamesPlayed>
+    <gamesWon>0</gamesWon>
+    <gamesLost>0</gamesLost>
+    <gamesDrawn>0</gamesDrawn>
+    <highestRating>1200.0</highestRating>
+    <lowestRating>1200.0</lowestRating>
+    <currentRating>1200.0</currentRating>
+    <DatabaseRank>1</DatabaseRank>
+  </Player>
+</PlayerDatabase>

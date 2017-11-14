@@ -152,24 +152,24 @@ public class DataBasetoXML {
         
         
         
-        Path root = Paths.get("C://ChessGame");
-        //Path root = Paths.get(System.getProperty("user.home"), "ChessGame");
-        
-        try {
-            Files.createDirectory(root);// create chessGame directory in windows or linux (maybe mac??)
-        }
-        catch(FileAlreadyExistsException e){
-            System.out.println("Its ok. The Chess Game File directory already exists. Carry on");
-        }
-        catch (Exception e) {
-            System.out.println("Failed because" + e);
-        }
- 
-        
-        
+        //Path root = Paths.get("C://ChessGame");
+//        Path root = Paths.get(System.getProperty("user.home"), "ChessGame");
+//        
+//        try {
+//            Files.createDirectory(root);// create chessGame directory in windows or linux (maybe mac??)
+//        }
+//        catch(FileAlreadyExistsException e){
+//            System.out.println("Its ok. The Chess Game File directory already exists. Carry on");
+//        }
+//        catch (Exception e) {
+//            System.out.println("Failed because" + e);
+//        }
+// 
         
         
-        StreamResult streamResult = new StreamResult(new File("C://ChessGame//PlayerDataBase.xml"));
+        
+        
+        StreamResult streamResult = new StreamResult(new File("PlayerDataBase.xml"));
         
         tranny.transform(source, streamResult);
         
@@ -182,7 +182,9 @@ public class DataBasetoXML {
    
 
     public PlayerArrayList getAllPlayersSorted(PlayerArrayList inPlayers)throws Exception {
-        xmlDBfile = new File("C://ChessGame//PlayerDataBase.xml");
+        //xmlDBfile = new File("C://ChessGame//PlayerDataBase.xml");
+        xmlDBfile = new File("PlayerDataBase.xml");
+        
         NodeList playerNodeList;
         NodeList historyNodeList;
         PlayerDocFactory = DocumentBuilderFactory.newInstance();
@@ -377,7 +379,8 @@ public class DataBasetoXML {
         
         
         
-        StreamResult streamResult = new StreamResult(new File("C://ChessGame//PlayerDataBase.xml"));
+        //StreamResult streamResult = new StreamResult(new File("C://ChessGame//PlayerDataBase.xml"));
+        StreamResult streamResult = new StreamResult(new File("PlayerDataBase.xml"));
         
         tranny.transform(source, streamResult);
         
