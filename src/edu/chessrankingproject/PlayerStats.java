@@ -95,6 +95,8 @@ public class PlayerStats extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jScrollPane1.setBorder(null);
+
         PlayerHistoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -113,21 +115,27 @@ public class PlayerStats extends javax.swing.JFrame {
 
         jLabel6.setText("Games Played:");
 
+        WinsTextField.setEditable(false);
         WinsTextField.setBackground(new java.awt.Color(228, 225, 225));
         WinsTextField.setText("       ");
 
+        IDTextField.setEditable(false);
         IDTextField.setBackground(new java.awt.Color(228, 225, 225));
         IDTextField.setText("       ");
 
+        LossesTextField.setEditable(false);
         LossesTextField.setBackground(new java.awt.Color(228, 225, 225));
         LossesTextField.setText("       ");
 
+        DrawsTextField.setEditable(false);
         DrawsTextField.setBackground(new java.awt.Color(228, 225, 225));
         DrawsTextField.setText("       ");
 
+        HighestRatingTextField.setEditable(false);
         HighestRatingTextField.setBackground(new java.awt.Color(228, 225, 225));
         HighestRatingTextField.setText("        ");
 
+        LowestRatingTextField.setEditable(false);
         LowestRatingTextField.setBackground(new java.awt.Color(228, 225, 225));
         LowestRatingTextField.setText("        ");
         LowestRatingTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -146,9 +154,11 @@ public class PlayerStats extends javax.swing.JFrame {
 
         jLabel1.setText("Game History :");
 
+        GamesPlayedTextField.setEditable(false);
         GamesPlayedTextField.setBackground(new java.awt.Color(228, 225, 225));
         GamesPlayedTextField.setText("        ");
 
+        CurrentRatingTextBox1.setEditable(false);
         CurrentRatingTextBox1.setBackground(new java.awt.Color(228, 225, 225));
         CurrentRatingTextBox1.setText("        ");
 

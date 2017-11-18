@@ -524,7 +524,15 @@ public class GameResultsFrame extends javax.swing.JFrame {
          
             float pL_highestRating = ( player.getCurrentRating() < player.getHighestRating())? player.getHighestRating() : player.getCurrentRating();
             player.setHighestRating(pL_highestRating);
+            
+            float oPP_highestRating = ( opponent.getCurrentRating() < opponent.getHighestRating())? opponent.getHighestRating() : opponent.getCurrentRating();
+            opponent.setHighestRating(oPP_highestRating);
+            
+            
                  
+            float oPP_lowestRating = ( opponent.getCurrentRating() > opponent.getLowestRating())? opponent.getLowestRating(): opponent.getCurrentRating();
+            opponent.setLowestRating(oPP_lowestRating);
+            
             float pL_lowestRating = ( player.getCurrentRating() > player.getLowestRating())? player.getLowestRating(): player.getCurrentRating();
             player.setLowestRating(pL_lowestRating);
          

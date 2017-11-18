@@ -154,6 +154,11 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="null"/>
+        </Property>
+      </Properties>
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>
@@ -181,6 +186,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="WinsTextField">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="e1" green="e1" red="e4" type="rgb"/>
         </Property>
@@ -189,6 +195,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="IDTextField">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="e1" green="e1" red="e4" type="rgb"/>
         </Property>
@@ -197,6 +204,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="LossesTextField">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="e1" green="e1" red="e4" type="rgb"/>
         </Property>
@@ -205,6 +213,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="DrawsTextField">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="e1" green="e1" red="e4" type="rgb"/>
         </Property>
@@ -213,6 +222,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="HighestRatingTextField">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="e1" green="e1" red="e4" type="rgb"/>
         </Property>
@@ -221,6 +231,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="LowestRatingTextField">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="e1" green="e1" red="e4" type="rgb"/>
         </Property>
@@ -257,6 +268,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="GamesPlayedTextField">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="e1" green="e1" red="e4" type="rgb"/>
         </Property>
@@ -265,6 +277,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="CurrentRatingTextBox1">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="e1" green="e1" red="e4" type="rgb"/>
         </Property>

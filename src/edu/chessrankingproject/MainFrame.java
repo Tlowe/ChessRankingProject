@@ -123,6 +123,8 @@ public class MainFrame extends javax.swing.JFrame {
         ));
         PlayerTableScrollPane.setViewportView(playerInfoTable);
 
+        DebugTxtArea.setEditable(false);
+        DebugTxtArea.setBackground(new java.awt.Color(240, 240, 240));
         DebugTxtArea.setColumns(20);
         DebugTxtArea.setRows(5);
         jScrollPane2.setViewportView(DebugTxtArea);
@@ -202,10 +204,17 @@ public class MainFrame extends javax.swing.JFrame {
 //            
 //            
 //        }
+        if(mPlayerArrayList == null){
+            PlayerFrame pFrame = new PlayerFrame();
+            pFrame.addListener(mainHandler);
+            pFrame.setVisible(true);
         
-        PlayerFrame pFrame = new PlayerFrame(mPlayerArrayList.getPlayerArrayListCopy());
-        pFrame.addListener(mainHandler);
-        pFrame.setVisible(true);
+        }else{
+            PlayerFrame pFrame = new PlayerFrame(mPlayerArrayList.getPlayerArrayListCopy());
+            pFrame.addListener(mainHandler);
+            pFrame.setVisible(true);
+        }
+        
    
     }//GEN-LAST:event_AddNewPlayerButtonActionPerformed
 
@@ -218,7 +227,7 @@ public class MainFrame extends javax.swing.JFrame {
              LastName = DataBaseSearchTextField.getText().trim();
              
         } catch (Exception e) {
-            DebugTxtArea.setText("Invalid Database Search Enter. Input a single text string.");
+            DebugTxtArea.setText("Invalid Database Search Entered. Input a single text string.");
         }
         
         boolean hasfound = false;
@@ -315,6 +324,7 @@ private void initProgram(){
 
     try {
         DBhandle = new DataBasetoXML();
+        DBhandle.addListener(mainHandler);
         //DBhandle = new DataBasetoXML("Jerry", "west"); // when you need to build a test file
         this.mPlayerArrayList = (PlayerArrayList) DBhandle.getAllPlayersSorted(mPlayerArrayList);
         
@@ -444,17 +454,34 @@ public class localEventlistener implements PlayerEventListener{
 
         @Override
         public void updateDatabase(PlayerArrayList PlayerList) {
-            try {
-                DBhandle.recalculateDatabaseRankings(PlayerList);
-                mPlayerArrayList = PlayerList.getPlayerArrayListCopy();
-                PlayerTableModel = new PlayerTableModel(PlayerList);
-        
-                playerInfoTable.setModel(PlayerTableModel);
+            
+            
+            if(PlayerList.emptyStatus == 1){
+                playerInfoTable.setModel(new DefaultTableModel());
                 PlayerTableScrollPane.setViewportView(playerInfoTable);
+                mPlayerArrayList.clear();
+                
+                File TrashXml;
+                TrashXml = new File("PlayerDataBase.xml");
+                boolean hasTrashed = TrashXml.delete();
+                
+                DebugTxtArea.append(Boolean.toString(hasTrashed));
+                
+                DebugTxtArea.setText("No More Players. Database was deleted !!.\n\nUse the add player button to continue");
+            }else{
             
-            
-            } catch (ParserConfigurationException ex) {
-                System.out.println(ex);
+                    try {
+                        DBhandle.recalculateDatabaseRankings(PlayerList);
+                        mPlayerArrayList = PlayerList.getPlayerArrayListCopy();
+                        PlayerTableModel = new PlayerTableModel(PlayerList);
+
+                        playerInfoTable.setModel(PlayerTableModel);
+                        PlayerTableScrollPane.setViewportView(playerInfoTable);
+
+
+                    } catch (ParserConfigurationException ex) {
+                        System.out.println(ex);
+                    }
             }
         }
 

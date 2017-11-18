@@ -40,6 +40,7 @@ public class DataBasetoXML {
     NodeList nodeList;
     
     File xmlDBfile;
+    private ArrayList<PlayerEventListener> listenerList = new ArrayList<>();
     public DataBasetoXML(){ // default constructor
         
     }
@@ -182,6 +183,9 @@ public class DataBasetoXML {
    
 
     public PlayerArrayList getAllPlayersSorted(PlayerArrayList inPlayers)throws Exception {
+        try {
+            
+        
         //xmlDBfile = new File("C://ChessGame//PlayerDataBase.xml");
         xmlDBfile = new File("PlayerDataBase.xml");
         
@@ -227,6 +231,16 @@ public class DataBasetoXML {
         Collections.sort(dbPlayerList, Comparator.comparing(Player::getLastName));
         
         return dbPlayerList.getPlayerArrayListCopy();
+        
+        } catch (Exception e) {
+          
+            fireEvent(new PlayerTextEvent("No database found. Please add a new player.\n\n** optionally: \nif you"
+                    + " have a PlayerDatabaseXML file in the correct format, add it to the same directory as this\n"
+                    + "program and then restart the program."));
+        }
+        
+        return null;
+        
     }
 
     void recalculateDatabaseRankings(PlayerArrayList newPlayerList) throws ParserConfigurationException {
@@ -404,6 +418,27 @@ public class DataBasetoXML {
     
         // parse through database by id ??
         
+    }
+
+        
+    
+    public synchronized void addListener (PlayerEventListener listener){ // add functions that will listen for the changes on this frame
+        
+        listenerList.add(listener);
+    
+    }
+    
+    private synchronized void fireEvent(java.util.EventObject evt){
+        
+        if(evt instanceof PlayerTextEvent){
+          
+                for(PlayerEventListener eachplistener : listenerList){
+
+                    eachplistener.updateDebugText(((PlayerTextEvent) evt).getText());
+                    }
+        
+        
+        }
     }
 }
 

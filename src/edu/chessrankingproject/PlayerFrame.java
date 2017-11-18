@@ -27,6 +27,12 @@ public class PlayerFrame extends javax.swing.JFrame {
      */
     public PlayerFrame() {
         initComponents();
+        
+        RemovePlayerList.setModel(PlayerListModel);
+        
+        RemovePlayerButton.setEnabled(false);
+        
+        ErrorTextArea.setForeground(Color.red);
     }
     
     private static int x = 0;
@@ -48,7 +54,7 @@ public class PlayerFrame extends javax.swing.JFrame {
         
         RemovePlayerButton.setEnabled(false);
         
-        
+        ErrorTextArea.setForeground(Color.red);
         
         
         
@@ -109,6 +115,8 @@ public class PlayerFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         AddPlayerButton = new javax.swing.JButton();
         AcceptButton = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        ErrorTextArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -164,11 +172,6 @@ public class PlayerFrame extends javax.swing.JFrame {
                 FirstNameTextFieldMouseClicked(evt);
             }
         });
-        FirstNameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FirstNameTextBox(evt);
-            }
-        });
 
         jLabel2.setText("Last Name");
 
@@ -193,7 +196,7 @@ public class PlayerFrame extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(191, Short.MAX_VALUE)
+                .addContainerGap(160, Short.MAX_VALUE)
                 .addComponent(AddPlayerButton)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +219,7 @@ public class PlayerFrame extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(RatingTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap(43, Short.MAX_VALUE)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,39 +254,49 @@ public class PlayerFrame extends javax.swing.JFrame {
                 AcceptButtonMouseClicked(evt);
             }
         });
-        AcceptButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AcceptButtonActionPerformed(evt);
-            }
-        });
+
+        jScrollPane2.setBorder(null);
+
+        ErrorTextArea.setEditable(false);
+        ErrorTextArea.setBackground(new java.awt.Color(240, 240, 240));
+        ErrorTextArea.setColumns(20);
+        ErrorTextArea.setRows(5);
+        ErrorTextArea.setBorder(null);
+        jScrollPane2.setViewportView(ErrorTextArea);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(AcceptButton)
-                .addGap(23, 23, 23))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(RemovePlayerButton))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(41, 41, 41))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(RemoveListLabel)
-                            .addGap(61, 61, 61)))))
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 178, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addComponent(RemovePlayerButton))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(41, 41, 41))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(RemoveListLabel)
+                                .addGap(61, 61, 61))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(AcceptButton)
+                        .addGap(23, 23, 23))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,12 +309,17 @@ public class PlayerFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(RemovePlayerButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(AcceptButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(RemovePlayerButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(AcceptButton)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -314,10 +332,6 @@ public class PlayerFrame extends javax.swing.JFrame {
 
         this.dispose();    
     }//GEN-LAST:event_CancelButton
-
-    private void FirstNameTextBox(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FirstNameTextBox
-        // TODO add your handling code here:
-    }//GEN-LAST:event_FirstNameTextBox
 
     private void GamesPlayedTextBox(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GamesPlayedTextBox
         // TODO add your handling code here:
@@ -350,34 +364,106 @@ public class PlayerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_RatingTextFieldMouseClicked
 
     private void AddPlayerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddPlayerButtonActionPerformed
+        
+        boolean duplPlayer = false;
+        boolean duplID = false;
+        
         Player NPlayer = new Player();
-      
+        String firstname = "";
+        String lastname = "";
+        int id =0;
+        float rating =0 ;
         
-        
-        String firstname = FirstNameTextField.getText();
-        String lastname = LastNameTextField.getText();
-        int id = Integer.parseInt(IDTextField.getText());
-        float rating = Float.parseFloat(RatingTextField.getText());
-        
-//      int gameswon = Integer.parseInt(GamesWonTextField.getText());
-//        int gameslost = Integer.parseInt(GamesLostTextField.getText());
-//        int gamesplayed = Integer.parseInt(GamesPlayedTextField.getText());
-        
-   
-        NPlayer.setFirstName(firstname);
-        NPlayer.setLastName(lastname);
-        NPlayer.setId(id);
-        NPlayer.setCurrentRating(rating);
-        NPlayer.setLowestRating(rating);
-        NPlayer.setHighestRating(rating);
-//        NPlayer.setGamesWon(gameswon);
-//        NPlayer.setGamesLost(gameslost);
-//        NPlayer.setGamesPlayed(gamesplayed);
-        
-       PlayerList.add(NPlayer);
-        
-       PlayerListModel.addElement(NPlayer);
+        try {
+            firstname = FirstNameTextField.getText().trim();
+            lastname = LastNameTextField.getText().trim();
+            id = Integer.parseInt(IDTextField.getText().trim());
+            rating = Float.parseFloat(RatingTextField.getText().trim());
+            
+            
+            for(Player p : PlayerList){
+            
+            if(firstname.equalsIgnoreCase(p.getFirstName())){
+                
+                if(lastname.equalsIgnoreCase(p.getLastName())){
+                
+                    duplPlayer = true;
+                }
+                
+            }
+            
+            if(id == p.getId()){
+            
+                duplID = true;
+            }
+            
+                
+            }
+            
+           if(duplPlayer == false && duplID == false){
        
+                NPlayer.setFirstName(firstname);
+                NPlayer.setLastName(lastname);
+                NPlayer.setId(id);
+                NPlayer.setCurrentRating(rating);
+                NPlayer.setLowestRating(rating);
+                NPlayer.setHighestRating(rating);
+
+        
+                PlayerList.add(NPlayer);
+        
+                PlayerListModel.addElement(NPlayer);
+                
+                ErrorTextArea.setForeground(Color.black);
+                String valid = "Player " + NPlayer.getCombNameFL()+ " successfully added!";
+                ErrorTextArea.setText(valid);
+                
+                FirstNameTextField.setText("");
+                LastNameTextField.setText("");
+                IDTextField.setText("");
+                RatingTextField.setText("");
+   
+            }else{
+           
+                    if(duplPlayer == true){
+                        ErrorTextArea.setForeground(Color.red);
+                        ErrorTextArea.setText("A player already exists with that name.\nTry a different first or last name please.\n\n");
+
+                    }
+
+                    if(duplID == true){
+                         ErrorTextArea.setForeground(Color.red);
+                         ErrorTextArea.setText("A player already exists with that ID number.\nTry a different ID number please\n\n");
+                         IDTextField.setText("");
+                    }
+           
+           }      
+                                
+            
+        }catch(NumberFormatException ne){
+            ErrorTextArea.setForeground(Color.red);
+            ErrorTextArea.append("Invalid numeric entry. Try those numbers again!!.\n");
+            IDTextField.setText("");
+            RatingTextField.setText("");
+        }
+        catch (Exception e) {
+            ErrorTextArea.setForeground(Color.red);
+            ErrorTextArea.append("Invalid entry. Try again.\n");
+            FirstNameTextField.setText("");
+            LastNameTextField.setText("");
+            IDTextField.setText("");
+            RatingTextField.setText("");
+        }
+        
+        
+// scan for first name match (string equals ignore case)
+// if true scan for last name match
+// if true prompt Player" player with that name already exists" 
+
+
+// scan if
+        
+  
         
     }//GEN-LAST:event_AddPlayerButtonActionPerformed
 
@@ -392,17 +478,14 @@ public class PlayerFrame extends javax.swing.JFrame {
         if (result == JOptionPane.YES_OPTION){
             if(PlayerList.isEmpty()){
             PlayerList.emptyStatus =  1;
-            
+            PlayerList.add(new Player("Empty", "Player"));
             }
         
             fireEvent(new UpdateDatabaseEvent(PlayerList));
+            fireEvent(new PlayerTextEvent(""));
             this.dispose();
         }
     }//GEN-LAST:event_AcceptButtonMouseClicked
-
-    private void AcceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcceptButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AcceptButtonActionPerformed
 
     private void RemovePlayerListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_RemovePlayerListValueChanged
        RemovePlayerButton.setEnabled(true);
@@ -447,6 +530,7 @@ public class PlayerFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AcceptButton;
     private javax.swing.JButton AddPlayerButton;
+    private javax.swing.JTextArea ErrorTextArea;
     private javax.swing.JTextField FirstNameTextField;
     private javax.swing.JTextField IDTextField;
     private javax.swing.JTextField LastNameTextField;
@@ -462,5 +546,6 @@ public class PlayerFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
