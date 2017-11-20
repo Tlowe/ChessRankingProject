@@ -114,7 +114,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
 
         jLabel4.setText("3. Enter Game Results :");
 
-        AcceptButton.setText("Accept and Close");
+        AcceptButton.setText("OK");
         AcceptButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AcceptButtonActionPerformed(evt);
@@ -164,6 +164,11 @@ public class GameResultsFrame extends javax.swing.JFrame {
         DrawRadioButton.setText("Draw");
 
         removeResutButton.setText("remove");
+        removeResutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeResutButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -346,7 +351,7 @@ public class GameResultsFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(CancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(AcceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(AcceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(17, 17, 17))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -509,13 +514,22 @@ public class GameResultsFrame extends javax.swing.JFrame {
                  opponent.setCurrentRating(opponent.getCurrentRating() + ( 32 - xFactor )); 
                  break;
              case Draw:
-                 player.addGamesDrawn(1);
-                 opponent.addGamesDrawn(1);
+                 if(player.getCurrentRating() == opponent.getCurrentRating()){
+                     
+                        player.addGamesDrawn(1);
+                        opponent.addGamesDrawn(1);
+                     
+                     
+                 }else{
                  
-                 float xDiv = xFactor/2;
-                 player.setCurrentRating(player.getCurrentRating() + xDiv);
-                 opponent.setCurrentRating(opponent.getCurrentRating() - xDiv); 
-                 break;
+                        player.addGamesDrawn(1);
+                        opponent.addGamesDrawn(1);
+                 
+                        float xDiv = xFactor/2;
+                        player.setCurrentRating(player.getCurrentRating() + xDiv);
+                        opponent.setCurrentRating(opponent.getCurrentRating() - xDiv); 
+                        break;
+                 }
          }
          
             
@@ -552,8 +566,8 @@ public class GameResultsFrame extends javax.swing.JFrame {
             
             
         
-                fireEvent(new UpdateDatabaseEvent(InterimPlayerList));
-                fireEvent(new edu.chessrankingproject.PlayerTextEvent(" Player " + SelectedPlayer.getCombinedName() + " and Player " + SelectedOppnt.getCombinedName()+ " have updated stats"));
+              //  fireEvent(new UpdateDatabaseEvent(InterimPlayerList));
+              
                 
                 gameresultsListModel.clear();
                 
@@ -665,14 +679,34 @@ public class GameResultsFrame extends javax.swing.JFrame {
 
     private void AcceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AcceptButtonActionPerformed
         
-        int result = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to exit ??");
+        int result = JOptionPane.showConfirmDialog(rootPane, "Would you like to update the database with these results?");
         if (result == JOptionPane.YES_OPTION){
         
             fireEvent(new UpdateDatabaseEvent(InterimPlayerList));
+              fireEvent(new edu.chessrankingproject.PlayerTextEvent(" Player " + SelectedPlayer.getCombNameFL()+ " and Player " + SelectedOppnt.getCombNameFL()+ " have updated stats"));
             fireEvent( new WindowClosingEvent(evt));
             this.dispose();
+        }else{
+            fireEvent( new WindowClosingEvent(evt));
+            this.dispose();
+        
         }
     }//GEN-LAST:event_AcceptButtonActionPerformed
+
+    private void removeResutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeResutButtonActionPerformed
+       
+        try {
+            gameresultsListModel.remove(gameResultsList.getSelectedIndex());
+        } catch (NullPointerException e) {
+            
+            DebugResultsTextArea.setText("Please make a valid selection.\n");
+        }catch(ArrayIndexOutOfBoundsException e){
+          DebugResultsTextArea.setText("Please make a valid selection.\n");
+        }catch(Exception e){
+          DebugResultsTextArea.setText(e.toString()+"\n");
+        }
+        
+    }//GEN-LAST:event_removeResutButtonActionPerformed
 
     /**
      * @param args the command line arguments

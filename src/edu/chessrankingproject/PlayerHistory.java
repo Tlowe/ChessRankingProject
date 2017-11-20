@@ -231,5 +231,27 @@ public class PlayerHistory {
     }
     
     
+    public PlayerHistory getCopy(){
+    
+    PlayerHistory p = new PlayerHistory();
+    
+    p.Date = this.Date;
+    p.Time = this.Time;
+    p.DateOfGame = this.DateOfGame;
+    p.TimeOfGame = this.TimeOfGame;
+    p.Opponent = this.Opponent;
+    p.Player = this.Player;
+    p.formatter  = this.formatter;
+    
+    
+    p.win = this.win;
+    p.loss = this.loss;
+    p.draw = this.draw;
+    p.StringResult = this.StringResult;
+    
+    return p;
+    
+    }
+    
     
 }

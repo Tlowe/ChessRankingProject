@@ -248,13 +248,13 @@ public class DataBasetoXML {
         try {
            
             
-            // sort first by rank and then by name
-            Collections.sort(newPlayerList, Collections.reverseOrder(Comparator.comparing(Player::getCurrentRating).thenComparing(Player::getLastName)));
+            // sort first by rating and then by name
+            Collections.sort(newPlayerList, Collections.reverseOrder(Comparator.comparing(Player::getCurrentRating).thenComparing(Player::getLastName).reversed()));
             // once sorted, sequentially reassign Database rank;
             // Dummy Comment
-            int i = 1;
+            int i = newPlayerList.size() ;
             for(Player p : newPlayerList){
-                p.setDatabaseRank(i++);
+                p.setDatabaseRank(i--);
                 
             }
             //call rewrite database with this new list

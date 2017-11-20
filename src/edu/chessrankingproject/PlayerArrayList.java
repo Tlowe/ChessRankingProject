@@ -22,7 +22,7 @@ public class PlayerArrayList extends ArrayList<Player>{
         
         for(Player p : this){
         
-            Player c ;
+            Player c  = new Player();
             c = p.getCopy();
             copy.add(c);
         

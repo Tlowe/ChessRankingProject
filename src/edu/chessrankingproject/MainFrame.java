@@ -258,7 +258,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ViewPlayerStatsButtonActionPerformed
 
     private void AddGameResultsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddGameResultsButtonActionPerformed
-        GameResultsFrame gFrame = new GameResultsFrame( mPlayerArrayList);
+        GameResultsFrame gFrame = new GameResultsFrame( mPlayerArrayList.getPlayerArrayListCopy());
         gFrame.addListener(mainHandler);
         gFrame.setVisible(true);
         this.setEnabled(false);

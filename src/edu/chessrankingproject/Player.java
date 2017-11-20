@@ -30,7 +30,7 @@ private int id; // this will help sort through database faster.
 
 
 //create new class for player history with timestamps and all that jazz...
-private ArrayList<PlayerHistory> gameHistory; 
+private ArrayList<PlayerHistory> gameHistory ; 
     
 
     public Player(){
@@ -249,7 +249,16 @@ private ArrayList<PlayerHistory> gameHistory;
         p.lowestRating = this.lowestRating;
         p.currentRating = this.currentRating; // what should be the default rank?
         p.DatabaseRank = this.DatabaseRank;
-        p.gameHistory = this.gameHistory;
+        
+        if(!(this.gameHistory.isEmpty())){
+            p.gameHistory = new ArrayList<PlayerHistory>();
+            
+            for(int i = 0; i< this.gameHistory.size();i++){
+        
+                p.gameHistory.add(this.gameHistory.get(i).getCopy()) ;
+        
+            }
+        }
         return p;
     }
 
